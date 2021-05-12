@@ -1,6 +1,7 @@
 package ru.lab6.server;
 
 import ru.lab6.common.humanbeing.HumanBeing;
+import ru.lab6.server.connection.Server;
 import ru.lab6.server.controller.Controller;
 import ru.lab6.server.controller.MyController;
 import ru.lab6.server.io.Console;
@@ -12,6 +13,7 @@ import ru.lab6.server.model.Repository;
 import ru.lab6.server.model.command.*;
 
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,5 +74,14 @@ public class Main {
 
         applicationContext.setCommands(commands);
 
+
+        Server server = new Server();
+        while(true){
+            try {
+                server.receiveRequest();
+            } catch (ClassNotFoundException | IOException e){
+
+            }
+        }
     }
 }
