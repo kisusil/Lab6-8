@@ -1,19 +1,18 @@
-package ru.lab6.server.model.command;
+package ru.lab6.common;
 
+import ru.lab6.common.humanbeing.Car;
+import ru.lab6.common.humanbeing.Coordinates;
 import ru.lab6.common.humanbeing.Mood;
 import ru.lab6.common.humanbeing.WeaponType;
 
-public class UpdateParameters implements Parameters {
-    public int id;
+public class CreationParameters implements Parameters {
     public String name;
+    public Coordinates coordinates;
     public Boolean realHero;
     public boolean hasToothpick;
     public float impactSpeed;
     public Long minutesOfWaiting;
     public WeaponType weaponType;
     public Mood mood;
-    public Integer coordinateX;
-    public double coordinateY;
-    public String carName;
-
+    public Car car;
 }

@@ -1,4 +1,4 @@
-package ru.lab6.server.model.command;
+package ru.lab6.common;
 
 public class ExecuteScriptParameters implements Parameters {
     public String fileName;
