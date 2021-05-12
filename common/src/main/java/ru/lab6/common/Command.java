@@ -1,4 +1,4 @@
-package ru.lab6.server.model.command;
+package ru.lab6.common;
 
 public interface Command {
     String execute (Parameters parameters);
