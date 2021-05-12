@@ -1,5 +1,7 @@
 package ru.lab6.server.model.command;
 
+import ru.lab6.common.EmptyParameters;
+import ru.lab6.common.Parameters;
 import ru.lab6.server.model.ApplicationContext;
 
 public class ClearCommand implements Command {

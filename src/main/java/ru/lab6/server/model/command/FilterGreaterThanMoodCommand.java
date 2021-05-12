@@ -1,12 +1,14 @@
 package ru.lab6.server.model.command;
 
+import ru.lab6.common.MoodParameters;
+import ru.lab6.common.Parameters;
 import ru.lab6.common.humanbeing.HumanBeing;
 import ru.lab6.server.model.ApplicationContext;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FilterGreaterThanMoodCommand implements Command{
+public class FilterGreaterThanMoodCommand implements Command {
     private final ApplicationContext applicationContext;
 
     public FilterGreaterThanMoodCommand(ApplicationContext applicationContext) {

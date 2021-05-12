@@ -1,5 +1,7 @@
 package ru.lab6.server.model.command;
 
+import ru.lab6.common.CreationParameters;
+import ru.lab6.common.Parameters;
 import ru.lab6.common.humanbeing.HumanBeing;
 import ru.lab6.server.model.ApplicationContext;
 import ru.lab6.server.model.RepositoryException;

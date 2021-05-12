@@ -1,5 +1,8 @@
 package ru.lab6.server.model.command;
 
+import ru.lab6.common.EmptyParameters;
+import ru.lab6.common.Parameters;
+
 public class HelpCommand implements Command {
 
     @Override
