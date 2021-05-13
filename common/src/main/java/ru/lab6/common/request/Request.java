@@ -1,5 +1,6 @@
 package ru.lab6.common.request;
 
+import com.google.gson.Gson;
 import ru.lab6.common.parameters.Parameters;
 
 public class Request {
@@ -12,6 +13,6 @@ public class Request {
     }
 
     public String json(){
-        return null;
+        return new Gson().toJson(this);
     }
 }
