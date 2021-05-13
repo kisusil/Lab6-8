@@ -4,7 +4,7 @@ import ru.lab6.common.parameters.Parameters;
 
 public class Request {
     private String command_name;
-    private Parameters parameters;
+    private String parameters;
 
     Request(String command_name, Parameters parameters){
         this.command_name = command_name;
