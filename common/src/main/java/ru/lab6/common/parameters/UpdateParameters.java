@@ -1,4 +1,4 @@
-package ru.lab6.common;
+package ru.lab6.common.parameters;
 
 import ru.lab6.common.humanbeing.Mood;
 import ru.lab6.common.humanbeing.WeaponType;
