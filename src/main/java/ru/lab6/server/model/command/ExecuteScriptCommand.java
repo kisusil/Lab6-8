@@ -1,7 +1,7 @@
 package ru.lab6.server.model.command;
 
-import ru.lab6.common.ExecuteScriptParameters;
-import ru.lab6.common.Parameters;
+import ru.lab6.common.parameters.ExecuteScriptParameters;
+import ru.lab6.common.parameters.Parameters;
 import ru.lab6.common.humanbeing.Car;
 import ru.lab6.common.humanbeing.Coordinates;
 import ru.lab6.common.humanbeing.Mood;

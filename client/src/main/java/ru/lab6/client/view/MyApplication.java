@@ -4,6 +4,7 @@ import ru.lab6.common.humanbeing.Car;
 import ru.lab6.common.humanbeing.Coordinates;
 import ru.lab6.common.humanbeing.Mood;
 import ru.lab6.common.humanbeing.WeaponType;
+import ru.lab6.common.request.Request;
 
 import java.util.ArrayDeque;
 import java.util.HashMap;
@@ -220,6 +221,8 @@ public class MyApplication implements Application {
             io.println("");
             io.println("Введите команду:");
             String line = io.readLine();
+
+
 
             /*
             if (line.equals("add_if_max")) {

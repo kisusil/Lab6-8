@@ -1,4 +1,4 @@
-package ru.lab6.client.view;
+package ru.lab6.common.parameters;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonSerializationContext;

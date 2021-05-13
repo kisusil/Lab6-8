@@ -1,10 +1,10 @@
 package ru.lab6.server.controller;
 
-import ru.lab6.common.*;
 import ru.lab6.common.humanbeing.Car;
 import ru.lab6.common.humanbeing.Coordinates;
 import ru.lab6.common.humanbeing.Mood;
 import ru.lab6.common.humanbeing.WeaponType;
+import ru.lab6.common.parameters.*;
 import ru.lab6.server.model.ApplicationContext;
 
 public class MyController implements Controller {
