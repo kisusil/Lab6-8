@@ -14,8 +14,18 @@ import java.nio.charset.StandardCharsets;
 
 
 public class Server {
+    private ServerSocketChannel serverSocketChannel;
     private SocketChannel socketChannel;
+    private int port;
 
+    public Server(int port){
+        try {
+            serverSocketChannel = ServerSocketChannel.open();
+            serverSocketChannel.socket().bind(new InetSocketAddress(port));
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
     public Request receiveRequest(SocketChannel socketChannel) {
         try {
             ByteBuffer buf = ByteBuffer.allocate(1024);
