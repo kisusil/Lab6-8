@@ -16,7 +16,7 @@ public class ResponseImpl implements Response {
         return new Gson().toJson(this);
     }
 
-    static class Builder {
+    public static class Builder {
         private String status;
         private String result;
 
@@ -30,6 +30,10 @@ public class ResponseImpl implements Response {
             status = errorName;
             result = description;
             return this;
+        }
+
+        public ResponseImpl create(){
+            return new ResponseImpl(this);
         }
     }
 }
