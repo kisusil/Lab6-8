@@ -9,7 +9,7 @@ public class ResponseImpl implements Response {
 
     ResponseImpl(Builder builder) {
         this.status = builder.status;
-        this.result = builder.status;
+        this.result = builder.result;
     }
 
     public String json() {
