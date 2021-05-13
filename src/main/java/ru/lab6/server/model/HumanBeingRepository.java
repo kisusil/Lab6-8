@@ -3,10 +3,7 @@ package ru.lab6.server.model;
 import ru.lab6.common.humanbeing.HumanBeing;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedHashSet;
-import java.util.List;
+import java.util.*;
 
 public class HumanBeingRepository implements Repository {
     private final CollectionInfo collectionInfo;
@@ -44,13 +41,11 @@ public class HumanBeingRepository implements Repository {
     }
 
     public HumanBeing get(int id) {
-        for (HumanBeing humanBeing : linkedHashSet) {
-            if (humanBeing.getId() == id) {
-                return humanBeing;
-            }
-        }
-
-        return null;
+        return linkedHashSet
+                    .stream()
+                    .filter(humanBeing -> humanBeing.getId() == id)
+                    .findAny()
+                    .orElse(null);
     }
 
     public List<HumanBeing> getAll() {
@@ -62,4 +57,6 @@ public class HumanBeingRepository implements Repository {
     public CollectionInfo getInfo() {
         return collectionInfo;
     }
+
+
 }

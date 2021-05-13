@@ -1,16 +1,16 @@
 package ru.lab6.server.connection;
 
-import com.google.gson.JsonObject;
+import com.google.gson.Gson;
 import ru.lab6.common.request.Request;
-import ru.lab6.server.response.Response;
-import ru.lab6.server.response.ResponseImpl;
+import ru.lab6.common.response.Response;
+import ru.lab6.common.response.ResponseImpl;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
+import java.nio.charset.StandardCharsets;
 
 
 public class Server {
@@ -26,40 +26,46 @@ public class Server {
             e.printStackTrace();
         }
     }
-
-    public ByteBuffer receiveRequest() throws IOException, ClassNotFoundException {
-        socketChannel = createSocketChannel();
-        ByteBuffer buf = ByteBuffer.allocate(1024);
-        socketChannel.read(buf);
-        buf.flip();
-        socketChannel.close();
-        return buf;
-    }
-
-    private SocketChannel createSocketChannel() throws IOException {
-        socketChannel = serverSocketChannel.accept();
-        return socketChannel;
-    }
-
-    public void sendSuccessfulResponse(String result){
-        String response = new ResponseImpl.Builder().setSuccessfulResponse(result).create().json();
+    public Request receiveRequest(SocketChannel socketChannel) {
         try {
-            byte[] bytes = response.getBytes();
-            ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
-            socketChannel.write(byteBuffer);
-        } catch (IOException e){
-            e.printStackTrace();
+            ByteBuffer buf = ByteBuffer.allocate(1024);
+
+            int bytesAmount = socketChannel.read(buf);
+            buf.flip();
+
+            socketChannel.close();
+
+            byte[] bytes = new byte[bytesAmount];
+            buf.get(bytes);
+
+            String jsonString = new String(bytes, StandardCharsets.UTF_8);
+
+            return new Gson().fromJson(jsonString, Request.class);
+        } catch (IOException e) {
+            //не забыть сделать правильно
+            throw new RuntimeException(e);
         }
     }
 
-    public void sendErrorResponse(String errorName, String description){
-        String response = new ResponseImpl.Builder().setErrorResponse(errorName, description).create().json();
+    public void sendResponse (SocketChannel socketChannel, Response response) {
         try {
-            byte[] bytes = response.getBytes();
+            byte[] bytes = response.json().getBytes(StandardCharsets.UTF_8);
             ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
             socketChannel.write(byteBuffer);
         } catch (IOException e){
-            e.printStackTrace();
+            //не забыть сделать правильно
+            throw new RuntimeException(e);
+        }
+    }
+
+    public ServerSocketChannel createServerSocketChannel() {
+        try {
+            ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
+            serverSocketChannel.socket().bind(new InetSocketAddress(8000));
+            return serverSocketChannel;
+        } catch (IOException e) {
+            //не забыть сделать правильно
+            throw new RuntimeException(e);
         }
     }
 }

@@ -7,6 +7,7 @@ import ru.lab6.server.model.ApplicationContext;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class FilterGreaterThanMoodCommand implements Command {
     private final ApplicationContext applicationContext;
@@ -45,17 +46,17 @@ public class FilterGreaterThanMoodCommand implements Command {
 
         MoodParameters moodParameters = (MoodParameters) parameters;
         List<HumanBeing> humanBeings = applicationContext.getRepository().getAll();
-        List<HumanBeing> list = new ArrayList<>();
 
         if (humanBeings.isEmpty()) {
             return "Коллекция пустая";
         }
 
-        for (HumanBeing humanBeing : humanBeings) {
-            if (moodParameters.mood.number - humanBeing.getMood().number < 0) {
-                list.add(humanBeing);
-            }
-        }
+        List<HumanBeing> list =
+                humanBeings
+                        .stream()
+                        .filter(humanBeing -> moodParameters.mood.number - humanBeing.getMood().number < 0)
+                        .collect(Collectors.toList());
+//
         if (list.size()!=0) {
             return listString(list);
         }

@@ -1,4 +1,4 @@
-package ru.lab6.server.response;
+package ru.lab6.common.response;
 
 import com.google.gson.Gson;
 

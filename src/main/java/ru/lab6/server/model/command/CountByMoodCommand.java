@@ -6,6 +6,7 @@ import ru.lab6.common.humanbeing.HumanBeing;
 import ru.lab6.server.model.ApplicationContext;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CountByMoodCommand implements Command {
     private final ApplicationContext applicationContext;
@@ -21,14 +22,14 @@ public class CountByMoodCommand implements Command {
         }
 
         MoodParameters moodParameters = (MoodParameters) parameters;
-        int countByMood = 0;
+        long countByMood;
         List<HumanBeing> humanBeings = applicationContext.getRepository().getAll();
 
-        for (HumanBeing humanBeing : humanBeings) {
-            if (moodParameters.mood == humanBeing.getMood()) {
-                countByMood ++;
-            }
-        }
+        countByMood =
+                humanBeings
+                    .stream()
+                    .filter(humanBeing -> moodParameters.mood == humanBeing.getMood())
+                    .count();
         return "Коллечиство элементов коллекции с заданным Mood:" + countByMood;
     }
 

@@ -1,14 +1,9 @@
 package ru.lab6.client.view;
 
-import ru.lab6.common.humanbeing.Car;
-import ru.lab6.common.humanbeing.Coordinates;
 import ru.lab6.common.humanbeing.Mood;
 import ru.lab6.common.humanbeing.WeaponType;
-import ru.lab6.common.request.Request;
 
 import java.util.ArrayDeque;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Queue;
 
 
