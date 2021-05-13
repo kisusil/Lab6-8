@@ -6,7 +6,7 @@ public class Request {
     private String command_name;
     private String parameters;
 
-    Request(String command_name, String parameters){
+    public Request(String command_name, String parameters){
         this.command_name = command_name;
         this.parameters = parameters;
     }
