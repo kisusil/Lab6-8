@@ -75,13 +75,7 @@ public class Main {
         applicationContext.setCommands(commands);
 
 
-        Server server = new Server();
-        while(true){
-            try {
-                server.receiveRequest();
-            } catch (ClassNotFoundException | IOException e){
+        Server server = new Server(Integer.parseInt(args[0]));
 
-            }
-        }
     }
 }
