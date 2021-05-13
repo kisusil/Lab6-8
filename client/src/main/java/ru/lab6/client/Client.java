@@ -1,3 +1,5 @@
+package ru.lab6.client;
+
 import ru.lab6.common.request.Request;
 
 import java.io.IOException;
@@ -18,5 +20,14 @@ public class Client {
         } catch (IOException e){
             e.printStackTrace();
         }
+    }
+
+    public ByteBuffer receiveResponse() throws IOException, ClassNotFoundException {
+        socketChannel = createSocketChannel();
+        ByteBuffer buf = ByteBuffer.allocate(1024);
+        socketChannel.read(buf);
+        buf.flip();
+        socketChannel.close();
+        return buf;
     }
 }

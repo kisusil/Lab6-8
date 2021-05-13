@@ -1,6 +1,8 @@
 package ru.lab6.server.connection;
 
 import com.google.gson.JsonObject;
+import ru.lab6.common.request.Request;
+import ru.lab6.server.response.Response;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -20,6 +22,20 @@ public class Server {
         buf.flip();
         socketChannel.close();
         return buf;
+    }
+
+    public void sendResponse (String answer) {
+        String request = new Response(answer).json();
+        try {
+            SocketChannel socketChannel = SocketChannel.open();
+            socketChannel.configureBlocking(false);
+            socketChannel.connect(new InetSocketAddress("localhost", 8000));
+            byte[] bytes = request.getBytes();
+            ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
+            socketChannel.write(byteBuffer);
+        } catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     private SocketChannel createSocketChannel() throws IOException {
