@@ -1,14 +1,13 @@
 package ru.lab6.common.request;
 
 import com.google.gson.Gson;
-import ru.lab6.common.parameters.Parameters;
 
 public class Request {
-    private String command_name;
+    private String commandName;
     private String parameters;
 
-    public Request(String command_name, String parameters){
-        this.command_name = command_name;
+    public Request(String commandName, String parameters){
+        this.commandName = commandName;
         this.parameters = parameters;
     }
 
