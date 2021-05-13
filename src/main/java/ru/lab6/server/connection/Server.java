@@ -41,8 +41,19 @@ public class Server {
         return socketChannel;
     }
 
-    public void sendResponse(String result){
+    public void sendSuccessfulResponse(String result){
         String response = new ResponseImpl.Builder().setSuccessfulResponse(result).create().json();
+        try {
+            byte[] bytes = response.getBytes();
+            ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
+            socketChannel.write(byteBuffer);
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void sendErrorResponse(String errorName, String description){
+        String response = new ResponseImpl.Builder().setErrorResponse(errorName, description).create().json();
         try {
             byte[] bytes = response.getBytes();
             ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
