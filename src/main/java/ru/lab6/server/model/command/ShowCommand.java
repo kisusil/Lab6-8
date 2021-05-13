@@ -21,7 +21,7 @@ public class ShowCommand implements Command {
         List<HumanBeing> humanBeings = applicationContext.getRepository().getAll();
         StringBuilder result = new StringBuilder("Количество: " + humanBeings.size() + "\n");
 
-        for (HumanBeing humanBeing : humanBeings) {
+        humanBeings.forEach(humanBeing -> {
             result.append("id ").append(humanBeing.getId()).append("\n");
             result.append("name ").append(humanBeing.getName()).append("\n");
             result.append("coordinateX ").append(humanBeing.getCoordinates().getX()).append("\n");
@@ -35,7 +35,8 @@ public class ShowCommand implements Command {
             result.append("mood ").append(humanBeing.getMood()).append("\n");
             result.append("carName ").append(humanBeing.getCar().getName()).append("\n");
             result.append("\n");
-        }
+        });
+
         return result.toString();
     }
 }

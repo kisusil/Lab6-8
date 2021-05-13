@@ -12,9 +12,7 @@ import ru.lab6.server.model.Repository;
 import ru.lab6.server.model.command.*;
 
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Main {
     public static void main (String[] args){
@@ -41,13 +39,13 @@ public class Main {
         io.println("");
 
         List<HumanBeing> humanBeings = repository.getAll();
-        int maxExistedId = 0;
 
-        for (HumanBeing humanBeing : humanBeings) {
-            if (humanBeing.getId() > maxExistedId) {
-                maxExistedId = humanBeing.getId();
-            }
-        }
+        int maxExistedId =
+                humanBeings
+                .stream()
+                .mapToInt(HumanBeing::getId)
+                .max()
+                .orElse(0);
 
         HumanBeingBuilder humanBeingBuilder = new MyHumanBeingBuilder(maxExistedId + 1);
 

@@ -5,6 +5,7 @@ import ru.lab6.server.model.ApplicationContext;
 import ru.lab6.server.model.RepositoryException;
 
 import java.util.List;
+import java.util.Optional;
 
 public class RemoveLowerCommand implements Command {
     private final ApplicationContext applicationContext;
@@ -39,16 +40,16 @@ public class RemoveLowerCommand implements Command {
             return "Коллекция пустая";
         }
 
-        for (HumanBeing humanBeing: humanBeings) {
-            if (newHumanBeing.compareTo(humanBeing)>0) {
-                try {
-                    applicationContext.getRepository().delete(humanBeing.getId());
-                } catch (RepositoryException e) {
-                    throw new RuntimeException("Что-то пошло не так");
-                }
-            }
-
-        }
+        humanBeings
+                .stream()
+                .filter(humanBeing -> newHumanBeing.compareTo(humanBeing) > 0)
+                .forEach(humanBeing -> {
+                    try {
+                        applicationContext.getRepository().delete(humanBeing.getId());
+                    } catch (RepositoryException e) {
+                        throw new RuntimeException("Что-то пошло не так");
+                    }
+                });
 
         humanBeings = applicationContext.getRepository().getAll();
 
