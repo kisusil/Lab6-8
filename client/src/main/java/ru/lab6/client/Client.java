@@ -13,11 +13,16 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class Client {
+    private int port;
+
+    Client(int port){
+        this.port = port;
+    }
     public SocketChannel sendRequest(Request request){
         try {
             SocketChannel socketChannel = SocketChannel.open();
             socketChannel.configureBlocking(false);
-            socketChannel.connect(new InetSocketAddress("localhost", 8000));
+            socketChannel.connect(new InetSocketAddress("localhost", port));
             byte[] bytes = request.json().getBytes(StandardCharsets.UTF_8);
             ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
             socketChannel.write(byteBuffer);
