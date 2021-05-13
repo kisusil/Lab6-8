@@ -4,25 +4,29 @@ import ru.lab6.common.humanbeing.Car;
 import ru.lab6.common.humanbeing.Coordinates;
 import ru.lab6.common.humanbeing.Mood;
 import ru.lab6.common.humanbeing.WeaponType;
+import ru.lab6.common.request.Request;
 
 import java.util.ArrayDeque;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Queue;
 
-public class MyApplication implements Application{
-    private final IO io;
-    private final Controller controller;
-    private final Queue <String> history;
 
-    public MyApplication(IO io, Controller controller) {
+public class MyApplication implements Application {
+    private final IO io;
+    //private final Controller controller;
+    private final Queue<String> history;
+
+    public MyApplication(IO io) {
         this.io = io;
-        this.controller = controller;
+        //this.controller = controller;
         this.history = new ArrayDeque<>();
     }
 
     void changeHistory(String command) {
-      if (history.size() == 6) {
-          history.poll();
-      }
+        if (history.size() == 6) {
+            history.poll();
+        }
         history.add(command);
     }
 
@@ -41,14 +45,14 @@ public class MyApplication implements Application{
         }
     }
 
-    private Boolean readRealHero (){
+    private Boolean readRealHero() {
         while (true) {
             String line = io.readLine();
             if (line.isEmpty()) {
                 io.println("Это поле не может быть пустым. Пожалуйста, введите realHero еще раз:");
                 continue;
             }
-            if (line.equalsIgnoreCase("true")){
+            if (line.equalsIgnoreCase("true")) {
                 return true;
             }
             if (line.equalsIgnoreCase("false")) {
@@ -59,14 +63,14 @@ public class MyApplication implements Application{
     }
 
 
-    private boolean readHasToothpick () {
+    private boolean readHasToothpick() {
         while (true) {
             String line = io.readLine();
             if (line.isEmpty()) {
                 io.println("Это поле не может быть пустым. Пожалуйста, введите hasToothpick еще раз:");
                 continue;
             }
-            if (line.equalsIgnoreCase("true")){
+            if (line.equalsIgnoreCase("true")) {
                 return true;
             }
             if (line.equalsIgnoreCase("false")) {
@@ -76,7 +80,7 @@ public class MyApplication implements Application{
         }
     }
 
-    private Integer readX (){
+    private Integer readX() {
         while (true) {
             String line = io.readLine();
             int x;
@@ -88,12 +92,12 @@ public class MyApplication implements Application{
 
             try {
                 x = Integer.parseInt(line);
-            } catch(NumberFormatException e) {
+            } catch (NumberFormatException e) {
                 io.println("Это поле должно быть целым числом. Пожалуйста, введите x еще раз:");
                 continue;
             }
 
-            if (x < -475 ){
+            if (x < -475) {
                 io.println("Это поле не может быть < -475. Пожалуйста, введите x еще раз:");
                 continue;
             }
@@ -101,7 +105,7 @@ public class MyApplication implements Application{
         }
     }
 
-    private double readY (){
+    private double readY() {
         while (true) {
             String line = io.readLine();
             double y;
@@ -126,7 +130,7 @@ public class MyApplication implements Application{
         }
     }
 
-    private Float readImpactSpeed (){
+    private Float readImpactSpeed() {
         while (true) {
             String line = io.readLine();
             float impactSpeed;
@@ -141,7 +145,7 @@ public class MyApplication implements Application{
         }
     }
 
-    private Long readMinutesOfWaiting (){
+    private Long readMinutesOfWaiting() {
         while (true) {
             String line = io.readLine();
             long minutesOfWaiting;
@@ -150,8 +154,7 @@ public class MyApplication implements Application{
             }
             try {
                 minutesOfWaiting = Long.parseLong(line);
-            }
-            catch (NumberFormatException e) {
+            } catch (NumberFormatException e) {
                 io.println("Это поле может принимать только целые числа. Введите minutesOfWaiting еще раз:");
                 continue;
             }
@@ -160,7 +163,7 @@ public class MyApplication implements Application{
         }
     }
 
-    private WeaponType readWeaponType (){
+    private WeaponType readWeaponType() {
         while (true) {
             String line = io.readLine().toUpperCase();
             WeaponType weaponType;
@@ -171,7 +174,7 @@ public class MyApplication implements Application{
 
             try {
                 weaponType = WeaponType.valueOf(line);
-            } catch(IllegalArgumentException e) {
+            } catch (IllegalArgumentException e) {
                 io.println("Это поле должно принимать одно из значений: AXE, SHOTGUN, KNIFE, MACHINE_GUN. Пожалуйста, введите weaponType еще раз:");
                 continue;
             }
@@ -180,7 +183,7 @@ public class MyApplication implements Application{
         }
     }
 
-    private Mood readMood (){
+    private Mood readMood() {
         while (true) {
             String line = io.readLine().toUpperCase();
             Mood mood;
@@ -190,7 +193,7 @@ public class MyApplication implements Application{
 
             try {
                 mood = Mood.valueOf(line);
-            } catch(IllegalArgumentException e) {
+            } catch (IllegalArgumentException e) {
                 io.println("Это поле должно принимать одно из значений: SADNESS, LONGING, CALM, FRENZY. Пожалуйста, введите mood еще раз:");
                 continue;
             }
@@ -200,7 +203,7 @@ public class MyApplication implements Application{
 
     }
 
-    private String readNameCar (){
+    private String readNameCar() {
         String line = io.readLine();
         String nameCar;
 
@@ -213,11 +216,15 @@ public class MyApplication implements Application{
     }
 
     @Override
-    public void start(){
+    public void start() {
         while (true) {
             io.println("");
             io.println("Введите команду:");
             String line = io.readLine();
+
+
+
+            /*
             if (line.equals("add_if_max")) {
                 doAddIfMax();
             } else if (line.equals("print_ascending")) {
@@ -274,9 +281,12 @@ public class MyApplication implements Application{
             } else {
                 io.println("Такой команды не существует");
             }
+             */
+
         }
     }
 
+    /*
     private void doHistory() {
         if (history.isEmpty()){
             io.println("История комманд пуста");
@@ -289,6 +299,9 @@ public class MyApplication implements Application{
         }
     }
 
+     */
+
+    /*
     private void doCountByMood(String line) {
         Mood mood;
         if (line.length()<14){
@@ -311,6 +324,8 @@ public class MyApplication implements Application{
 
     }
 
+     */
+    /*
     private void doAdd() {
         io.println("Введите name:");
         String name = readName();
@@ -351,6 +366,8 @@ public class MyApplication implements Application{
 
     }
 
+     */
+    /*
     private void doUpdate(String line) {
         int id;
         if (line.length()<8){
@@ -403,6 +420,9 @@ public class MyApplication implements Application{
 
     }
 
+     */
+    /*
+
     private void doRemoveById(String line) {
         int id;
         if (line.length()<14){
@@ -425,6 +445,8 @@ public class MyApplication implements Application{
 
     }
 
+     */
+/*
     private void doAddIfMax() {
         io.println("Введите name:");
         String name = readName();
@@ -465,6 +487,8 @@ public class MyApplication implements Application{
 
     }
 
+ */
+    /*
     private void doRemoveLower() {
         io.println("Введите name:");
         String name = readName();
@@ -505,6 +529,8 @@ public class MyApplication implements Application{
 
     }
 
+     */
+    /*
     private void doFilterGreaterThanMood(String line) {
         Mood mood;
         if (line.length()<25){
@@ -525,4 +551,6 @@ public class MyApplication implements Application{
         io.println(filterGreaterThanMood);
         changeHistory("filter_greater_than_mood");
     }
+
+     */
 }
