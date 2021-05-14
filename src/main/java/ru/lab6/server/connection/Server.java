@@ -61,7 +61,7 @@ public class Server {
     public ServerSocketChannel createServerSocketChannel() {
         try {
             ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
-            serverSocketChannel.socket().bind(new InetSocketAddress(8000));
+            serverSocketChannel.socket().bind(new InetSocketAddress(port));
             return serverSocketChannel;
         } catch (IOException e) {
             //не забыть сделать правильно
