@@ -1,6 +1,7 @@
 package ru.lab6.common.request;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 public class Request {
     private String commandName;
