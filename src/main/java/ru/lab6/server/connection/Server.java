@@ -20,12 +20,16 @@ public class Server {
 
     public Server(int port){
         try {
+            this.port = port;
             serverSocketChannel = ServerSocketChannel.open();
             serverSocketChannel.socket().bind(new InetSocketAddress(port));
+            socketChannel = serverSocketChannel.accept();
+            receiveRequest(socketChannel);
         } catch (IOException e){
             e.printStackTrace();
         }
     }
+
     public Request receiveRequest(SocketChannel socketChannel) {
         try {
             ByteBuffer buf = ByteBuffer.allocate(1024);
@@ -42,7 +46,8 @@ public class Server {
 
             return new Gson().fromJson(jsonString, Request.class);
         } catch (IOException e) {
-            //не забыть сделать правильно
+            sendResponse(socketChannel,
+                    new ResponseImpl.Builder().setErrorResponse("ioexception", "").create());
             throw new RuntimeException(e);
         }
     }
@@ -53,7 +58,8 @@ public class Server {
             ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
             socketChannel.write(byteBuffer);
         } catch (IOException e){
-            //не забыть сделать правильно
+            sendResponse(socketChannel,
+                    new ResponseImpl.Builder().setErrorResponse("ioexception", "").create());
             throw new RuntimeException(e);
         }
     }
@@ -64,7 +70,8 @@ public class Server {
             serverSocketChannel.socket().bind(new InetSocketAddress(port));
             return serverSocketChannel;
         } catch (IOException e) {
-            //не забыть сделать правильно
+            sendResponse(socketChannel,
+                    new ResponseImpl.Builder().setErrorResponse("ioexception", "").create());
             throw new RuntimeException(e);
         }
     }
