@@ -6,7 +6,9 @@ import ru.lab6.common.humanbeing.HumanBeing;
 import ru.lab6.server.model.ApplicationContext;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class CountByMoodCommand implements Command {
     private final ApplicationContext applicationContext;
@@ -22,10 +24,9 @@ public class CountByMoodCommand implements Command {
         }
 
         MoodParameters moodParameters = (MoodParameters) parameters;
-        long countByMood;
         List<HumanBeing> humanBeings = applicationContext.getRepository().getAll();
 
-        countByMood =
+        long countByMood =
                 humanBeings
                     .stream()
                     .filter(humanBeing -> moodParameters.mood == humanBeing.getMood())
