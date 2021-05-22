@@ -3,6 +3,7 @@ package ru.lab6.server.model.command;
 import ru.lab6.common.parameters.CreationParameters;
 import ru.lab6.common.parameters.Parameters;
 import ru.lab6.common.humanbeing.HumanBeing;
+import ru.lab6.common.response.Response;
 import ru.lab6.server.model.ApplicationContext;
 
 public class AddCommand implements Command {
@@ -13,7 +14,7 @@ public class AddCommand implements Command {
     }
 
     @Override
-    public String execute (Parameters parameters) {
+    public Response execute (Parameters parameters) {
         if (!(parameters instanceof CreationParameters)) {
             throw new RuntimeException("Что-то пошло не так");
         }
@@ -35,6 +36,6 @@ public class AddCommand implements Command {
                         .setWeaponType(creationParameters.weaponType)
                         .build();
         applicationContext.getRepository().add(humanBeing);
-        return "Объект успешно добавлен в коллекцию";
+        return new Response("ok small", "Объект успешно добавлен в коллекцию");
     }
 }

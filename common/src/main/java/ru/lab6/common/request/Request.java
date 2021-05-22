@@ -1,11 +1,10 @@
 package ru.lab6.common.request;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 public class Request {
-    private String commandName;
-    private String parameters;
+    private final String commandName;
+    private final String parameters;
 
     public Request(String commandName, String parameters){
         this.commandName = commandName;
@@ -14,5 +13,13 @@ public class Request {
 
     public String json(){
         return new Gson().toJson(this);
+    }
+
+    public String getCommandName() {
+        return commandName;
+    }
+
+    public String getParameters() {
+        return parameters;
     }
 }

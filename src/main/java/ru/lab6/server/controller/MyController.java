@@ -29,14 +29,14 @@ public class MyController implements Controller {
         parameters.weaponType = weaponType;
         parameters.mood = mood;
 
-        return applicationContext.getCommands().get("add").execute(parameters);
+        return applicationContext.getCommands().get("add").execute(parameters).getDescription();
     }
 
     @Override
     public String clear() {
         EmptyParameters parameters = new EmptyParameters();
 
-        return applicationContext.getCommands().get("clear").execute(parameters);
+        return applicationContext.getCommands().get("clear").execute(parameters).getDescription();
     }
 
     @Override
@@ -45,14 +45,14 @@ public class MyController implements Controller {
 
         parameters.fileName = fileName;
 
-        return applicationContext.getCommands().get("executeScript").execute(parameters);
+        return applicationContext.getCommands().get("executeScript").execute(parameters).getDescription();
     }
 
     @Override
     public String info() {
         EmptyParameters parameters = new EmptyParameters();
 
-        return applicationContext.getCommands().get("info").execute(parameters);
+        return applicationContext.getCommands().get("info").execute(parameters).getDescription();
     }
 
     @Override
@@ -61,7 +61,7 @@ public class MyController implements Controller {
 
         parameters.id = id;
 
-        return applicationContext.getCommands().get("removeById").execute(parameters);
+        return applicationContext.getCommands().get("removeById").execute(parameters).getDescription();
     }
 
     @Override
@@ -78,21 +78,21 @@ public class MyController implements Controller {
         parameters.weaponType = weaponType;
         parameters.mood = mood;
 
-        return applicationContext.getCommands().get("removeLower").execute(parameters);
+        return applicationContext.getCommands().get("removeLower").execute(parameters).getDescription();
     }
 
     @Override
     public String save() {
         EmptyParameters parameters = new EmptyParameters();
 
-        return applicationContext.getCommands().get("save").execute(parameters);
+        return applicationContext.getCommands().get("save").execute(parameters).getDescription();
     }
 
     @Override
     public String show() {
         EmptyParameters parameters = new EmptyParameters();
 
-        return applicationContext.getCommands().get("show").execute(parameters);
+        return applicationContext.getCommands().get("show").execute(parameters).getDescription();
     }
 
     @Override
@@ -111,7 +111,7 @@ public class MyController implements Controller {
         parameters.weaponType = weaponType;
         parameters.mood = mood;
 
-        return applicationContext.getCommands().get("update").execute(parameters);
+        return applicationContext.getCommands().get("update").execute(parameters).getDescription();
     }
 
     @Override
@@ -128,7 +128,7 @@ public class MyController implements Controller {
         parameters.weaponType = weaponType;
         parameters.mood = mood;
 
-        return applicationContext.getCommands().get("addIfMax").execute(parameters);
+        return applicationContext.getCommands().get("addIfMax").execute(parameters).getDescription();
     }
 
     @Override
@@ -136,7 +136,7 @@ public class MyController implements Controller {
         MoodParameters parameters = new MoodParameters();
         parameters.mood = mood;
 
-        return applicationContext.getCommands().get("countByMood").execute(parameters);
+        return applicationContext.getCommands().get("countByMood").execute(parameters).getDescription();
     }
 
     @Override
@@ -144,20 +144,20 @@ public class MyController implements Controller {
         MoodParameters parameters = new MoodParameters();
         parameters.mood = mood;
 
-        return applicationContext.getCommands().get("filterGreaterThanMood").execute(parameters);
+        return applicationContext.getCommands().get("filterGreaterThanMood").execute(parameters).getDescription();
     }
 
     @Override
     public String printAscending() {
         EmptyParameters parameters = new EmptyParameters();
 
-        return applicationContext.getCommands().get("printAscending").execute(parameters);
+        return applicationContext.getCommands().get("printAscending").execute(parameters).getDescription();
     }
 
     @Override
     public String help() {
         EmptyParameters parameters = new EmptyParameters();
 
-        return applicationContext.getCommands().get("help").execute(parameters);
+        return applicationContext.getCommands().get("help").execute(parameters).getDescription();
     }
 }
