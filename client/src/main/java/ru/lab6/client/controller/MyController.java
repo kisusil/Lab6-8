@@ -1,17 +1,27 @@
-package ru.lab6.server.controller;
+package ru.lab6.client.controller;
 
+import com.google.gson.Gson;
+import ru.lab6.client.Client;
+import ru.lab6.client.ParserResponse;
 import ru.lab6.common.humanbeing.Car;
 import ru.lab6.common.humanbeing.Coordinates;
 import ru.lab6.common.humanbeing.Mood;
 import ru.lab6.common.humanbeing.WeaponType;
 import ru.lab6.common.parameters.*;
-import ru.lab6.server.model.ApplicationContext;
+import ru.lab6.common.request.Request;
+import ru.lab6.common.response.Response;
+
+import java.nio.channels.SocketChannel;
 
 public class MyController implements Controller {
-    private final ApplicationContext applicationContext;
+    private final Client client;
+    private final ParserResponse parserResponse;
+    private final Gson gson;
 
-    public MyController(ApplicationContext applicationContext) {
-        this.applicationContext = applicationContext;
+    public MyController(Client client, ParserResponse parserResponse) {
+        this.client = client;
+        this.parserResponse = parserResponse;
+        this.gson = new Gson();
     }
 
 
@@ -29,14 +39,30 @@ public class MyController implements Controller {
         parameters.weaponType = weaponType;
         parameters.mood = mood;
 
-        return applicationContext.getCommands().get("add").execute(parameters);
+        SocketChannel socketChannel = client.sendRequest(new Request("add", gson.toJson(parameters)));
+
+        if (socketChannel == null) {
+            return "Не удалось отправить запрос";
+        }
+
+        Response response = client.receiveResponse(socketChannel);
+
+        return parserResponse.parse(response);
     }
 
     @Override
     public String clear() {
         EmptyParameters parameters = new EmptyParameters();
 
-        return applicationContext.getCommands().get("clear").execute(parameters);
+        SocketChannel socketChannel = client.sendRequest(new Request("clear", gson.toJson(parameters)));
+
+        if (socketChannel == null) {
+            return "Не удалось отправить запрос";
+        }
+
+        Response response = client.receiveResponse(socketChannel);
+
+        return parserResponse.parse(response);
     }
 
     @Override
@@ -45,14 +71,30 @@ public class MyController implements Controller {
 
         parameters.fileName = fileName;
 
-        return applicationContext.getCommands().get("executeScript").execute(parameters);
+        SocketChannel socketChannel = client.sendRequest(new Request("execute_script", gson.toJson(parameters)));
+
+        if (socketChannel == null) {
+            return "Не удалось отправить запрос";
+        }
+
+        Response response = client.receiveResponse(socketChannel);
+
+        return parserResponse.parse(response);
     }
 
     @Override
     public String info() {
         EmptyParameters parameters = new EmptyParameters();
 
-        return applicationContext.getCommands().get("info").execute(parameters);
+        SocketChannel socketChannel = client.sendRequest(new Request("info", gson.toJson(parameters)));
+
+        if (socketChannel == null) {
+            return "Не удалось отправить запрос";
+        }
+
+        Response response = client.receiveResponse(socketChannel);
+
+        return parserResponse.parse(response);
     }
 
     @Override
@@ -61,7 +103,16 @@ public class MyController implements Controller {
 
         parameters.id = id;
 
-        return applicationContext.getCommands().get("removeById").execute(parameters);
+        SocketChannel socketChannel = client.sendRequest(new Request("remove_by_id", gson.toJson(parameters)));
+
+        if (socketChannel == null) {
+            return "Не удалось отправить запрос";
+        }
+
+
+        Response response = client.receiveResponse(socketChannel);
+
+        return parserResponse.parse(response);
     }
 
     @Override
@@ -78,21 +129,45 @@ public class MyController implements Controller {
         parameters.weaponType = weaponType;
         parameters.mood = mood;
 
-        return applicationContext.getCommands().get("removeLower").execute(parameters);
+        SocketChannel socketChannel = client.sendRequest(new Request("remove_lower", gson.toJson(parameters)));
+
+        if (socketChannel == null) {
+            return "Не удалось отправить запрос";
+        }
+
+        Response response = client.receiveResponse(socketChannel);
+
+        return parserResponse.parse(response);
     }
 
     @Override
     public String save() {
         EmptyParameters parameters = new EmptyParameters();
 
-        return applicationContext.getCommands().get("save").execute(parameters);
+        SocketChannel socketChannel = client.sendRequest(new Request("save", gson.toJson(parameters)));
+
+        if (socketChannel == null) {
+            return "Не удалось отправить запрос";
+        }
+
+        Response response = client.receiveResponse(socketChannel);
+
+        return parserResponse.parse(response);
     }
 
     @Override
     public String show() {
         EmptyParameters parameters = new EmptyParameters();
 
-        return applicationContext.getCommands().get("show").execute(parameters);
+        SocketChannel socketChannel = client.sendRequest(new Request("show", gson.toJson(parameters)));
+
+        if (socketChannel == null) {
+            return "Не удалось отправить запрос";
+        }
+
+        Response response = client.receiveResponse(socketChannel);
+
+        return parserResponse.parse(response);
     }
 
     @Override
@@ -111,7 +186,15 @@ public class MyController implements Controller {
         parameters.weaponType = weaponType;
         parameters.mood = mood;
 
-        return applicationContext.getCommands().get("update").execute(parameters);
+        SocketChannel socketChannel = client.sendRequest(new Request("update", gson.toJson(parameters)));
+
+        if (socketChannel == null) {
+            return "Не удалось отправить запрос";
+        }
+
+        Response response = client.receiveResponse(socketChannel);
+
+        return parserResponse.parse(response);
     }
 
     @Override
@@ -128,7 +211,15 @@ public class MyController implements Controller {
         parameters.weaponType = weaponType;
         parameters.mood = mood;
 
-        return applicationContext.getCommands().get("addIfMax").execute(parameters);
+        SocketChannel socketChannel = client.sendRequest(new Request("add_if_max", gson.toJson(parameters)));
+
+        if (socketChannel == null) {
+            return "Не удалось отправить запрос";
+        }
+
+        Response response = client.receiveResponse(socketChannel);
+
+        return parserResponse.parse(response);
     }
 
     @Override
@@ -136,7 +227,15 @@ public class MyController implements Controller {
         MoodParameters parameters = new MoodParameters();
         parameters.mood = mood;
 
-        return applicationContext.getCommands().get("countByMood").execute(parameters);
+        SocketChannel socketChannel = client.sendRequest(new Request("count_by_mood", gson.toJson(parameters)));
+
+        if (socketChannel == null) {
+            return "Не удалось отправить запрос";
+        }
+
+        Response response = client.receiveResponse(socketChannel);
+
+        return parserResponse.parse(response);
     }
 
     @Override
@@ -144,20 +243,44 @@ public class MyController implements Controller {
         MoodParameters parameters = new MoodParameters();
         parameters.mood = mood;
 
-        return applicationContext.getCommands().get("filterGreaterThanMood").execute(parameters);
+        SocketChannel socketChannel = client.sendRequest(new Request("filter_greater_than_mood", gson.toJson(parameters)));
+
+        if (socketChannel == null) {
+            return "Не удалось отправить запрос";
+        }
+
+        Response response = client.receiveResponse(socketChannel);
+
+        return parserResponse.parse(response);
     }
 
     @Override
     public String printAscending() {
         EmptyParameters parameters = new EmptyParameters();
 
-        return applicationContext.getCommands().get("printAscending").execute(parameters);
+        SocketChannel socketChannel = client.sendRequest(new Request("print_ascending", gson.toJson(parameters)));
+
+        if (socketChannel == null) {
+            return "Не удалось отправить запрос";
+        }
+
+        Response response = client.receiveResponse(socketChannel);
+
+        return parserResponse.parse(response);
     }
 
     @Override
     public String help() {
         EmptyParameters parameters = new EmptyParameters();
 
-        return applicationContext.getCommands().get("help").execute(parameters);
+        SocketChannel socketChannel = client.sendRequest(new Request("help", gson.toJson(parameters)));
+
+        if (socketChannel == null) {
+            return "Не удалось отправить запрос";
+        }
+
+        Response response = client.receiveResponse(socketChannel);
+
+        return parserResponse.parse(response);
     }
 }

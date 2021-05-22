@@ -1,4 +1,4 @@
-package ru.lab6.server.controller;
+package ru.lab6.client.controller;
 
 import ru.lab6.common.humanbeing.Car;
 import ru.lab6.common.humanbeing.Coordinates;
