@@ -1,5 +1,8 @@
 package ru.lab6.server.model.command;
 
+import ru.lab6.common.parameters.EmptyParameters;
+import ru.lab6.common.parameters.Parameters;
+import ru.lab6.common.response.Response;
 import ru.lab6.server.CollectionSaverException;
 import ru.lab6.server.model.ApplicationContext;
 
@@ -12,7 +15,7 @@ public class SaveCommand implements Command {
 
 
     @Override
-    public String execute(Parameters parameters) {
+    public Response execute(Parameters parameters) {
         if (!(parameters instanceof EmptyParameters)) {
             throw new RuntimeException("Что-то пошло не так");
         }
@@ -20,9 +23,9 @@ public class SaveCommand implements Command {
         try {
             applicationContext.getCollectionSaver().save(applicationContext.getRepository());
         } catch (CollectionSaverException e) {
-            return e.getMessage();
+            return new Response("error", e.getMessage());
         }
 
-        return "Успешное сохранение в файл";
+        return new Response("ok small", "Успешное сохранение в файл");
     }
 }

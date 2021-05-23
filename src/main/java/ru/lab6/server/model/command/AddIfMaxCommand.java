@@ -1,6 +1,9 @@
 package ru.lab6.server.model.command;
 
+import ru.lab6.common.parameters.CreationParameters;
+import ru.lab6.common.parameters.Parameters;
 import ru.lab6.common.humanbeing.HumanBeing;
+import ru.lab6.common.response.Response;
 import ru.lab6.server.model.ApplicationContext;
 
 import java.util.List;
@@ -11,7 +14,7 @@ public class AddIfMaxCommand implements Command {
     public AddIfMaxCommand(ApplicationContext applicationContext) {this.applicationContext = applicationContext; }
 
     @Override
-    public String execute(Parameters parameters) {
+    public Response execute(Parameters parameters) {
         if (!(parameters instanceof CreationParameters)) {
             throw new RuntimeException("Что-то пошло не так");
         }
@@ -36,7 +39,7 @@ public class AddIfMaxCommand implements Command {
         HumanBeing maxHumanBeing = humanBeings.get(indexMax);
         if (humanBeing.compareTo(maxHumanBeing)>0) {
             applicationContext.getRepository().add(humanBeing);
-            return "Объект успешно добавлен в коллекцию";
-        } else { return "Введенный элемент не максимальный"; }
+            return new Response("ok small", "Объект успешно добавлен в коллекцию");
+        } else { return new Response("error", "Введенный элемент не максимальный"); }
     }
 }

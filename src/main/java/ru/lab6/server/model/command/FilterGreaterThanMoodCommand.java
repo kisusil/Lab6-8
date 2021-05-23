@@ -1,12 +1,16 @@
 package ru.lab6.server.model.command;
 
+import ru.lab6.common.parameters.MoodParameters;
+import ru.lab6.common.parameters.Parameters;
 import ru.lab6.common.humanbeing.HumanBeing;
+import ru.lab6.common.response.Response;
 import ru.lab6.server.model.ApplicationContext;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class FilterGreaterThanMoodCommand implements Command{
+public class FilterGreaterThanMoodCommand implements Command {
     private final ApplicationContext applicationContext;
 
     public FilterGreaterThanMoodCommand(ApplicationContext applicationContext) {
@@ -36,27 +40,27 @@ public class FilterGreaterThanMoodCommand implements Command{
     }
 
     @Override
-    public String execute(Parameters parameters) {
+    public Response execute(Parameters parameters) {
         if (!(parameters instanceof MoodParameters)) {
             throw new RuntimeException("Что-то пошло не так");
         }
 
         MoodParameters moodParameters = (MoodParameters) parameters;
         List<HumanBeing> humanBeings = applicationContext.getRepository().getAll();
-        List<HumanBeing> list = new ArrayList<>();
 
         if (humanBeings.isEmpty()) {
-            return "Коллекция пустая";
+            return new Response("error", "Коллекция пустая");
         }
 
-        for (HumanBeing humanBeing : humanBeings) {
-            if (moodParameters.mood.number - humanBeing.getMood().number < 0) {
-                list.add(humanBeing);
-            }
-        }
+        List<HumanBeing> list =
+                humanBeings
+                        .stream()
+                        .filter(humanBeing -> moodParameters.mood.number - humanBeing.getMood().number < 0)
+                        .collect(Collectors.toList());
+
         if (list.size()!=0) {
-            return listString(list);
+            return new Response(list);
         }
-        return "Таких элементов нет";
+        return new Response("error", "Таких элементов нет");
     }
 }

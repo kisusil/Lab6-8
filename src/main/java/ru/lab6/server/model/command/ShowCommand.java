@@ -1,6 +1,9 @@
 package ru.lab6.server.model.command;
 
+import ru.lab6.common.parameters.EmptyParameters;
+import ru.lab6.common.parameters.Parameters;
 import ru.lab6.common.humanbeing.HumanBeing;
+import ru.lab6.common.response.Response;
 import ru.lab6.server.model.ApplicationContext;
 
 import java.util.List;
@@ -13,7 +16,7 @@ public class ShowCommand implements Command {
     }
 
     @Override
-    public String execute (Parameters parameters) {
+    public Response execute (Parameters parameters) {
         if (!(parameters instanceof EmptyParameters)) {
             throw new RuntimeException("Что-то пошло не так");
         }
@@ -21,7 +24,7 @@ public class ShowCommand implements Command {
         List<HumanBeing> humanBeings = applicationContext.getRepository().getAll();
         StringBuilder result = new StringBuilder("Количество: " + humanBeings.size() + "\n");
 
-        for (HumanBeing humanBeing : humanBeings) {
+        humanBeings.forEach(humanBeing -> {
             result.append("id ").append(humanBeing.getId()).append("\n");
             result.append("name ").append(humanBeing.getName()).append("\n");
             result.append("coordinateX ").append(humanBeing.getCoordinates().getX()).append("\n");
@@ -35,7 +38,7 @@ public class ShowCommand implements Command {
             result.append("mood ").append(humanBeing.getMood()).append("\n");
             result.append("carName ").append(humanBeing.getCar().getName()).append("\n");
             result.append("\n");
-        }
-        return result.toString();
+        });
+        return new Response("ok small", result.toString());
     }
 }

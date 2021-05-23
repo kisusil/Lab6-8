@@ -1,5 +1,8 @@
 package ru.lab6.server.model.command;
 
+import ru.lab6.common.parameters.EmptyParameters;
+import ru.lab6.common.parameters.Parameters;
+import ru.lab6.common.response.Response;
 import ru.lab6.server.model.ApplicationContext;
 import ru.lab6.server.model.CollectionInfo;
 
@@ -11,12 +14,12 @@ public class InfoCommand implements Command {
     }
 
     @Override
-    public String execute (Parameters parameters) {
+    public Response execute (Parameters parameters) {
         if (!(parameters instanceof EmptyParameters)) {
             throw new RuntimeException("Что-то пошло не так");
         }
 
         CollectionInfo collectionInfo = applicationContext.getRepository().getInfo();
-        return collectionInfo.toString();
+        return new Response("ok small", collectionInfo.toString());
     }
 }

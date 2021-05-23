@@ -1,9 +1,12 @@
 package ru.lab6.server.model.command;
 
+import ru.lab6.common.parameters.ExecuteScriptParameters;
+import ru.lab6.common.parameters.Parameters;
 import ru.lab6.common.humanbeing.Car;
 import ru.lab6.common.humanbeing.Coordinates;
 import ru.lab6.common.humanbeing.Mood;
 import ru.lab6.common.humanbeing.WeaponType;
+import ru.lab6.common.response.Response;
 import ru.lab6.server.controller.Controller;
 
 import java.io.FileInputStream;
@@ -23,7 +26,7 @@ public class ExecuteScriptCommand implements Command {
     }
 
     @Override
-    public String execute(Parameters parameters) {
+    public Response execute(Parameters parameters) {
         if (!(parameters instanceof ExecuteScriptParameters)) {
             throw new RuntimeException("Что-то пошло не так");
         }
@@ -34,64 +37,64 @@ public class ExecuteScriptCommand implements Command {
             stack.push(executeScriptParameters.fileName);
         }
         else {
-            return "Обнаружено зацикливание";
+            return new Response("error", "Обнаружено зацикливание");
         }
 
         try (Scanner scanner = new Scanner(new InputStreamReader(new FileInputStream(executeScriptParameters.fileName), StandardCharsets.UTF_8))) {
-            String result = "";
+            StringBuilder result = new StringBuilder();
             while (scanner.hasNext()) {
                 String line = scanner.nextLine();
                 if (line.equals("add_if_max")) {
-                   result += doAddIfMax(scanner) + "\n";
+                   result.append(doAddIfMax(scanner)).append("\n");
                 } else if (line.equals("print_ascending")) {
                     String printAscending = controller.printAscending();
-                    result += printAscending + "\n";
+                    result.append(printAscending).append("\n");
                 } else if (line.contains("count_by_mood")) {
-                    result += doCountByMood(line) + "\n";
+                    result.append(doCountByMood(line)).append("\n");
                 } else if (line.contains("filter_greater_than_mood")) {
-                    result += doFilterGreaterThanMood(line) + "\n";
+                    result.append(doFilterGreaterThanMood(line)).append("\n");
                 } else if (line.equals("add")) {
-                    result += doAdd(scanner) + "\n";
+                    result.append(doAdd(scanner)).append("\n");
                 } else if (line.equals("clear")) {
                     String clear = controller.clear();
-                    result += clear + "\n";
+                    result.append(clear).append("\n");
                 } else if (line.equals("info")){
                     String info = controller.info();
-                    result += info + "\n";
+                    result.append(info).append("\n");
                 } else if (line.equals("show")) {
                     String show = controller.show();
-                    result += show + "\n";
+                    result.append(show).append("\n");
                 } else if (line.equals("help")) {
                     String help = controller.help();
-                    result += help + "\n";
+                    result.append(help).append("\n");
                 } else if (line.contains("update")) {
-                    result += doUpdate(line, scanner) + "\n";
+                    result.append(doUpdate(line, scanner)).append("\n");
                 } else if (line.contains("remove_by_id")) {
-                    result += doRemoveById(line) + "\n";
+                    result.append(doRemoveById(line)).append("\n");
                 } else if (line.contains("remove_lower")) {
-                    result += doRemoveLower(scanner) + "\n";
+                    result.append(doRemoveLower(scanner)).append("\n");
                 } else if (line.contains("execute_script")){
                     if (line.length()<16){
                         throw new ExecuteScriptException("Вы забыли ввести fileName.");
                     }
                     String fileName = line.substring(15);
                     String executeScript = controller.executeScript(fileName);
-                    result += executeScript + "\n";
+                    result.append(executeScript).append("\n");
                 } else {
                     throw new ExecuteScriptException("Такой команды не существует");
                 }
             }
             stack.pop();
-            return result;
+            return new Response("ok small", result.toString());
         } catch (ExecuteScriptException e) {
             stack.pop();
-            return "Скрипт содержит ошибки. Выполнение скрипта прервано:\n" + e.getMessage();
+            return new Response("error", "Скрипт содержит ошибки. Выполнение скрипта прервано:\n" + e.getMessage());
         } catch (FileNotFoundException e) {
             stack.pop();
-            return "Файл с таким именем не существует:\n" + e.getMessage();
+            return new Response("error", "Файл с таким именем не существует:\n" + e.getMessage());
         } catch (Exception e) {
             stack.pop();
-            return "Непредвиденная ошибка чтения из файла:\n" + e.getMessage();
+            return new Response("error", "Непредвиденная ошибка чтения из файла:\n" + e.getMessage());
         }
     }
 
