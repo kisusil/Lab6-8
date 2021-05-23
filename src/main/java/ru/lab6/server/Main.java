@@ -18,12 +18,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.logging.log4j.*;
+
 public class Main {
+    private static final Logger logger = LogManager.getLogger(Main.class);
     public static void main (String[] args){
         IO io = new Console(System.in, System.out);
         String collectionFileName = System.getenv("fileName");
 
         if (collectionFileName == null) {
+            logger.fatal("Переменная окружения не задана");
             io.println("Переменная окружения не задана");
             return;
         }
@@ -34,7 +38,9 @@ public class Main {
         try {
             repository = collectionLoader.load();
         } catch (CollectionLoaderException e) {
+            logger.fatal("CollectionLoaderException");
             io.println(e.getMessage());
+
             return;
         }
 
@@ -43,6 +49,7 @@ public class Main {
         io.println("");
 
         List<HumanBeing> humanBeings = repository.getAll();
+        logger.info("Коллекция загружена.");
 
         int maxExistedId =
                 humanBeings
@@ -52,6 +59,7 @@ public class Main {
                 .orElse(0);
 
         HumanBeingBuilder humanBeingBuilder = new MyHumanBeingBuilder(maxExistedId + 1);
+
 
         ApplicationContext applicationContext = new ApplicationContext(humanBeingBuilder, repository, collectionSaver);
         Controller controller = new MyController(applicationContext);
@@ -71,21 +79,22 @@ public class Main {
         commands.put("count_by_mood", new CountByMoodCommand(applicationContext));
         commands.put("filter_greater_than_mood", new FilterGreaterThanMoodCommand(applicationContext));
         commands.put("print_ascending", new PrintAscendingCommand(applicationContext));
+        logger.info("Комманды инициализированы.");
 
         applicationContext.setCommands(commands);
 
         ParserRequest parserRequest = new ParserRequest(applicationContext);
 
         Server server = new Server(Integer.parseInt(args[0]));
+        logger.info("Сервер запущен.");
 
         while (true) {
             server.acceptNewClient();
             Request request = server.receiveRequest();
-
             Command command = parserRequest.parseCommand(request);
             Parameters parameters = parserRequest.parseParameters(request);
             Response response = command.execute(parameters);
-
+            logger.info(request.getCommandName());
             server.sendResponse(response);
             server.closeConnection();
         }
