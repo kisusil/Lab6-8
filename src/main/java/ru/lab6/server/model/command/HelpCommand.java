@@ -2,16 +2,17 @@ package ru.lab6.server.model.command;
 
 import ru.lab6.common.parameters.EmptyParameters;
 import ru.lab6.common.parameters.Parameters;
+import ru.lab6.common.response.Response;
 
 public class HelpCommand implements Command {
 
     @Override
-    public String execute(Parameters parameters) {
+    public Response execute(Parameters parameters) {
         if (!(parameters instanceof EmptyParameters)) {
             throw new RuntimeException("Что-то пошло не так");
         }
 
-        return  "help : вывести справку по доступным командам\n" +
+        return new Response("ok small", "help : вывести справку по доступным командам\n" +
                 "info : вывести в стандартный поток вывода информацию о коллекции (тип, дата инициализации, количество элементов и т.д.)\n" +
                 "show : вывести в стандартный поток вывода все элементы коллекции в строковом представлении\n" +
                 "add {element} : добавить новый элемент в коллекцию\n" +
@@ -26,6 +27,6 @@ public class HelpCommand implements Command {
                 "history : вывести последние 6 команд (без их аргументов)\n" +
                 "count_by_mood mood : вывести количество элементов, значение поля mood которых равно заданному\n" +
                 "filter_greater_than_mood mood : вывести элементы, значение поля mood которых больше заданного\n" +
-                "print_ascending : вывести элементы коллекции в порядке возрастания";
+                "print_ascending : вывести элементы коллекции в порядке возрастания");
     }
 }

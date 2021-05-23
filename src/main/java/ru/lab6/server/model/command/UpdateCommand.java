@@ -3,6 +3,7 @@ package ru.lab6.server.model.command;
 import ru.lab6.common.parameters.Parameters;
 import ru.lab6.common.parameters.UpdateParameters;
 import ru.lab6.common.humanbeing.HumanBeing;
+import ru.lab6.common.response.Response;
 import ru.lab6.server.model.ApplicationContext;
 
 public class UpdateCommand implements Command {
@@ -13,7 +14,7 @@ public class UpdateCommand implements Command {
     }
 
     @Override
-    public String execute (Parameters parameters) {
+    public Response execute (Parameters parameters) {
         if (!(parameters instanceof UpdateParameters)) {
             throw new RuntimeException("Что-то пошло не так");
         }
@@ -22,7 +23,7 @@ public class UpdateCommand implements Command {
         HumanBeing humanBeing = applicationContext.getRepository().get(updateParameters.id);
 
         if (humanBeing == null) {
-            return "Человека с таким id нет";
+            return new Response("error", "Человека с таким id не существует");
         }
 
         humanBeing.getCar().setName(updateParameters.carName);
@@ -36,8 +37,6 @@ public class UpdateCommand implements Command {
         humanBeing.setName(updateParameters.name);
         humanBeing.setRealHero(updateParameters.realHero);
 
-        return "Объект успешно изменен";
+        return new Response("ok small", "Объект успешно изменен");
     }
-
-
 }

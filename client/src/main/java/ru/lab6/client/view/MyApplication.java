@@ -1,5 +1,8 @@
 package ru.lab6.client.view;
 
+import ru.lab6.client.controller.Controller;
+import ru.lab6.common.humanbeing.Car;
+import ru.lab6.common.humanbeing.Coordinates;
 import ru.lab6.common.humanbeing.Mood;
 import ru.lab6.common.humanbeing.WeaponType;
 
@@ -9,12 +12,12 @@ import java.util.Queue;
 
 public class MyApplication implements Application {
     private final IO io;
-    //private final Controller controller;
+    private final Controller controller;
     private final Queue<String> history;
 
-    public MyApplication(IO io) {
+    public MyApplication(IO io, Controller controller) {
         this.io = io;
-        //this.controller = controller;
+        this.controller = controller;
         this.history = new ArrayDeque<>();
     }
 
@@ -216,10 +219,6 @@ public class MyApplication implements Application {
             io.println("");
             io.println("Введите команду:");
             String line = io.readLine();
-
-
-
-            /*
             if (line.equals("add_if_max")) {
                 doAddIfMax();
             } else if (line.equals("print_ascending")) {
@@ -276,12 +275,9 @@ public class MyApplication implements Application {
             } else {
                 io.println("Такой команды не существует");
             }
-             */
-
         }
     }
 
-    /*
     private void doHistory() {
         if (history.isEmpty()){
             io.println("История комманд пуста");
@@ -294,9 +290,6 @@ public class MyApplication implements Application {
         }
     }
 
-     */
-
-    /*
     private void doCountByMood(String line) {
         Mood mood;
         if (line.length()<14){
@@ -319,8 +312,6 @@ public class MyApplication implements Application {
 
     }
 
-     */
-    /*
     private void doAdd() {
         io.println("Введите name:");
         String name = readName();
@@ -361,8 +352,6 @@ public class MyApplication implements Application {
 
     }
 
-     */
-    /*
     private void doUpdate(String line) {
         int id;
         if (line.length()<8){
@@ -415,9 +404,6 @@ public class MyApplication implements Application {
 
     }
 
-     */
-    /*
-
     private void doRemoveById(String line) {
         int id;
         if (line.length()<14){
@@ -440,8 +426,6 @@ public class MyApplication implements Application {
 
     }
 
-     */
-/*
     private void doAddIfMax() {
         io.println("Введите name:");
         String name = readName();
@@ -482,8 +466,6 @@ public class MyApplication implements Application {
 
     }
 
- */
-    /*
     private void doRemoveLower() {
         io.println("Введите name:");
         String name = readName();
@@ -524,8 +506,6 @@ public class MyApplication implements Application {
 
     }
 
-     */
-    /*
     private void doFilterGreaterThanMood(String line) {
         Mood mood;
         if (line.length()<25){
@@ -546,6 +526,4 @@ public class MyApplication implements Application {
         io.println(filterGreaterThanMood);
         changeHistory("filter_greater_than_mood");
     }
-
-     */
 }

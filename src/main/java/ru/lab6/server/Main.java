@@ -1,7 +1,9 @@
 package ru.lab6.server;
 
 import ru.lab6.common.humanbeing.HumanBeing;
-import ru.lab6.server.connection.Server;
+import ru.lab6.common.parameters.Parameters;
+import ru.lab6.common.request.Request;
+import ru.lab6.common.response.Response;
 import ru.lab6.server.controller.Controller;
 import ru.lab6.server.controller.MyController;
 import ru.lab6.server.io.Console;
@@ -12,8 +14,6 @@ import ru.lab6.server.model.MyHumanBeingBuilder;
 import ru.lab6.server.model.Repository;
 import ru.lab6.server.model.command.*;
 
-
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,23 +59,35 @@ public class Main {
         Map <String, Command> commands = new HashMap<>();
         commands.put("add", new AddCommand(applicationContext));
         commands.put("clear", new ClearCommand(applicationContext));
-        commands.put("executeScript", new ExecuteScriptCommand(controller));
+        commands.put("execute_script", new ExecuteScriptCommand(controller));
         commands.put("help", new HelpCommand());
         commands.put("info", new InfoCommand(applicationContext));
-        commands.put("removeById", new RemoveByIdCommand(applicationContext));
-        commands.put("removeLower", new RemoveLowerCommand(applicationContext));
+        commands.put("remove_by_id", new RemoveByIdCommand(applicationContext));
+        commands.put("remove_lower", new RemoveLowerCommand(applicationContext));
         commands.put("save", new SaveCommand(applicationContext));
         commands.put("show", new ShowCommand(applicationContext));
         commands.put("update", new UpdateCommand(applicationContext));
-        commands.put("addIfMax", new AddIfMaxCommand(applicationContext));
-        commands.put("countByMood", new CountByMoodCommand(applicationContext));
-        commands.put("filterGreaterThanMood", new FilterGreaterThanMoodCommand(applicationContext));
-        commands.put("printAscending", new PrintAscendingCommand(applicationContext));
+        commands.put("add_if_max", new AddIfMaxCommand(applicationContext));
+        commands.put("count_by_mood", new CountByMoodCommand(applicationContext));
+        commands.put("filter_greater_than_mood", new FilterGreaterThanMoodCommand(applicationContext));
+        commands.put("print_ascending", new PrintAscendingCommand(applicationContext));
 
         applicationContext.setCommands(commands);
 
+        ParserRequest parserRequest = new ParserRequest(applicationContext);
 
         Server server = new Server(Integer.parseInt(args[0]));
 
+        while (true) {
+            server.acceptNewClient();
+            Request request = server.receiveRequest();
+
+            Command command = parserRequest.parseCommand(request);
+            Parameters parameters = parserRequest.parseParameters(request);
+            Response response = command.execute(parameters);
+
+            server.sendResponse(response);
+            server.closeConnection();
+        }
     }
 }
