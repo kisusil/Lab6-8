@@ -4,10 +4,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import ru.lab6.common.humanbeing.HumanBeing;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class Response {
+public class Response implements Serializable {
     private final String status;
     private final String description;
 

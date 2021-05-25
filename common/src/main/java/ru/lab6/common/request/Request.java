@@ -2,7 +2,9 @@ package ru.lab6.common.request;
 
 import com.google.gson.Gson;
 
-public class Request {
+import java.io.Serializable;
+
+public class Request implements Serializable {
     private final String commandName;
     private final String parameters;
 
