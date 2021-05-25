@@ -40,7 +40,7 @@ public class MyController implements Controller {
         parameters.weaponType = weaponType;
         parameters.mood = mood;
 
-        Socket socket = client.sendRequest(new Request("add", gson.toJson(parameters)));
+        Socket socket = client.sendRequest(new Request("add", parameters));
 
         if (socket == null) {
             return "Не удалось отправить запрос";
@@ -55,7 +55,7 @@ public class MyController implements Controller {
     public String clear() {
         EmptyParameters parameters = new EmptyParameters();
 
-        Socket socket = client.sendRequest(new Request("clear", gson.toJson(parameters)));
+        Socket socket = client.sendRequest(new Request("clear", parameters));
 
         if (socket == null) {
             return "Не удалось отправить запрос";
@@ -72,7 +72,7 @@ public class MyController implements Controller {
 
         parameters.fileName = fileName;
 
-        Socket socket = client.sendRequest(new Request("execute_script", gson.toJson(parameters)));
+        Socket socket = client.sendRequest(new Request("execute_script", parameters));
 
         if (socket == null) {
             return "Не удалось отправить запрос";
@@ -87,7 +87,7 @@ public class MyController implements Controller {
     public String info() {
         EmptyParameters parameters = new EmptyParameters();
 
-        Socket socket = client.sendRequest(new Request("info", gson.toJson(parameters)));
+        Socket socket = client.sendRequest(new Request("info", parameters));
 
         if (socket == null) {
             return "Не удалось отправить запрос";
@@ -104,7 +104,7 @@ public class MyController implements Controller {
 
         parameters.id = id;
 
-        Socket socket = client.sendRequest(new Request("remove_by_id", gson.toJson(parameters)));
+        Socket socket = client.sendRequest(new Request("remove_by_id", parameters));
 
         if (socket == null) {
             return "Не удалось отправить запрос";
@@ -130,7 +130,7 @@ public class MyController implements Controller {
         parameters.weaponType = weaponType;
         parameters.mood = mood;
 
-        Socket socket = client.sendRequest(new Request("remove_lower", gson.toJson(parameters)));
+        Socket socket = client.sendRequest(new Request("remove_lower", parameters));
 
         if (socket == null) {
             return "Не удалось отправить запрос";
@@ -145,7 +145,7 @@ public class MyController implements Controller {
     public String save() {
         EmptyParameters parameters = new EmptyParameters();
 
-        Socket socket = client.sendRequest(new Request("save", gson.toJson(parameters)));
+        Socket socket = client.sendRequest(new Request("save", parameters));
 
         if (socket == null) {
             return "Не удалось отправить запрос";
@@ -160,7 +160,7 @@ public class MyController implements Controller {
     public String show() {
         EmptyParameters parameters = new EmptyParameters();
 
-        Socket socket = client.sendRequest(new Request("show", gson.toJson(parameters)));
+        Socket socket = client.sendRequest(new Request("show", parameters));
 
         if (socket == null) {
             return "Не удалось отправить запрос";
@@ -187,7 +187,7 @@ public class MyController implements Controller {
         parameters.weaponType = weaponType;
         parameters.mood = mood;
 
-        Socket socket = client.sendRequest(new Request("update", gson.toJson(parameters)));
+        Socket socket = client.sendRequest(new Request("update", parameters));
 
         if (socket == null) {
             return "Не удалось отправить запрос";
@@ -212,7 +212,7 @@ public class MyController implements Controller {
         parameters.weaponType = weaponType;
         parameters.mood = mood;
 
-        Socket socket = client.sendRequest(new Request("add_if_max", gson.toJson(parameters)));
+        Socket socket = client.sendRequest(new Request("add_if_max", parameters));
 
         if (socket == null) {
             return "Не удалось отправить запрос";
@@ -228,7 +228,7 @@ public class MyController implements Controller {
         MoodParameters parameters = new MoodParameters();
         parameters.mood = mood;
 
-        Socket socket = client.sendRequest(new Request("count_by_mood", gson.toJson(parameters)));
+        Socket socket = client.sendRequest(new Request("count_by_mood", parameters));
 
         if (socket == null) {
             return "Не удалось отправить запрос";
@@ -244,7 +244,7 @@ public class MyController implements Controller {
         MoodParameters parameters = new MoodParameters();
         parameters.mood = mood;
 
-        Socket socket = client.sendRequest(new Request("filter_greater_than_mood", gson.toJson(parameters)));
+        Socket socket = client.sendRequest(new Request("filter_greater_than_mood", parameters));
 
         if (socket == null) {
             return "Не удалось отправить запрос";
@@ -259,7 +259,7 @@ public class MyController implements Controller {
     public String printAscending() {
         EmptyParameters parameters = new EmptyParameters();
 
-        Socket socket = client.sendRequest(new Request("print_ascending", gson.toJson(parameters)));
+        Socket socket = client.sendRequest(new Request("print_ascending", parameters));
 
         if (socket == null) {
             return "Не удалось отправить запрос";
@@ -274,7 +274,7 @@ public class MyController implements Controller {
     public String help() {
         EmptyParameters parameters = new EmptyParameters();
 
-        Socket socket = client.sendRequest(new Request("help", gson.toJson(parameters)));
+        Socket socket = client.sendRequest(new Request("help", parameters));
 
         if (socket == null) {
             return "Не удалось отправить запрос";

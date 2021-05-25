@@ -33,10 +33,6 @@ public class ParserRequest {
         this.applicationContext = applicationContext;
     }
 
-    public Parameters parseParameters(Request request) {
-        return new Gson().fromJson(request.getParameters(), PARAMETERS_CLASS_MAP.get(request.getCommandName()));
-    }
-
     public Command parseCommand(Request request) {
        return applicationContext.getCommands().get(request.getCommandName());
     }
