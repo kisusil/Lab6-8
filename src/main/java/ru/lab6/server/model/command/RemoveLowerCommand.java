@@ -39,7 +39,7 @@ public class RemoveLowerCommand implements Command {
         List<HumanBeing> humanBeings = applicationContext.getRepository().getAll();
         int sizeOne = humanBeings.size();
         if (humanBeings.isEmpty()) {
-            return new Response("error", "Коллекция пустая");
+            return new Response().setErrorResponse("коллекция пустая", "");
         }
 
         humanBeings
@@ -56,9 +56,9 @@ public class RemoveLowerCommand implements Command {
         humanBeings = applicationContext.getRepository().getAll();
 
         if (sizeOne > humanBeings.size()){
-            return new Response("ok small", "Элементы успешно удалены из коллекции");
+            return new Response().setEmptyResult();
         }
 
-        return new Response("error", "Удалять нечего");
+        return new Response().setEmptyResult();
     }
 }

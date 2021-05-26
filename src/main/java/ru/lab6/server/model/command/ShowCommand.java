@@ -39,6 +39,6 @@ public class ShowCommand implements Command {
             result.append("carName ").append(humanBeing.getCar().getName()).append("\n");
             result.append("\n");
         });
-        return new Response("ok small", result.toString());
+        return new Response().setStringResult(result.toString());
     }
 }

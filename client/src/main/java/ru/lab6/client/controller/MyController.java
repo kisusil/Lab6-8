@@ -2,7 +2,6 @@ package ru.lab6.client.controller;
 
 import com.google.gson.Gson;
 import ru.lab6.client.Client;
-import ru.lab6.client.ParserResponse;
 import ru.lab6.common.humanbeing.Car;
 import ru.lab6.common.humanbeing.Coordinates;
 import ru.lab6.common.humanbeing.Mood;
@@ -11,16 +10,14 @@ import ru.lab6.common.parameters.*;
 import ru.lab6.common.request.Request;
 import ru.lab6.common.response.Response;
 
-import java.nio.channels.SocketChannel;
+import java.net.Socket;
 
 public class MyController implements Controller {
     private final Client client;
-    private final ParserResponse parserResponse;
     private final Gson gson;
 
-    public MyController(Client client, ParserResponse parserResponse) {
+    public MyController(Client client) {
         this.client = client;
-        this.parserResponse = parserResponse;
         this.gson = new Gson();
     }
 
@@ -39,30 +36,30 @@ public class MyController implements Controller {
         parameters.weaponType = weaponType;
         parameters.mood = mood;
 
-        SocketChannel socketChannel = client.sendRequest(new Request("add", gson.toJson(parameters)));
+        Socket socket = client.sendRequest(new Request("add", parameters));
 
-        if (socketChannel == null) {
+        if (socket == null) {
             return "Не удалось отправить запрос";
         }
 
-        Response response = client.receiveResponse(socketChannel);
+        Response response = client.receiveResponse(socket);
 
-        return parserResponse.parse(response);
+        return response.json();
     }
 
     @Override
     public String clear() {
         EmptyParameters parameters = new EmptyParameters();
 
-        SocketChannel socketChannel = client.sendRequest(new Request("clear", gson.toJson(parameters)));
+        Socket socket = client.sendRequest(new Request("clear", parameters));
 
-        if (socketChannel == null) {
+        if (socket == null) {
             return "Не удалось отправить запрос";
         }
 
-        Response response = client.receiveResponse(socketChannel);
+        Response response = client.receiveResponse(socket);
 
-        return parserResponse.parse(response);
+        return response.json();
     }
 
     @Override
@@ -71,30 +68,30 @@ public class MyController implements Controller {
 
         parameters.fileName = fileName;
 
-        SocketChannel socketChannel = client.sendRequest(new Request("execute_script", gson.toJson(parameters)));
+        Socket socket = client.sendRequest(new Request("execute_script", parameters));
 
-        if (socketChannel == null) {
+        if (socket == null) {
             return "Не удалось отправить запрос";
         }
 
-        Response response = client.receiveResponse(socketChannel);
+        Response response = client.receiveResponse(socket);
 
-        return parserResponse.parse(response);
+        return response.json();
     }
 
     @Override
     public String info() {
         EmptyParameters parameters = new EmptyParameters();
 
-        SocketChannel socketChannel = client.sendRequest(new Request("info", gson.toJson(parameters)));
+        Socket socket = client.sendRequest(new Request("info", parameters));
 
-        if (socketChannel == null) {
+        if (socket == null) {
             return "Не удалось отправить запрос";
         }
 
-        Response response = client.receiveResponse(socketChannel);
+        Response response = client.receiveResponse(socket);
 
-        return parserResponse.parse(response);
+        return response.json();
     }
 
     @Override
@@ -103,16 +100,16 @@ public class MyController implements Controller {
 
         parameters.id = id;
 
-        SocketChannel socketChannel = client.sendRequest(new Request("remove_by_id", gson.toJson(parameters)));
+        Socket socket = client.sendRequest(new Request("remove_by_id", parameters));
 
-        if (socketChannel == null) {
+        if (socket == null) {
             return "Не удалось отправить запрос";
         }
 
 
-        Response response = client.receiveResponse(socketChannel);
+        Response response = client.receiveResponse(socket);
 
-        return parserResponse.parse(response);
+        return response.json();
     }
 
     @Override
@@ -129,45 +126,45 @@ public class MyController implements Controller {
         parameters.weaponType = weaponType;
         parameters.mood = mood;
 
-        SocketChannel socketChannel = client.sendRequest(new Request("remove_lower", gson.toJson(parameters)));
+        Socket socket = client.sendRequest(new Request("remove_lower", parameters));
 
-        if (socketChannel == null) {
+        if (socket == null) {
             return "Не удалось отправить запрос";
         }
 
-        Response response = client.receiveResponse(socketChannel);
+        Response response = client.receiveResponse(socket);
 
-        return parserResponse.parse(response);
+        return response.json();
     }
 
     @Override
     public String save() {
         EmptyParameters parameters = new EmptyParameters();
 
-        SocketChannel socketChannel = client.sendRequest(new Request("save", gson.toJson(parameters)));
+        Socket socket = client.sendRequest(new Request("save", parameters));
 
-        if (socketChannel == null) {
+        if (socket == null) {
             return "Не удалось отправить запрос";
         }
 
-        Response response = client.receiveResponse(socketChannel);
+        Response response = client.receiveResponse(socket);
 
-        return parserResponse.parse(response);
+        return response.json();
     }
 
     @Override
     public String show() {
         EmptyParameters parameters = new EmptyParameters();
 
-        SocketChannel socketChannel = client.sendRequest(new Request("show", gson.toJson(parameters)));
+        Socket socket = client.sendRequest(new Request("show", parameters));
 
-        if (socketChannel == null) {
+        if (socket == null) {
             return "Не удалось отправить запрос";
         }
 
-        Response response = client.receiveResponse(socketChannel);
+        Response response = client.receiveResponse(socket);
 
-        return parserResponse.parse(response);
+        return response.json();
     }
 
     @Override
@@ -186,15 +183,15 @@ public class MyController implements Controller {
         parameters.weaponType = weaponType;
         parameters.mood = mood;
 
-        SocketChannel socketChannel = client.sendRequest(new Request("update", gson.toJson(parameters)));
+        Socket socket = client.sendRequest(new Request("update", parameters));
 
-        if (socketChannel == null) {
+        if (socket == null) {
             return "Не удалось отправить запрос";
         }
 
-        Response response = client.receiveResponse(socketChannel);
+        Response response = client.receiveResponse(socket);
 
-        return parserResponse.parse(response);
+        return response.json();
     }
 
     @Override
@@ -211,15 +208,15 @@ public class MyController implements Controller {
         parameters.weaponType = weaponType;
         parameters.mood = mood;
 
-        SocketChannel socketChannel = client.sendRequest(new Request("add_if_max", gson.toJson(parameters)));
+        Socket socket = client.sendRequest(new Request("add_if_max", parameters));
 
-        if (socketChannel == null) {
+        if (socket == null) {
             return "Не удалось отправить запрос";
         }
 
-        Response response = client.receiveResponse(socketChannel);
+        Response response = client.receiveResponse(socket);
 
-        return parserResponse.parse(response);
+        return response.json();
     }
 
     @Override
@@ -227,15 +224,15 @@ public class MyController implements Controller {
         MoodParameters parameters = new MoodParameters();
         parameters.mood = mood;
 
-        SocketChannel socketChannel = client.sendRequest(new Request("count_by_mood", gson.toJson(parameters)));
+        Socket socket = client.sendRequest(new Request("count_by_mood", parameters));
 
-        if (socketChannel == null) {
+        if (socket == null) {
             return "Не удалось отправить запрос";
         }
 
-        Response response = client.receiveResponse(socketChannel);
+        Response response = client.receiveResponse(socket);
 
-        return parserResponse.parse(response);
+        return response.json();
     }
 
     @Override
@@ -243,44 +240,44 @@ public class MyController implements Controller {
         MoodParameters parameters = new MoodParameters();
         parameters.mood = mood;
 
-        SocketChannel socketChannel = client.sendRequest(new Request("filter_greater_than_mood", gson.toJson(parameters)));
+        Socket socket = client.sendRequest(new Request("filter_greater_than_mood", parameters));
 
-        if (socketChannel == null) {
+        if (socket == null) {
             return "Не удалось отправить запрос";
         }
 
-        Response response = client.receiveResponse(socketChannel);
+        Response response = client.receiveResponse(socket);
 
-        return parserResponse.parse(response);
+        return response.json();
     }
 
     @Override
     public String printAscending() {
         EmptyParameters parameters = new EmptyParameters();
 
-        SocketChannel socketChannel = client.sendRequest(new Request("print_ascending", gson.toJson(parameters)));
+        Socket socket = client.sendRequest(new Request("print_ascending", parameters));
 
-        if (socketChannel == null) {
+        if (socket == null) {
             return "Не удалось отправить запрос";
         }
 
-        Response response = client.receiveResponse(socketChannel);
+        Response response = client.receiveResponse(socket);
 
-        return parserResponse.parse(response);
+        return response.json();
     }
 
     @Override
     public String help() {
         EmptyParameters parameters = new EmptyParameters();
 
-        SocketChannel socketChannel = client.sendRequest(new Request("help", gson.toJson(parameters)));
+        Socket socket = client.sendRequest(new Request("help", parameters));
 
-        if (socketChannel == null) {
+        if (socket == null) {
             return "Не удалось отправить запрос";
         }
 
-        Response response = client.receiveResponse(socketChannel);
+        Response response = client.receiveResponse(socket);
 
-        return parserResponse.parse(response);
+        return response.json();
     }
 }

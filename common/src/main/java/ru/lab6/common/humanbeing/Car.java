@@ -1,6 +1,8 @@
 package ru.lab6.common.humanbeing;
 
-public class Car {
+import java.io.Serializable;
+
+public class Car implements Serializable {
     private String name; //Поле может быть null
 
     public Car(String name) {

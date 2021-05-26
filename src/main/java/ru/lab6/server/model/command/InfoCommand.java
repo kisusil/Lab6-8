@@ -20,6 +20,6 @@ public class InfoCommand implements Command {
         }
 
         CollectionInfo collectionInfo = applicationContext.getRepository().getInfo();
-        return new Response("ok small", collectionInfo.toString());
+        return new Response().setStringResult(collectionInfo.toString());
     }
 }

@@ -1,12 +1,15 @@
 package ru.lab6.common.request;
 
 import com.google.gson.Gson;
+import ru.lab6.common.parameters.Parameters;
 
-public class Request {
+import java.io.Serializable;
+
+public class Request implements Serializable {
     private final String commandName;
-    private final String parameters;
+    private final Parameters parameters;
 
-    public Request(String commandName, String parameters){
+    public Request(String commandName, Parameters parameters){
         this.commandName = commandName;
         this.parameters = parameters;
     }
@@ -19,7 +22,7 @@ public class Request {
         return commandName;
     }
 
-    public String getParameters() {
+    public Parameters getParameters() {
         return parameters;
     }
 }

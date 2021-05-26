@@ -23,9 +23,9 @@ public class SaveCommand implements Command {
         try {
             applicationContext.getCollectionSaver().save(applicationContext.getRepository());
         } catch (CollectionSaverException e) {
-            return new Response("error", e.getMessage());
+            return new Response().setErrorResponse(e.getMessage(),"");
         }
 
-        return new Response("ok small", "Успешное сохранение в файл");
+        return new Response().setEmptyResult();
     }
 }

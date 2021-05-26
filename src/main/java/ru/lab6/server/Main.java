@@ -92,7 +92,7 @@ public class Main {
             server.acceptNewClient();
             Request request = server.receiveRequest();
             Command command = parserRequest.parseCommand(request);
-            Parameters parameters = parserRequest.parseParameters(request);
+            Parameters parameters = request.getParameters();
             Response response = command.execute(parameters);
             logger.info(request.getCommandName());
             server.sendResponse(response);
