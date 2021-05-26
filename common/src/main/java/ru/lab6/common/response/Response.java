@@ -6,31 +6,37 @@ import ru.lab6.common.humanbeing.HumanBeing;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Response implements Serializable {
-    private final String status;
-    private final String description;
+    private String status;
+    private String errorDescription;
+    private List<HumanBeing> elements;
+    private String result;
 
-    public Response(String status, String description) {
-        this.status = status;
-        this.description = description;
+
+    public Response setEmptyResult(){
+        this.status = "ok";
+        return this;
     }
 
-    public Response(List<HumanBeing> list) {
-        this.status = "ok big";
-        Gson gson =  new GsonBuilder()
-                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeJsonSerializer())
-                .create();
-        this.description = gson.toJson(list);
+    public Response setErrorResponse(String errorName, String errorDescription){
+        this.status = errorName;
+        this.errorDescription = errorDescription;
+        return this;
     }
 
-    public String getStatus() {
-        return status;
+    public Response setResultWithCollectionElements(List<HumanBeing> list){
+        this.status = "ok";
+        this.elements = list;
+        return this;
     }
 
-    public String getDescription() {
-        return description;
+    public Response setStringResult(String result){
+        this.status = "ok";
+        this.result = result;
+        return this;
     }
 
     public String json() {

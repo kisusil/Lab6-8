@@ -5,6 +5,7 @@ import ru.lab6.common.humanbeing.Coordinates;
 import ru.lab6.common.humanbeing.Mood;
 import ru.lab6.common.humanbeing.WeaponType;
 import ru.lab6.common.parameters.*;
+import ru.lab6.common.response.Response;
 import ru.lab6.server.model.ApplicationContext;
 
 public class MyController implements Controller {
@@ -16,7 +17,15 @@ public class MyController implements Controller {
 
 
     @Override
-    public String add (String name, Coordinates coordinates, Boolean realHero, boolean hasToothpick, float impactSpeed, Long minutesOfWaiting, WeaponType weaponType, Mood mood, Car car) {
+    public Response add (String name,
+                         Coordinates coordinates,
+                         Boolean realHero,
+                         boolean hasToothpick,
+                         float impactSpeed,
+                         Long minutesOfWaiting,
+                         WeaponType weaponType,
+                         Mood mood,
+                         Car car) {
         CreationParameters parameters = new CreationParameters ();
 
         parameters.name = name;
@@ -29,43 +38,51 @@ public class MyController implements Controller {
         parameters.weaponType = weaponType;
         parameters.mood = mood;
 
-        return applicationContext.getCommands().get("add").execute(parameters).getDescription();
+        return applicationContext.getCommands().get("add").execute(parameters);
     }
 
     @Override
-    public String clear() {
+    public Response clear() {
         EmptyParameters parameters = new EmptyParameters();
 
-        return applicationContext.getCommands().get("clear").execute(parameters).getDescription();
+        return applicationContext.getCommands().get("clear").execute(parameters);
     }
 
     @Override
-    public String executeScript(String fileName) {
+    public Response executeScript(String fileName) {
         ExecuteScriptParameters parameters = new ExecuteScriptParameters();
 
         parameters.fileName = fileName;
 
-        return applicationContext.getCommands().get("executeScript").execute(parameters).getDescription();
+        return applicationContext.getCommands().get("executeScript").execute(parameters);
     }
 
     @Override
-    public String info() {
+    public Response info() {
         EmptyParameters parameters = new EmptyParameters();
 
-        return applicationContext.getCommands().get("info").execute(parameters).getDescription();
+        return applicationContext.getCommands().get("info").execute(parameters);
     }
 
     @Override
-    public String  removeById(int id) {
+    public Response  removeById(int id) {
         IdParameters parameters = new IdParameters();
 
         parameters.id = id;
 
-        return applicationContext.getCommands().get("removeById").execute(parameters).getDescription();
+        return applicationContext.getCommands().get("removeById").execute(parameters);
     }
 
     @Override
-    public String removeLower(String name, Coordinates coordinates, Boolean realHero, boolean hasToothpick, float impactSpeed, Long minutesOfWaiting, WeaponType weaponType, Mood mood, Car car) {
+    public Response removeLower(String name,
+                                Coordinates coordinates,
+                                Boolean realHero,
+                                boolean hasToothpick,
+                                float impactSpeed,
+                                Long minutesOfWaiting,
+                                WeaponType weaponType,
+                                Mood mood,
+                                Car car) {
         CreationParameters parameters = new CreationParameters();
 
         parameters.name = name;
@@ -78,25 +95,25 @@ public class MyController implements Controller {
         parameters.weaponType = weaponType;
         parameters.mood = mood;
 
-        return applicationContext.getCommands().get("removeLower").execute(parameters).getDescription();
+        return applicationContext.getCommands().get("removeLower").execute(parameters);
     }
 
     @Override
-    public String save() {
+    public Response save() {
         EmptyParameters parameters = new EmptyParameters();
 
-        return applicationContext.getCommands().get("save").execute(parameters).getDescription();
+        return applicationContext.getCommands().get("save").execute(parameters);
     }
 
     @Override
-    public String show() {
+    public Response show() {
         EmptyParameters parameters = new EmptyParameters();
 
-        return applicationContext.getCommands().get("show").execute(parameters).getDescription();
+        return applicationContext.getCommands().get("show").execute(parameters);
     }
 
     @Override
-    public String update(int id, String name, Integer coordinateX, double coordinateY, Boolean realHero, boolean hasToothpick, float impactSpeed, Long minutesOfWaiting, WeaponType weaponType, Mood mood, String carName) {
+    public Response update(int id, String name, Integer coordinateX, double coordinateY, Boolean realHero, boolean hasToothpick, float impactSpeed, Long minutesOfWaiting, WeaponType weaponType, Mood mood, String carName) {
         UpdateParameters parameters = new UpdateParameters();
 
         parameters.id = id;
@@ -111,11 +128,19 @@ public class MyController implements Controller {
         parameters.weaponType = weaponType;
         parameters.mood = mood;
 
-        return applicationContext.getCommands().get("update").execute(parameters).getDescription();
+        return applicationContext.getCommands().get("update").execute(parameters);
     }
 
     @Override
-    public String addIfMax(String name, Coordinates coordinates, Boolean realHero, boolean hasToothpick, float impactSpeed, Long minutesOfWaiting, WeaponType weaponType, Mood mood, Car car) {
+    public Response addIfMax(String name,
+                             Coordinates coordinates,
+                             Boolean realHero,
+                             boolean hasToothpick,
+                             float impactSpeed,
+                             Long minutesOfWaiting,
+                             WeaponType weaponType,
+                             Mood mood,
+                             Car car) {
         CreationParameters parameters = new CreationParameters();
 
         parameters.name = name;
@@ -128,36 +153,36 @@ public class MyController implements Controller {
         parameters.weaponType = weaponType;
         parameters.mood = mood;
 
-        return applicationContext.getCommands().get("addIfMax").execute(parameters).getDescription();
+        return applicationContext.getCommands().get("addIfMax").execute(parameters);
     }
 
     @Override
-    public String countByMood(Mood mood) {
+    public Response countByMood(Mood mood) {
         MoodParameters parameters = new MoodParameters();
         parameters.mood = mood;
 
-        return applicationContext.getCommands().get("countByMood").execute(parameters).getDescription();
+        return applicationContext.getCommands().get("countByMood").execute(parameters);
     }
 
     @Override
-    public String filterGreaterThanMood(Mood mood) {
+    public Response filterGreaterThanMood(Mood mood) {
         MoodParameters parameters = new MoodParameters();
         parameters.mood = mood;
 
-        return applicationContext.getCommands().get("filterGreaterThanMood").execute(parameters).getDescription();
+        return applicationContext.getCommands().get("filterGreaterThanMood").execute(parameters);
     }
 
     @Override
-    public String printAscending() {
+    public Response printAscending() {
         EmptyParameters parameters = new EmptyParameters();
 
-        return applicationContext.getCommands().get("printAscending").execute(parameters).getDescription();
+        return applicationContext.getCommands().get("printAscending").execute(parameters);
     }
 
     @Override
-    public String help() {
+    public Response help() {
         EmptyParameters parameters = new EmptyParameters();
 
-        return applicationContext.getCommands().get("help").execute(parameters).getDescription();
+        return applicationContext.getCommands().get("help").execute(parameters);
     }
 }

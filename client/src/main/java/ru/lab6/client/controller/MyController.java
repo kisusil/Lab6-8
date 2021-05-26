@@ -2,7 +2,6 @@ package ru.lab6.client.controller;
 
 import com.google.gson.Gson;
 import ru.lab6.client.Client;
-import ru.lab6.client.ParserResponse;
 import ru.lab6.common.humanbeing.Car;
 import ru.lab6.common.humanbeing.Coordinates;
 import ru.lab6.common.humanbeing.Mood;
@@ -12,16 +11,13 @@ import ru.lab6.common.request.Request;
 import ru.lab6.common.response.Response;
 
 import java.net.Socket;
-import java.nio.channels.SocketChannel;
 
 public class MyController implements Controller {
     private final Client client;
-    private final ParserResponse parserResponse;
     private final Gson gson;
 
-    public MyController(Client client, ParserResponse parserResponse) {
+    public MyController(Client client) {
         this.client = client;
-        this.parserResponse = parserResponse;
         this.gson = new Gson();
     }
 
@@ -48,7 +44,7 @@ public class MyController implements Controller {
 
         Response response = client.receiveResponse(socket);
 
-        return parserResponse.parse(response);
+        return response.json();
     }
 
     @Override
@@ -63,7 +59,7 @@ public class MyController implements Controller {
 
         Response response = client.receiveResponse(socket);
 
-        return parserResponse.parse(response);
+        return response.json();
     }
 
     @Override
@@ -80,7 +76,7 @@ public class MyController implements Controller {
 
         Response response = client.receiveResponse(socket);
 
-        return parserResponse.parse(response);
+        return response.json();
     }
 
     @Override
@@ -95,7 +91,7 @@ public class MyController implements Controller {
 
         Response response = client.receiveResponse(socket);
 
-        return parserResponse.parse(response);
+        return response.json();
     }
 
     @Override
@@ -113,7 +109,7 @@ public class MyController implements Controller {
 
         Response response = client.receiveResponse(socket);
 
-        return parserResponse.parse(response);
+        return response.json();
     }
 
     @Override
@@ -138,7 +134,7 @@ public class MyController implements Controller {
 
         Response response = client.receiveResponse(socket);
 
-        return parserResponse.parse(response);
+        return response.json();
     }
 
     @Override
@@ -153,7 +149,7 @@ public class MyController implements Controller {
 
         Response response = client.receiveResponse(socket);
 
-        return parserResponse.parse(response);
+        return response.json();
     }
 
     @Override
@@ -168,7 +164,7 @@ public class MyController implements Controller {
 
         Response response = client.receiveResponse(socket);
 
-        return parserResponse.parse(response);
+        return response.json();
     }
 
     @Override
@@ -195,7 +191,7 @@ public class MyController implements Controller {
 
         Response response = client.receiveResponse(socket);
 
-        return parserResponse.parse(response);
+        return response.json();
     }
 
     @Override
@@ -220,7 +216,7 @@ public class MyController implements Controller {
 
         Response response = client.receiveResponse(socket);
 
-        return parserResponse.parse(response);
+        return response.json();
     }
 
     @Override
@@ -236,7 +232,7 @@ public class MyController implements Controller {
 
         Response response = client.receiveResponse(socket);
 
-        return parserResponse.parse(response);
+        return response.json();
     }
 
     @Override
@@ -252,7 +248,7 @@ public class MyController implements Controller {
 
         Response response = client.receiveResponse(socket);
 
-        return parserResponse.parse(response);
+        return response.json();
     }
 
     @Override
@@ -267,7 +263,7 @@ public class MyController implements Controller {
 
         Response response = client.receiveResponse(socket);
 
-        return parserResponse.parse(response);
+        return response.json();
     }
 
     @Override
@@ -282,6 +278,6 @@ public class MyController implements Controller {
 
         Response response = client.receiveResponse(socket);
 
-        return parserResponse.parse(response);
+        return response.json();
     }
 }

@@ -16,30 +16,32 @@ public class AddIfMaxCommand implements Command {
     @Override
     public Response execute(Parameters parameters) {
         if (!(parameters instanceof CreationParameters)) {
-            throw new RuntimeException("Что-то пошло не так");
+            return new Response().setErrorResponse("ошибка параметров команды", "");
+        } else {
+            CreationParameters creationParameters = (CreationParameters) parameters;
+
+            HumanBeing humanBeing = applicationContext
+                    .getHumanBeingBuilder()
+                    .generateId()
+                    .setName(creationParameters.name)
+                    .setCar(creationParameters.car)
+                    .setCoordinates(creationParameters.coordinates)
+                    .setHasToothPick(creationParameters.hasToothpick)
+                    .setImpactSpeed(creationParameters.impactSpeed)
+                    .setMinutesOfWaiting(creationParameters.minutesOfWaiting)
+                    .setMood(creationParameters.mood)
+                    .setRealHero(creationParameters.realHero)
+                    .setWeaponType(creationParameters.weaponType)
+                    .build();
+            List<HumanBeing> humanBeings = applicationContext.getRepository().getAll();
+            int indexMax = humanBeings.size() - 1;
+            HumanBeing maxHumanBeing = humanBeings.get(indexMax);
+            if (humanBeing.compareTo(maxHumanBeing) > 0) {
+                applicationContext.getRepository().add(humanBeing);
+                return new Response().setEmptyResult();
+            } else {
+                return new Response().setStringResult("объект не добавлен в коллекцию, так как он не максимальный");
+            }
         }
-
-        CreationParameters creationParameters = (CreationParameters) parameters;
-
-        HumanBeing humanBeing = applicationContext
-                .getHumanBeingBuilder()
-                .generateId()
-                .setName(creationParameters.name)
-                .setCar(creationParameters.car)
-                .setCoordinates(creationParameters.coordinates)
-                .setHasToothPick(creationParameters.hasToothpick)
-                .setImpactSpeed(creationParameters.impactSpeed)
-                .setMinutesOfWaiting(creationParameters.minutesOfWaiting)
-                .setMood(creationParameters.mood)
-                .setRealHero(creationParameters.realHero)
-                .setWeaponType(creationParameters.weaponType)
-                .build();
-        List<HumanBeing> humanBeings = applicationContext.getRepository().getAll();
-        int indexMax = humanBeings.size() - 1;
-        HumanBeing maxHumanBeing = humanBeings.get(indexMax);
-        if (humanBeing.compareTo(maxHumanBeing)>0) {
-            applicationContext.getRepository().add(humanBeing);
-            return new Response("ok small", "Объект успешно добавлен в коллекцию");
-        } else { return new Response("error", "Введенный элемент не максимальный"); }
     }
 }

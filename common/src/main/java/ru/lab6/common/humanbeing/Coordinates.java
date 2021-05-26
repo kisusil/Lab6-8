@@ -1,6 +1,9 @@
 package ru.lab6.common.humanbeing;
 
-public class Coordinates {
+import java.awt.*;
+import java.io.Serializable;
+
+public class Coordinates implements Serializable {
     private Integer x; //Значение поля должно быть больше -475, Поле не может быть null
     private double y; //Значение поля должно быть больше -533
 
