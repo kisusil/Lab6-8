@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Table(name = "human_beings")
 public class HumanBeing implements Comparable<HumanBeing>, Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id; //Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     private String name; //Поле не может быть null, Строка не может быть пустой
 
