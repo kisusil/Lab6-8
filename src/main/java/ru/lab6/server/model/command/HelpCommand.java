@@ -12,7 +12,7 @@ public class HelpCommand implements Command {
             throw new RuntimeException("Что-то пошло не так");
         }
 
-        return new Response("ok small", "help : вывести справку по доступным командам\n" +
+        return new Response().setStringResult("help : вывести справку по доступным командам\n" +
                 "info : вывести в стандартный поток вывода информацию о коллекции (тип, дата инициализации, количество элементов и т.д.)\n" +
                 "show : вывести в стандартный поток вывода все элементы коллекции в строковом представлении\n" +
                 "add {element} : добавить новый элемент в коллекцию\n" +

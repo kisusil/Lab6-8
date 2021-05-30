@@ -15,10 +15,10 @@ public class ClearCommand implements Command {
     @Override
     public Response execute (Parameters parameters) {
         if (!(parameters instanceof EmptyParameters)) {
-            throw new RuntimeException("Что-то пошло не так");
+            return new Response().setErrorResponse("ошибка параметров команды", "");
+        } else {
+            applicationContext.getRepository().deleteAll();
+            return new Response().setEmptyResult();
         }
-
-        applicationContext.getRepository().deleteAll();
-        return new Response("ok small", "Коллекция успешно очищена");
     }
 }

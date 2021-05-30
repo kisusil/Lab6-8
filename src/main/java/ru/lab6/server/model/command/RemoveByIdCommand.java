@@ -25,10 +25,10 @@ public class RemoveByIdCommand implements Command {
         IdParameters idParameters = (IdParameters) parameters;
         try {
             applicationContext.getRepository().delete(idParameters.id);
-            return new Response("ok small", "Объект успешно добавлен");
+            return new Response().setEmptyResult();
         }
         catch (RepositoryException e){
-            return new Response("error", "Человека с таким id не существует");
+            return new Response().setErrorResponse("человека с таким id не существует", "");
         }
     }
 }

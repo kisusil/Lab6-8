@@ -1,5 +1,7 @@
 package ru.lab6.common.parameters;
 
-public class IdParameters implements Parameters{
+import java.io.Serializable;
+
+public class IdParameters implements Parameters, Serializable {
     public int id;
 }
