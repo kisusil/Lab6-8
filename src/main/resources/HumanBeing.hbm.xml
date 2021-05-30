@@ -1,0 +1,30 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name = "ru.lab6.common.humanbeing.HumanBeing" table = "HumanBeings">
+
+        <meta attribute = "class-description">
+            This class contains the collection elements.
+        </meta>
+
+        <id name = "id" type = "int" column = "id">
+            <generator class="native"/>
+        </id>
+
+        <property name = "id" column = "id" type = "int"/>
+        <property name = "name" column = "name" type = "string"/>
+        <property name = "coordinates" column = "coordinates" type = "class"/>
+        <property name = "creationDate" column = "creationDate" type = "date"/>
+        <property name = "realHero" column = "realHero" type = "boolean"/>
+        <property name = "hasToothpick" column = "hasToothpick" type = "boolean"/>
+        <property name = "impactSpeed" column = "impactSpeed" type = "int"/>
+        <property name = "minutesOfWaiting" column = "minutesOfWaiting" type = "int"/>
+        <property name = "weaponType" column = "weaponType" type = "string"/>
+        <property name = "mood" column = "mood" type = "string"/>
+        <property name = "car" column = "car" type = "class"/>
+
+    </class>
+</hibernate-mapping>
