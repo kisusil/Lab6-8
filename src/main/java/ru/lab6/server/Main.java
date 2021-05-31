@@ -32,7 +32,6 @@ public class Main {
             return;
         }
 
-        CollectionSaver collectionSaver = new CollectionSaver(collectionFileName);
         CollectionLoader collectionLoader = new CollectionLoader(io);
         Repository repository;
         try {
@@ -61,7 +60,7 @@ public class Main {
         HumanBeingBuilder humanBeingBuilder = new MyHumanBeingBuilder(maxExistedId + 1);
 
 
-        ApplicationContext applicationContext = new ApplicationContext(humanBeingBuilder, repository, collectionSaver);
+        ApplicationContext applicationContext = new ApplicationContext(humanBeingBuilder, repository, new HumanBeingDaoImpl());
         Controller controller = new MyController(applicationContext);
 
         Map <String, Command> commands = new HashMap<>();

@@ -1,6 +1,6 @@
 package ru.lab6.server.model;
 
-import ru.lab6.server.CollectionSaver;
+import ru.lab6.server.HumanBeingDao;
 import ru.lab6.server.model.command.Command;
 
 import java.util.Map;
@@ -9,17 +9,16 @@ public class ApplicationContext {
     private final HumanBeingBuilder humanBeingBuilder;
     private final Repository repository;
     private Map <String, Command> commands;
-    private final CollectionSaver collectionSaver;
+    private HumanBeingDao humanBeingDao;
 
-    public ApplicationContext(HumanBeingBuilder humanBeingBuilder, Repository repository, CollectionSaver collectionSaver) {
+    public ApplicationContext(HumanBeingBuilder humanBeingBuilder, Repository repository, HumanBeingDao humanBeingDao) {
         this.humanBeingBuilder = humanBeingBuilder;
         this.repository = repository;
-        this.collectionSaver = collectionSaver;
+        this.humanBeingDao = humanBeingDao;
     }
 
-
-    public CollectionSaver getCollectionSaver() {
-        return collectionSaver;
+    public HumanBeingDao getHumanBeingDao(){
+        return humanBeingDao;
     }
 
     public void setCommands(Map<String, Command> commands) {
