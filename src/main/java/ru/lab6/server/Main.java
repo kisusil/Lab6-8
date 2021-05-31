@@ -14,6 +14,7 @@ import ru.lab6.server.model.ApplicationContext;
 import ru.lab6.server.model.collection.HumanBeingBuilder;
 import ru.lab6.server.model.collection.MyHumanBeingBuilder;
 import ru.lab6.server.model.collection.Repository;
+import ru.lab6.server.database.users.UserDaoImpl;
 import ru.lab6.server.model.command.*;
 
 import java.util.HashMap;
@@ -62,7 +63,7 @@ public class Main {
         HumanBeingBuilder humanBeingBuilder = new MyHumanBeingBuilder(maxExistedId + 1);
 
 
-        ApplicationContext applicationContext = new ApplicationContext(humanBeingBuilder, repository, new HumanBeingDaoImpl());
+        ApplicationContext applicationContext = new ApplicationContext(humanBeingBuilder, repository, new UserDaoImpl());
         Controller controller = new MyController(applicationContext);
 
         Map <String, Command> commands = new HashMap<>();

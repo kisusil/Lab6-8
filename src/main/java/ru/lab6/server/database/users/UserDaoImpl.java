@@ -4,7 +4,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import ru.lab6.server.database.HibernateSessionFactoryUtil;
 
-public class USerDaoImpl implements UserDao{
+public class UserDaoImpl implements UserDao{
     public void save(User user) {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         Transaction tx1 = session.beginTransaction();
