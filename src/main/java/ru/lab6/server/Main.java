@@ -33,7 +33,7 @@ public class Main {
         }
 
         CollectionSaver collectionSaver = new CollectionSaver(collectionFileName);
-        CollectionLoader collectionLoader = new CollectionLoader(collectionFileName, io);
+        CollectionLoader collectionLoader = new CollectionLoader(io);
         Repository repository;
         try {
             repository = collectionLoader.load();

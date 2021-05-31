@@ -1,10 +1,13 @@
-package ru.lab6.server.model;
+package ru.lab6.server;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import ru.lab6.common.humanbeing.HumanBeing;
 import ru.lab6.server.io.IO;
+import ru.lab6.server.model.CollectionInfo;
+import ru.lab6.server.model.HumanBeingRepository;
+import ru.lab6.server.model.Repository;
 
 import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
