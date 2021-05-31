@@ -1,4 +1,4 @@
-package ru.lab6.server;
+package ru.lab6.server.database;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;

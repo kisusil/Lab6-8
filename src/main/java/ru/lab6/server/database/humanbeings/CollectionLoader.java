@@ -1,9 +1,10 @@
-package ru.lab6.server;
+package ru.lab6.server.database.humanbeings;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import ru.lab6.common.humanbeing.HumanBeing;
+import ru.lab6.server.database.HibernateSessionFactoryUtil;
 import ru.lab6.server.io.IO;
 import ru.lab6.server.model.CollectionInfo;
 import ru.lab6.server.model.HumanBeingRepository;
@@ -11,7 +12,6 @@ import ru.lab6.server.model.Repository;
 
 import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
-import java.util.List;
 
 public class CollectionLoader {
     private final IO io;

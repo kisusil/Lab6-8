@@ -1,6 +1,6 @@
 package ru.lab6.server.model;
 
-import ru.lab6.server.HumanBeingDao;
+import ru.lab6.server.database.humanbeings.HumanBeingDao;
 import ru.lab6.server.model.command.Command;
 
 import java.util.Map;

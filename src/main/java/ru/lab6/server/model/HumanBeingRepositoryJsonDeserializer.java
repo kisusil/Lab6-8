@@ -1,4 +1,4 @@
-package ru.lab6.server;
+package ru.lab6.server.model;
 
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;

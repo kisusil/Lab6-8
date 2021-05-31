@@ -1,10 +1,10 @@
-package ru.lab6.server;
+package ru.lab6.server.database.humanbeings;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import ru.lab6.common.humanbeing.HumanBeing;
-
-import java.util.List;
+import ru.lab6.server.database.HibernateSessionFactoryUtil;
+import ru.lab6.server.database.humanbeings.HumanBeingDao;
 
 public class HumanBeingDaoImpl implements HumanBeingDao {
     public void save(HumanBeing humanBeing) {
