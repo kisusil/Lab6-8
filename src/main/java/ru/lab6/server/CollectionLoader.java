@@ -30,6 +30,7 @@ public class CollectionLoader {
             id++;
             element = session.get(HumanBeing.class, id);
         }
+        session.close();
         return new HumanBeingRepository(new CollectionInfo("HumanBeing", LocalDateTime.now(), linkedHashSet.size()), linkedHashSet);
     }
 }
