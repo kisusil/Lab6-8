@@ -47,7 +47,9 @@ public class RemoveLowerCommand implements Command {
                 .filter(humanBeing -> newHumanBeing.compareTo(humanBeing) > 0)
                 .forEach(humanBeing -> {
                     try {
-                        applicationContext.getRepository().delete(humanBeing.getId());
+                        int id = humanBeing.getId();
+                        applicationContext.getRepository().delete(id);
+                        applicationContext.getUserDao().removeById(id);
                     } catch (RepositoryException e) {
                         throw new RuntimeException("Что-то пошло не так");
                     }

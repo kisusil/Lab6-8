@@ -33,6 +33,7 @@ public class CountByMoodCommand implements Command {
                             .stream()
                             .filter(humanBeing -> moodParameters.mood == humanBeing.getMood())
                             .count();
+
             return new Response().setStringResult(Long.toString(countByMood));
         }
     }

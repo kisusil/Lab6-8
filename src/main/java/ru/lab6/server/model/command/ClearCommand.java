@@ -15,6 +15,7 @@ public class ClearCommand implements Command {
     @Override
     public Response execute (Parameters parameters) {
         if (!(parameters instanceof EmptyParameters)) {
+            applicationContext.getUserDao().deleteAll();
             return new Response().setErrorResponse("ошибка параметров команды", "");
         } else {
             applicationContext.getRepository().deleteAll();

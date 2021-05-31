@@ -3,7 +3,6 @@ package ru.lab6.server.model.command;
 import ru.lab6.common.parameters.EmptyParameters;
 import ru.lab6.common.parameters.Parameters;
 import ru.lab6.common.response.Response;
-import ru.lab6.server.CollectionSaverException;
 import ru.lab6.server.model.ApplicationContext;
 
 public class SaveCommand implements Command {
@@ -21,8 +20,8 @@ public class SaveCommand implements Command {
         }
 
         try {
-            applicationContext.getCollectionSaver().save(applicationContext.getRepository());
-        } catch (CollectionSaverException e) {
+            applicationContext.getUserDao().saveAll(applicationContext.getRepository().getAll());
+        } catch (Exception e) {
             return new Response().setErrorResponse(e.getMessage(),"");
         }
 

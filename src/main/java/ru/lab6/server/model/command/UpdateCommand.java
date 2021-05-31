@@ -37,6 +37,8 @@ public class UpdateCommand implements Command {
         humanBeing.setName(updateParameters.name);
         humanBeing.setRealHero(updateParameters.realHero);
 
+        applicationContext.getUserDao().update(humanBeing);
+
         return new Response().setEmptyResult();
     }
 }
