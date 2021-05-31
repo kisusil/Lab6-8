@@ -5,7 +5,7 @@ import ru.lab6.common.parameters.Parameters;
 import ru.lab6.common.humanbeing.HumanBeing;
 import ru.lab6.common.response.Response;
 import ru.lab6.server.model.ApplicationContext;
-import ru.lab6.server.model.RepositoryException;
+import ru.lab6.server.model.collection.RepositoryException;
 
 import java.util.List;
 

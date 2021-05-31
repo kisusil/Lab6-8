@@ -1,4 +1,4 @@
-package ru.lab6.server.model;
+package ru.lab6.server.model.collection;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;

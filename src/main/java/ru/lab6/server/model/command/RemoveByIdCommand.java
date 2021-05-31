@@ -4,9 +4,7 @@ import ru.lab6.common.parameters.IdParameters;
 import ru.lab6.common.parameters.Parameters;
 import ru.lab6.common.response.Response;
 import ru.lab6.server.model.ApplicationContext;
-import ru.lab6.server.model.RepositoryException;
-
-import java.awt.image.RescaleOp;
+import ru.lab6.server.model.collection.RepositoryException;
 
 public class RemoveByIdCommand implements Command {
     private final ApplicationContext applicationContext;

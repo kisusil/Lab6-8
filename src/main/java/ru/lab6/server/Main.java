@@ -12,9 +12,9 @@ import ru.lab6.server.database.humanbeings.HumanBeingDaoImpl;
 import ru.lab6.server.io.Console;
 import ru.lab6.server.io.IO;
 import ru.lab6.server.model.ApplicationContext;
-import ru.lab6.server.model.HumanBeingBuilder;
-import ru.lab6.server.model.MyHumanBeingBuilder;
-import ru.lab6.server.model.Repository;
+import ru.lab6.server.model.collection.HumanBeingBuilder;
+import ru.lab6.server.model.collection.MyHumanBeingBuilder;
+import ru.lab6.server.model.collection.Repository;
 import ru.lab6.server.model.command.*;
 
 import java.util.HashMap;

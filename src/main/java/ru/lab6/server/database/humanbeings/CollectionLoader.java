@@ -6,9 +6,9 @@ import org.hibernate.Session;
 import ru.lab6.common.humanbeing.HumanBeing;
 import ru.lab6.server.database.HibernateSessionFactoryUtil;
 import ru.lab6.server.io.IO;
-import ru.lab6.server.model.CollectionInfo;
-import ru.lab6.server.model.HumanBeingRepository;
-import ru.lab6.server.model.Repository;
+import ru.lab6.server.model.collection.CollectionInfo;
+import ru.lab6.server.model.collection.HumanBeingRepository;
+import ru.lab6.server.model.collection.Repository;
 
 import java.time.LocalDateTime;
 import java.util.LinkedHashSet;

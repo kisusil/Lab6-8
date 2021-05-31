@@ -1,4 +1,4 @@
-package ru.lab6.server.model;
+package ru.lab6.server.model.collection;
 
 import ru.lab6.common.humanbeing.HumanBeing;
 

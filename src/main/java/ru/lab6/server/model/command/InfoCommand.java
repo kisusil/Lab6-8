@@ -4,7 +4,7 @@ import ru.lab6.common.parameters.EmptyParameters;
 import ru.lab6.common.parameters.Parameters;
 import ru.lab6.common.response.Response;
 import ru.lab6.server.model.ApplicationContext;
-import ru.lab6.server.model.CollectionInfo;
+import ru.lab6.server.model.collection.CollectionInfo;
 
 public class InfoCommand implements Command {
     private final ApplicationContext applicationContext;
