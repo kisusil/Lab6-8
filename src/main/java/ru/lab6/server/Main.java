@@ -8,7 +8,6 @@ import ru.lab6.server.controller.Controller;
 import ru.lab6.server.controller.MyController;
 import ru.lab6.server.database.humanbeings.CollectionLoader;
 import ru.lab6.server.database.humanbeings.CollectionLoaderException;
-import ru.lab6.server.database.humanbeings.HumanBeingDaoImpl;
 import ru.lab6.server.io.Console;
 import ru.lab6.server.io.IO;
 import ru.lab6.server.model.ApplicationContext;

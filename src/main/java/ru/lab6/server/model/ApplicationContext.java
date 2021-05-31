@@ -1,6 +1,5 @@
 package ru.lab6.server.model;
 
-import ru.lab6.server.database.humanbeings.HumanBeingDao;
 import ru.lab6.server.model.collection.HumanBeingBuilder;
 import ru.lab6.server.model.collection.Repository;
 import ru.lab6.server.model.command.Command;
