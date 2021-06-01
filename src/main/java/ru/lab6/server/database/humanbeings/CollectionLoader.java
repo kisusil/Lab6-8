@@ -11,7 +11,9 @@ import ru.lab6.server.model.collection.HumanBeingRepository;
 import ru.lab6.server.model.collection.Repository;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 
 public class CollectionLoader {
     private final IO io;
@@ -23,8 +25,10 @@ public class CollectionLoader {
 
     public Repository load() throws CollectionLoaderException {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        LinkedHashSet<HumanBeing> linkedHashSet = (LinkedHashSet<HumanBeing>)  session.createQuery("From HumanBeing").list();
+        List<HumanBeing> list = session.createQuery("From HumanBeing").list();
         session.close();
+        LinkedHashSet<HumanBeing> linkedHashSet = new LinkedHashSet<>();
+        linkedHashSet.addAll(list);
         return new HumanBeingRepository(new CollectionInfo("HumanBeing", LocalDateTime.now(), linkedHashSet.size()), linkedHashSet);
     }
 }
