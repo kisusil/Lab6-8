@@ -14,7 +14,6 @@ public class HumanBeing implements Comparable<HumanBeing>, Serializable {
     private int id; //Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     private String name; //Поле не может быть null, Строка не может быть пустой
 
-    private Coordinates coordinates; //Поле не может быть null
     @Column(name = "creation_date")
     private LocalDateTime creationDate; //Поле не может быть null, Значение этого поля должно генерироваться автоматически
     @Column(name = "real_hero")
@@ -28,9 +27,13 @@ public class HumanBeing implements Comparable<HumanBeing>, Serializable {
     @Column(name = "weapon_type")
     private WeaponType weaponType; //Поле может быть null
     private Mood mood; //Поле может быть null
+
+    @OneToOne(mappedBy = "humanBeing", cascade = CascadeType.ALL, orphanRemoval = true)
     private Car car; //Поле может быть null
-    protected HumanBeing() {
-    }
+    @OneToOne(mappedBy = "humanBeing", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Coordinates coordinates; //Поле не может быть null
+
+    protected HumanBeing() {}
 
     public HumanBeing(int id, String name, Coordinates coordinates, LocalDateTime creationDate, Boolean realHero, boolean hasToothpick, float impactSpeed, Long minutesOfWaiting, WeaponType weaponType, Mood mood, Car car) {
         this.id = id;
