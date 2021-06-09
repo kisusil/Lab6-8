@@ -1,6 +1,7 @@
 package ru.lab6.server.model.command;
 
 import ru.lab6.common.parameters.IdParameters;
+import ru.lab6.common.parameters.LoginParameters;
 import ru.lab6.common.parameters.Parameters;
 import ru.lab6.common.response.Response;
 import ru.lab6.server.model.ApplicationContext;
@@ -21,6 +22,16 @@ public class RemoveByIdCommand implements Command {
         }
 
         IdParameters idParameters = (IdParameters) parameters;
+
+        LoginParameters loginParameters = new LoginParameters();
+        loginParameters.login = idParameters.login;
+        loginParameters.password = idParameters.password;
+        Response response = applicationContext.getCommands().get("login").execute(loginParameters);
+
+        if (!response.getStatus().equals("ok")) {
+            return response;
+        }
+
         try {
             applicationContext.getRepository().delete(idParameters.id);
             return new Response().setEmptyResult();

@@ -69,8 +69,8 @@ public class Main {
         Map <String, Command> commands = new HashMap<>();
         commands.put("add", new AddCommand(applicationContext));
         commands.put("clear", new ClearCommand(applicationContext));
-        commands.put("execute_script", new ExecuteScriptCommand(controller));
-        commands.put("help", new HelpCommand());
+        commands.put("execute_script", new ExecuteScriptCommand(controller, applicationContext));
+        commands.put("help", new HelpCommand(applicationContext));
         commands.put("info", new InfoCommand(applicationContext));
         commands.put("remove_by_id", new RemoveByIdCommand(applicationContext));
         commands.put("remove_lower", new RemoveLowerCommand(applicationContext));

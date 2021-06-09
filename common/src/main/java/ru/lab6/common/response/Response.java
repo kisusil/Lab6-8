@@ -42,4 +42,21 @@ public class Response implements Serializable {
     public String json() {
         return new Gson().toJson(this);
     }
+
+
+    public String getStatus() {
+        return status;
+    }
+
+    public String getErrorDescription() {
+        return errorDescription;
+    }
+
+    public List<HumanBeing> getElements() {
+        return elements;
+    }
+
+    public String getResult() {
+        return result;
+    }
 }

@@ -1,15 +1,32 @@
 package ru.lab6.server.model.command;
 
 import ru.lab6.common.parameters.EmptyParameters;
+import ru.lab6.common.parameters.LoginParameters;
 import ru.lab6.common.parameters.Parameters;
 import ru.lab6.common.response.Response;
+import ru.lab6.server.model.ApplicationContext;
 
 public class HelpCommand implements Command {
+    private final ApplicationContext applicationContext;
+
+    public HelpCommand(ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
+    }
 
     @Override
     public Response execute(Parameters parameters) {
         if (!(parameters instanceof EmptyParameters)) {
             throw new RuntimeException("Что-то пошло не так");
+        }
+        EmptyParameters emptyParameters = (EmptyParameters) parameters;
+
+        LoginParameters loginParameters = new LoginParameters();
+        loginParameters.login = emptyParameters.login;
+        loginParameters.password = emptyParameters.password;
+        Response response = applicationContext.getCommands().get("login").execute(loginParameters);
+
+        if (!response.getStatus().equals("ok")) {
+            return response;
         }
 
         return new Response().setStringResult("help : вывести справку по доступным командам\n" +

@@ -1,5 +1,6 @@
 package ru.lab6.server.model.command;
 
+import ru.lab6.common.parameters.LoginParameters;
 import ru.lab6.common.parameters.Parameters;
 import ru.lab6.common.parameters.UpdateParameters;
 import ru.lab6.common.humanbeing.HumanBeing;
@@ -21,6 +22,15 @@ public class UpdateCommand implements Command {
 
         UpdateParameters updateParameters = (UpdateParameters) parameters;
         HumanBeing humanBeing = applicationContext.getRepository().get(updateParameters.id);
+
+        LoginParameters loginParameters = new LoginParameters();
+        loginParameters.login = updateParameters.login;
+        loginParameters.password = updateParameters.password;
+        Response response = applicationContext.getCommands().get("login").execute(loginParameters);
+
+        if (!response.getStatus().equals("ok")) {
+            return response;
+        }
 
         if (humanBeing == null) {
             return new Response().setErrorResponse("человека с таким id не существует", "");
