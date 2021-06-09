@@ -6,12 +6,15 @@ import ru.lab6.common.request.Request;
 import ru.lab6.common.response.Response;
 import ru.lab6.server.controller.Controller;
 import ru.lab6.server.controller.MyController;
+import ru.lab6.server.database.humanbeings.CollectionLoader;
+import ru.lab6.server.database.humanbeings.CollectionLoaderException;
 import ru.lab6.server.io.Console;
 import ru.lab6.server.io.IO;
 import ru.lab6.server.model.ApplicationContext;
-import ru.lab6.server.model.HumanBeingBuilder;
-import ru.lab6.server.model.MyHumanBeingBuilder;
-import ru.lab6.server.model.Repository;
+import ru.lab6.server.model.collection.HumanBeingBuilder;
+import ru.lab6.server.model.collection.MyHumanBeingBuilder;
+import ru.lab6.server.model.collection.Repository;
+import ru.lab6.server.database.users.UserDaoImpl;
 import ru.lab6.server.model.command.*;
 
 import java.util.HashMap;
@@ -32,8 +35,7 @@ public class Main {
             return;
         }
 
-        CollectionSaver collectionSaver = new CollectionSaver(collectionFileName);
-        CollectionLoader collectionLoader = new CollectionLoader(collectionFileName, io);
+        CollectionLoader collectionLoader = new CollectionLoader(io);
         Repository repository;
         try {
             repository = collectionLoader.load();
@@ -61,7 +63,7 @@ public class Main {
         HumanBeingBuilder humanBeingBuilder = new MyHumanBeingBuilder(maxExistedId + 1);
 
 
-        ApplicationContext applicationContext = new ApplicationContext(humanBeingBuilder, repository, collectionSaver);
+        ApplicationContext applicationContext = new ApplicationContext(humanBeingBuilder, repository, new UserDaoImpl());
         Controller controller = new MyController(applicationContext);
 
         Map <String, Command> commands = new HashMap<>();
@@ -92,7 +94,7 @@ public class Main {
             server.acceptNewClient();
             Request request = server.receiveRequest();
             Command command = parserRequest.parseCommand(request);
-            Parameters parameters = parserRequest.parseParameters(request);
+            Parameters parameters = request.getParameters();
             Response response = command.execute(parameters);
             logger.info(request.getCommandName());
             server.sendResponse(response);

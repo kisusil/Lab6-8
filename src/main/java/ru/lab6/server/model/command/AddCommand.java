@@ -16,26 +16,28 @@ public class AddCommand implements Command {
     @Override
     public Response execute (Parameters parameters) {
         if (!(parameters instanceof CreationParameters)) {
-            throw new RuntimeException("Что-то пошло не так");
+            return new Response().setErrorResponse("ошибка параметров команды", "");
+        } else {
+
+            CreationParameters creationParameters = (CreationParameters) parameters;
+
+            HumanBeing humanBeing =
+                    applicationContext
+                            .getHumanBeingBuilder()
+                            .generateId()
+                            .setName(creationParameters.name)
+                            .setCar(creationParameters.car)
+                            .setCoordinates(creationParameters.coordinates)
+                            .setHasToothPick(creationParameters.hasToothpick)
+                            .setImpactSpeed(creationParameters.impactSpeed)
+                            .setMinutesOfWaiting(creationParameters.minutesOfWaiting)
+                            .setMood(creationParameters.mood)
+                            .setRealHero(creationParameters.realHero)
+                            .setWeaponType(creationParameters.weaponType)
+                            .build();
+            applicationContext.getRepository().add(humanBeing);
+            applicationContext.getUserDao().save(humanBeing);
+            return new Response().setEmptyResult();
         }
-
-        CreationParameters creationParameters = (CreationParameters) parameters;
-
-        HumanBeing humanBeing =
-                applicationContext
-                        .getHumanBeingBuilder()
-                        .generateId()
-                        .setName(creationParameters.name)
-                        .setCar(creationParameters.car)
-                        .setCoordinates(creationParameters.coordinates)
-                        .setHasToothPick(creationParameters.hasToothpick)
-                        .setImpactSpeed(creationParameters.impactSpeed)
-                        .setMinutesOfWaiting(creationParameters.minutesOfWaiting)
-                        .setMood(creationParameters.mood)
-                        .setRealHero(creationParameters.realHero)
-                        .setWeaponType(creationParameters.weaponType)
-                        .build();
-        applicationContext.getRepository().add(humanBeing);
-        return new Response("ok small", "Объект успешно добавлен в коллекцию");
     }
 }

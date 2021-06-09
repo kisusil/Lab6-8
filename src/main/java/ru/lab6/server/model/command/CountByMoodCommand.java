@@ -22,18 +22,20 @@ public class CountByMoodCommand implements Command {
     @Override
     public Response execute (Parameters parameters) {
         if (!(parameters instanceof MoodParameters)) {
-            throw new RuntimeException("Что-то пошло не так");
+            return new Response().setErrorResponse("ошибка параметров команды", "");
+        } else {
+
+            MoodParameters moodParameters = (MoodParameters) parameters;
+            List<HumanBeing> humanBeings = applicationContext.getRepository().getAll();
+
+            long countByMood =
+                    humanBeings
+                            .stream()
+                            .filter(humanBeing -> moodParameters.mood == humanBeing.getMood())
+                            .count();
+
+            return new Response().setStringResult(Long.toString(countByMood));
         }
-
-        MoodParameters moodParameters = (MoodParameters) parameters;
-        List<HumanBeing> humanBeings = applicationContext.getRepository().getAll();
-
-        long countByMood =
-                humanBeings
-                    .stream()
-                    .filter(humanBeing -> moodParameters.mood == humanBeing.getMood())
-                    .count();
-        return new Response("ok small", "Коллечиство элементов коллекции с заданным Mood:" + countByMood);
     }
 
 }

@@ -49,7 +49,7 @@ public class FilterGreaterThanMoodCommand implements Command {
         List<HumanBeing> humanBeings = applicationContext.getRepository().getAll();
 
         if (humanBeings.isEmpty()) {
-            return new Response("error", "Коллекция пустая");
+            return new Response().setErrorResponse("пустая коллекция","");
         }
 
         List<HumanBeing> list =
@@ -59,8 +59,8 @@ public class FilterGreaterThanMoodCommand implements Command {
                         .collect(Collectors.toList());
 
         if (list.size()!=0) {
-            return new Response(list);
+            return new Response().setResultWithCollectionElements(list);
         }
-        return new Response("error", "Таких элементов нет");
+        return new Response().setErrorResponse("ошибка", "");
     }
 }

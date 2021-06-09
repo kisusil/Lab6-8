@@ -23,7 +23,7 @@ public class UpdateCommand implements Command {
         HumanBeing humanBeing = applicationContext.getRepository().get(updateParameters.id);
 
         if (humanBeing == null) {
-            return new Response("error", "Человека с таким id не существует");
+            return new Response().setErrorResponse("человека с таким id не существует", "");
         }
 
         humanBeing.getCar().setName(updateParameters.carName);
@@ -37,6 +37,8 @@ public class UpdateCommand implements Command {
         humanBeing.setName(updateParameters.name);
         humanBeing.setRealHero(updateParameters.realHero);
 
-        return new Response("ok small", "Объект успешно изменен");
+        applicationContext.getUserDao().update(humanBeing);
+
+        return new Response().setEmptyResult();
     }
 }
