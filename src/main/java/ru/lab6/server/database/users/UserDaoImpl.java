@@ -71,4 +71,16 @@ public class UserDaoImpl implements UserDao{
         tx1.commit();
         session.close();
     }
+
+    @Override
+    public User get(String login) {
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        Transaction tx1 = session.beginTransaction();
+        User user = session.createNamedQuery("Get_by_login", User.class)
+                .setParameter("login", login)
+                .getSingleResult();
+        tx1.commit();
+        session.close();
+        return user;
+    }
 }
