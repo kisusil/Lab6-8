@@ -81,6 +81,8 @@ public class Main {
         commands.put("count_by_mood", new CountByMoodCommand(applicationContext));
         commands.put("filter_greater_than_mood", new FilterGreaterThanMoodCommand(applicationContext));
         commands.put("print_ascending", new PrintAscendingCommand(applicationContext));
+        commands.put("login", new LoginCommand(applicationContext));
+        commands.put("register", new RegisterCommand(applicationContext));
         logger.info("Комманды инициализированы.");
 
         applicationContext.setCommands(commands);

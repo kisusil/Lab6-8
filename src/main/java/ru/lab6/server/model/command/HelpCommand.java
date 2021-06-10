@@ -44,6 +44,8 @@ public class HelpCommand implements Command {
                 "history : вывести последние 6 команд (без их аргументов)\n" +
                 "count_by_mood mood : вывести количество элементов, значение поля mood которых равно заданному\n" +
                 "filter_greater_than_mood mood : вывести элементы, значение поля mood которых больше заданного\n" +
+                "login login password : войти в систему\n" +
+                "register login password : зарегистрироваться в системе\n" +
                 "print_ascending : вывести элементы коллекции в порядке возрастания");
     }
 }
