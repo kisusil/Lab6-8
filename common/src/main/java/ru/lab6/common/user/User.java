@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "users")
-@NamedQuery(name = "Get_by_login", query = "SELECT u FROM users u WHERE u.login = :login")
+@NamedQuery(name = "Get_by_login", query = "SELECT u FROM User u WHERE u.login = :login")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
