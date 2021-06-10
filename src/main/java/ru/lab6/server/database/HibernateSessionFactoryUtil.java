@@ -5,7 +5,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import ru.lab6.common.humanbeing.Car;
 import ru.lab6.common.humanbeing.HumanBeing;
-import ru.lab6.server.database.users.User;
+import ru.lab6.common.user.User;
 
 public class HibernateSessionFactoryUtil {
     private static SessionFactory sessionFactory;

@@ -17,5 +17,7 @@ public class UpdateParameters implements Parameters, Serializable {
     public Integer coordinateX;
     public double coordinateY;
     public String carName;
+    public String login;
+    public String password;
 
 }

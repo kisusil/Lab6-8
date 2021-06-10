@@ -17,4 +17,6 @@ public class CreationParameters implements Parameters, Serializable {
     public WeaponType weaponType;
     public Mood mood;
     public Car car;
+    public String login;
+    public String password;
 }

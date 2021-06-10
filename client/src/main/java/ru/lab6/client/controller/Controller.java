@@ -20,4 +20,6 @@ public interface Controller {
     String filterGreaterThanMood(Mood mood);
     String printAscending();
     String help();
+    String login(String login, String password);
+    String register(String login, String password);
 }

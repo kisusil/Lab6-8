@@ -1,15 +1,32 @@
 package ru.lab6.server.model.command;
 
 import ru.lab6.common.parameters.EmptyParameters;
+import ru.lab6.common.parameters.LoginParameters;
 import ru.lab6.common.parameters.Parameters;
 import ru.lab6.common.response.Response;
+import ru.lab6.server.model.ApplicationContext;
 
 public class HelpCommand implements Command {
+    private final ApplicationContext applicationContext;
+
+    public HelpCommand(ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
+    }
 
     @Override
     public Response execute(Parameters parameters) {
         if (!(parameters instanceof EmptyParameters)) {
             throw new RuntimeException("Что-то пошло не так");
+        }
+        EmptyParameters emptyParameters = (EmptyParameters) parameters;
+
+        LoginParameters loginParameters = new LoginParameters();
+        loginParameters.login = emptyParameters.login;
+        loginParameters.password = emptyParameters.password;
+        Response response = applicationContext.getCommands().get("login").execute(loginParameters);
+
+        if (!response.getStatus().equals("ok")) {
+            return response;
         }
 
         return new Response().setStringResult("help : вывести справку по доступным командам\n" +
@@ -27,6 +44,8 @@ public class HelpCommand implements Command {
                 "history : вывести последние 6 команд (без их аргументов)\n" +
                 "count_by_mood mood : вывести количество элементов, значение поля mood которых равно заданному\n" +
                 "filter_greater_than_mood mood : вывести элементы, значение поля mood которых больше заданного\n" +
+                "login login password : войти в систему\n" +
+                "register login password : зарегистрироваться в системе\n" +
                 "print_ascending : вывести элементы коллекции в порядке возрастания");
     }
 }

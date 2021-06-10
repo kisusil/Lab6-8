@@ -1,6 +1,7 @@
 package ru.lab6.server.model.command;
 
 import ru.lab6.common.parameters.ExecuteScriptParameters;
+import ru.lab6.common.parameters.LoginParameters;
 import ru.lab6.common.parameters.Parameters;
 import ru.lab6.common.humanbeing.Car;
 import ru.lab6.common.humanbeing.Coordinates;
@@ -8,6 +9,7 @@ import ru.lab6.common.humanbeing.Mood;
 import ru.lab6.common.humanbeing.WeaponType;
 import ru.lab6.common.response.Response;
 import ru.lab6.server.controller.Controller;
+import ru.lab6.server.model.ApplicationContext;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -19,10 +21,13 @@ import java.util.Stack;
 public class ExecuteScriptCommand implements Command {
     private final Controller controller;
     private final Stack <String> stack;
+    private final ApplicationContext applicationContext;
 
-    public ExecuteScriptCommand(Controller controller) {
+    public ExecuteScriptCommand(Controller controller, ApplicationContext applicationContext) {
         this.controller = controller;
+        this.applicationContext = applicationContext;
         this.stack = new Stack<>();
+
     }
 
     @Override
@@ -32,6 +37,15 @@ public class ExecuteScriptCommand implements Command {
         } else {
 
             ExecuteScriptParameters executeScriptParameters = (ExecuteScriptParameters) parameters;
+
+            LoginParameters loginParameters = new LoginParameters();
+            loginParameters.login = executeScriptParameters.login;
+            loginParameters.password = executeScriptParameters.password;
+            Response response = applicationContext.getCommands().get("login").execute(loginParameters);
+
+            if (!response.getStatus().equals("ok")) {
+                return response;
+            }
 
             if (!stack.contains(executeScriptParameters.fileName)) {
                 stack.push(executeScriptParameters.fileName);

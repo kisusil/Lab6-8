@@ -1,6 +1,9 @@
 package ru.lab6.common.humanbeing;
 
 
+import ru.lab6.common.user.User;
+
+import javax.jws.soap.SOAPBinding;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -32,10 +35,12 @@ public class HumanBeing implements Comparable<HumanBeing>, Serializable {
     private Car car; //Поле может быть null
     @OneToOne(mappedBy = "humanBeing", cascade = CascadeType.ALL, orphanRemoval = true)
     private Coordinates coordinates; //Поле не может быть null
+    @OneToOne(mappedBy = "humanBeing", cascade = CascadeType.ALL, orphanRemoval = true)
+    private User user;
 
     protected HumanBeing() {}
 
-    public HumanBeing(int id, String name, Coordinates coordinates, LocalDateTime creationDate, Boolean realHero, boolean hasToothpick, float impactSpeed, Long minutesOfWaiting, WeaponType weaponType, Mood mood, Car car) {
+    public HumanBeing(int id, String name, Coordinates coordinates, LocalDateTime creationDate, Boolean realHero, boolean hasToothpick, float impactSpeed, Long minutesOfWaiting, WeaponType weaponType, Mood mood, Car car, User user) {
         this.id = id;
         this.name = name;
         this.coordinates = coordinates;
@@ -47,6 +52,7 @@ public class HumanBeing implements Comparable<HumanBeing>, Serializable {
         this.weaponType = weaponType;
         this.mood = mood;
         this.car = car;
+        this.user = user;
     }
 
     public boolean isHasToothpick() {
@@ -137,4 +143,8 @@ public class HumanBeing implements Comparable<HumanBeing>, Serializable {
     public void setCar(Car car) {
         this.car = car;
     }
+
+    public User getUser() { return user; }
+
+    public void setUser(User user) { this.user = user; }
 }

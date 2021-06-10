@@ -6,4 +6,6 @@ import java.io.Serializable;
 
 public class MoodParameters implements Parameters, Serializable {
     public Mood mood;
+    public String login;
+    public String password;
 }

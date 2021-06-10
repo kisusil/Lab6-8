@@ -1,6 +1,7 @@
 package ru.lab6.server.model.command;
 
 import ru.lab6.common.parameters.CreationParameters;
+import ru.lab6.common.parameters.LoginParameters;
 import ru.lab6.common.parameters.Parameters;
 import ru.lab6.common.humanbeing.HumanBeing;
 import ru.lab6.common.response.Response;
@@ -23,6 +24,16 @@ public class RemoveLowerCommand implements Command {
         }
 
         CreationParameters creationParameters = (CreationParameters) parameters;
+
+        LoginParameters loginParameters = new LoginParameters();
+        loginParameters.login = creationParameters.login;
+        loginParameters.password = creationParameters.password;
+        Response response = applicationContext.getCommands().get("login").execute(loginParameters);
+
+        if (!response.getStatus().equals("ok")) {
+            return response;
+        }
+
         HumanBeing newHumanBeing = applicationContext
                 .getHumanBeingBuilder()
                 .generateId()
@@ -44,6 +55,7 @@ public class RemoveLowerCommand implements Command {
 
         humanBeings
                 .stream()
+                .filter(humanBeing -> humanBeing.getUser().getLogin().equals(creationParameters.login))
                 .filter(humanBeing -> newHumanBeing.compareTo(humanBeing) > 0)
                 .forEach(humanBeing -> {
                     try {
@@ -58,7 +70,7 @@ public class RemoveLowerCommand implements Command {
         humanBeings = applicationContext.getRepository().getAll();
 
         if (sizeOne > humanBeings.size()){
-            return new Response().setEmptyResult();
+            return new Response().setStringResult("Нет объектов меньше заданного");
         }
 
         return new Response().setEmptyResult();
