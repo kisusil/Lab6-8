@@ -55,6 +55,7 @@ public class RemoveLowerCommand implements Command {
 
         humanBeings
                 .stream()
+                .filter(humanBeing -> humanBeing.getUser().getLogin().equals(creationParameters.login))
                 .filter(humanBeing -> newHumanBeing.compareTo(humanBeing) > 0)
                 .forEach(humanBeing -> {
                     try {
@@ -69,7 +70,7 @@ public class RemoveLowerCommand implements Command {
         humanBeings = applicationContext.getRepository().getAll();
 
         if (sizeOne > humanBeings.size()){
-            return new Response().setEmptyResult();
+            return new Response().setStringResult("Нет объектов меньше заданного");
         }
 
         return new Response().setEmptyResult();

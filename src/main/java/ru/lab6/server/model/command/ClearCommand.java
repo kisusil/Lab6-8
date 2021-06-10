@@ -1,11 +1,15 @@
 package ru.lab6.server.model.command;
 
-import ru.lab6.common.parameters.CreationParameters;
+import ru.lab6.common.humanbeing.HumanBeing;
 import ru.lab6.common.parameters.EmptyParameters;
 import ru.lab6.common.parameters.LoginParameters;
 import ru.lab6.common.parameters.Parameters;
 import ru.lab6.common.response.Response;
 import ru.lab6.server.model.ApplicationContext;
+import ru.lab6.server.model.collection.RepositoryException;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ClearCommand implements Command {
     private final ApplicationContext applicationContext;
@@ -32,7 +36,23 @@ public class ClearCommand implements Command {
                 return response;
             }
 
-            applicationContext.getRepository().deleteAll();
+            List<HumanBeing> humanBeings = applicationContext.getRepository()
+                    .getAll()
+                    .stream()
+                    .filter(humanBeing -> humanBeing.getUser().getLogin().equals(emptyParameters.login))
+                    .collect(Collectors.toList());
+
+            if (humanBeings.isEmpty()) {
+                return new Response().setStringResult("Удалять нечего");
+            }
+
+            for (HumanBeing humanBeing : humanBeings) {
+                try {
+                    applicationContext.getRepository().delete(humanBeing.getId());
+                } catch (RepositoryException e) {
+                    throw  new RuntimeException("Что-то пошло не так (такой ошибки быть не может)");
+                }
+            }
             return new Response().setEmptyResult();
         }
     }

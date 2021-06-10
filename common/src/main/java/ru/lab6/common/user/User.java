@@ -1,4 +1,4 @@
-package ru.lab6.server.database.users;
+package ru.lab6.common.user;
 
 import javax.persistence.*;
 

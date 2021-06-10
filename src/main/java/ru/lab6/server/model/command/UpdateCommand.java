@@ -33,7 +33,12 @@ public class UpdateCommand implements Command {
         }
 
         if (humanBeing == null) {
-            return new Response().setErrorResponse("человека с таким id не существует", "");
+            return new Response().setErrorResponse("Человека с таким id не существует", "");
+        }
+
+
+        if (!humanBeing.getUser().getLogin().equals(loginParameters.login)) {
+            return new Response().setErrorResponse("Вы не можете изменять данный объект", "");
         }
 
         humanBeing.getCar().setName(updateParameters.carName);

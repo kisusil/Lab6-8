@@ -3,7 +3,7 @@ package ru.lab6.server.model.command;
 import ru.lab6.common.parameters.LoginParameters;
 import ru.lab6.common.parameters.Parameters;
 import ru.lab6.common.response.Response;
-import ru.lab6.server.database.users.User;
+import ru.lab6.common.user.User;
 import ru.lab6.server.model.ApplicationContext;
 
 public class RegisterCommand implements Command {

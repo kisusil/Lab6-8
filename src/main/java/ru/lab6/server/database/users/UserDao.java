@@ -1,5 +1,6 @@
 package ru.lab6.server.database.users;
 
+import ru.lab6.common.user.User;
 import ru.lab6.common.humanbeing.HumanBeing;
 
 import java.util.List;

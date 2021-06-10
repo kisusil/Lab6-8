@@ -36,7 +36,7 @@ public class MyController implements Controller {
         parameters.weaponType = weaponType;
         parameters.mood = mood;
 
-        Socket socket = client.sendRequest(new Request("add", parameters));
+        Socket socket = client.sendRequest(new Request("add", parameters, login, password));
 
         if (socket == null) {
             return "Не удалось отправить запрос";
@@ -51,7 +51,7 @@ public class MyController implements Controller {
     public String clear() {
         EmptyParameters parameters = new EmptyParameters();
 
-        Socket socket = client.sendRequest(new Request("clear", parameters));
+        Socket socket = client.sendRequest(new Request("clear", parameters, login, password));
 
         if (socket == null) {
             return "Не удалось отправить запрос";
@@ -68,7 +68,7 @@ public class MyController implements Controller {
 
         parameters.fileName = fileName;
 
-        Socket socket = client.sendRequest(new Request("execute_script", parameters));
+        Socket socket = client.sendRequest(new Request("execute_script", parameters, login, password));
 
         if (socket == null) {
             return "Не удалось отправить запрос";
@@ -83,7 +83,7 @@ public class MyController implements Controller {
     public String info() {
         EmptyParameters parameters = new EmptyParameters();
 
-        Socket socket = client.sendRequest(new Request("info", parameters));
+        Socket socket = client.sendRequest(new Request("info", parameters, login, password));
 
         if (socket == null) {
             return "Не удалось отправить запрос";
@@ -100,7 +100,7 @@ public class MyController implements Controller {
 
         parameters.id = id;
 
-        Socket socket = client.sendRequest(new Request("remove_by_id", parameters));
+        Socket socket = client.sendRequest(new Request("remove_by_id", parameters, login, password));
 
         if (socket == null) {
             return "Не удалось отправить запрос";
@@ -126,7 +126,7 @@ public class MyController implements Controller {
         parameters.weaponType = weaponType;
         parameters.mood = mood;
 
-        Socket socket = client.sendRequest(new Request("remove_lower", parameters));
+        Socket socket = client.sendRequest(new Request("remove_lower", parameters, login, password));
 
         if (socket == null) {
             return "Не удалось отправить запрос";
@@ -141,7 +141,7 @@ public class MyController implements Controller {
     public String save() {
         EmptyParameters parameters = new EmptyParameters();
 
-        Socket socket = client.sendRequest(new Request("save", parameters));
+        Socket socket = client.sendRequest(new Request("save", parameters, login, password));
 
         if (socket == null) {
             return "Не удалось отправить запрос";
@@ -156,7 +156,7 @@ public class MyController implements Controller {
     public String show() {
         EmptyParameters parameters = new EmptyParameters();
 
-        Socket socket = client.sendRequest(new Request("show", parameters));
+        Socket socket = client.sendRequest(new Request("show", parameters, login, password));
 
         if (socket == null) {
             return "Не удалось отправить запрос";
@@ -183,7 +183,7 @@ public class MyController implements Controller {
         parameters.weaponType = weaponType;
         parameters.mood = mood;
 
-        Socket socket = client.sendRequest(new Request("update", parameters));
+        Socket socket = client.sendRequest(new Request("update", parameters, login, password));
 
         if (socket == null) {
             return "Не удалось отправить запрос";
@@ -208,7 +208,7 @@ public class MyController implements Controller {
         parameters.weaponType = weaponType;
         parameters.mood = mood;
 
-        Socket socket = client.sendRequest(new Request("add_if_max", parameters));
+        Socket socket = client.sendRequest(new Request("add_if_max", parameters, login, password));
 
         if (socket == null) {
             return "Не удалось отправить запрос";
@@ -224,7 +224,7 @@ public class MyController implements Controller {
         MoodParameters parameters = new MoodParameters();
         parameters.mood = mood;
 
-        Socket socket = client.sendRequest(new Request("count_by_mood", parameters));
+        Socket socket = client.sendRequest(new Request("count_by_mood", parameters, login, password));
 
         if (socket == null) {
             return "Не удалось отправить запрос";
@@ -240,7 +240,7 @@ public class MyController implements Controller {
         MoodParameters parameters = new MoodParameters();
         parameters.mood = mood;
 
-        Socket socket = client.sendRequest(new Request("filter_greater_than_mood", parameters));
+        Socket socket = client.sendRequest(new Request("filter_greater_than_mood", parameters, login, password));
 
         if (socket == null) {
             return "Не удалось отправить запрос";
@@ -255,7 +255,7 @@ public class MyController implements Controller {
     public String printAscending() {
         EmptyParameters parameters = new EmptyParameters();
 
-        Socket socket = client.sendRequest(new Request("print_ascending", parameters));
+        Socket socket = client.sendRequest(new Request("print_ascending", parameters, login, password));
 
         if (socket == null) {
             return "Не удалось отправить запрос";
@@ -270,7 +270,7 @@ public class MyController implements Controller {
     public String help() {
         EmptyParameters parameters = new EmptyParameters();
 
-        Socket socket = client.sendRequest(new Request("help", parameters));
+        Socket socket = client.sendRequest(new Request("help", parameters, login, password));
 
         if (socket == null) {
             return "Не удалось отправить запрос";
