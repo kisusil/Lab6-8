@@ -5,6 +5,7 @@ import ru.lab6.common.parameters.LoginParameters;
 import ru.lab6.common.parameters.Parameters;
 import ru.lab6.common.humanbeing.HumanBeing;
 import ru.lab6.common.response.Response;
+import ru.lab6.common.user.User;
 import ru.lab6.server.model.ApplicationContext;
 
 import java.util.List;
@@ -30,6 +31,8 @@ public class AddIfMaxCommand implements Command {
                 return response;
             }
 
+            User user = applicationContext.getUserDao().get(creationParameters.login);
+
             HumanBeing humanBeing = applicationContext
                     .getHumanBeingBuilder()
                     .generateId()
@@ -42,6 +45,7 @@ public class AddIfMaxCommand implements Command {
                     .setMood(creationParameters.mood)
                     .setRealHero(creationParameters.realHero)
                     .setWeaponType(creationParameters.weaponType)
+                    .setUser(user)
                     .build();
             List<HumanBeing> humanBeings = applicationContext.getRepository().getAll();
             int indexMax = humanBeings.size() - 1;
