@@ -1,5 +1,7 @@
 package ru.lab6.common.user;
 
+import ru.lab6.common.humanbeing.HumanBeing;
+
 import javax.persistence.*;
 
 @Entity
@@ -11,6 +13,10 @@ public class User {
     private int id;
     private String login;
     private String password;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "humanbeing_id")
+    private HumanBeing humanBeing;
 
     public User(String login, String password) {
         this.login = login;
