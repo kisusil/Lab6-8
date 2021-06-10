@@ -1,6 +1,7 @@
 package ru.lab6.server.model.collection;
 
 import ru.lab6.common.humanbeing.*;
+import ru.lab6.common.user.User;
 
 import java.time.LocalDateTime;
 
@@ -16,6 +17,7 @@ public class MyHumanBeingBuilder implements HumanBeingBuilder {
     private WeaponType weaponType;
     private Mood mood;
     private Car car;
+    private User user;
 
     public MyHumanBeingBuilder(int availableId) {
         this.availableId = availableId;
@@ -25,7 +27,7 @@ public class MyHumanBeingBuilder implements HumanBeingBuilder {
     public HumanBeing build() {
         LocalDateTime creationDate = LocalDateTime.now();
 
-        HumanBeing humanBeing = new HumanBeing (id, name, coordinates, creationDate, realHero, hasToothpick, impactSpeed, minutesOfWaiting, weaponType, mood, car);
+        HumanBeing humanBeing = new HumanBeing (id, name, coordinates, creationDate, realHero, hasToothpick, impactSpeed, minutesOfWaiting, weaponType, mood, car, user);
 
         id = 0;
         name = null;
