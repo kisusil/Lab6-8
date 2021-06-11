@@ -5,6 +5,7 @@ import ru.lab6.common.parameters.LoginParameters;
 import ru.lab6.common.parameters.Parameters;
 import ru.lab6.common.humanbeing.HumanBeing;
 import ru.lab6.common.response.Response;
+import ru.lab6.common.user.User;
 import ru.lab6.server.model.ApplicationContext;
 
 public class AddCommand implements Command {
@@ -30,6 +31,7 @@ public class AddCommand implements Command {
                 return response;
             }
 
+            User user = applicationContext.getUserDao().get(creationParameters.login);
             HumanBeing humanBeing =
                     applicationContext
                             .getHumanBeingBuilder()
@@ -43,6 +45,7 @@ public class AddCommand implements Command {
                             .setMood(creationParameters.mood)
                             .setRealHero(creationParameters.realHero)
                             .setWeaponType(creationParameters.weaponType)
+                            .setUser(user)
                             .build();
             applicationContext.getRepository().add(humanBeing);
             applicationContext.getUserDao().save(humanBeing);

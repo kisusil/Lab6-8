@@ -1,6 +1,7 @@
 package ru.lab6.server.model.collection;
 
 import ru.lab6.common.humanbeing.*;
+import ru.lab6.common.user.User;
 
 public interface HumanBeingBuilder {
     HumanBeing build();
@@ -14,5 +15,6 @@ public interface HumanBeingBuilder {
     HumanBeingBuilder setImpactSpeed(float impactSpeed);
     HumanBeingBuilder setMinutesOfWaiting(Long minutesOfWaiting);
     HumanBeingBuilder setWeaponType(WeaponType weaponType);
+    HumanBeingBuilder setUser(User user);
 
 }

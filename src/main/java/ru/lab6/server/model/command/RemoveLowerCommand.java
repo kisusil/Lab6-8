@@ -5,6 +5,7 @@ import ru.lab6.common.parameters.LoginParameters;
 import ru.lab6.common.parameters.Parameters;
 import ru.lab6.common.humanbeing.HumanBeing;
 import ru.lab6.common.response.Response;
+import ru.lab6.common.user.User;
 import ru.lab6.server.model.ApplicationContext;
 import ru.lab6.server.model.collection.RepositoryException;
 
@@ -34,6 +35,8 @@ public class RemoveLowerCommand implements Command {
             return response;
         }
 
+        User user = applicationContext.getUserDao().get(creationParameters.login);
+
         HumanBeing newHumanBeing = applicationContext
                 .getHumanBeingBuilder()
                 .generateId()
@@ -46,6 +49,7 @@ public class RemoveLowerCommand implements Command {
                 .setMood(creationParameters.mood)
                 .setRealHero(creationParameters.realHero)
                 .setWeaponType(creationParameters.weaponType)
+                .setUser(user)
                 .build();
         List<HumanBeing> humanBeings = applicationContext.getRepository().getAll();
         int sizeOne = humanBeings.size();

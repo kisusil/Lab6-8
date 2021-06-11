@@ -103,4 +103,9 @@ public class MyHumanBeingBuilder implements HumanBeingBuilder {
         this.weaponType = weaponType;
         return this;
     }
+
+    public HumanBeingBuilder setUser(User user) {
+        this.user = user;
+        return this;
+    }
 }
