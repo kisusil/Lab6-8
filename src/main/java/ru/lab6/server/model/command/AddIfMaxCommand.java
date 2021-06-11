@@ -52,7 +52,7 @@ public class AddIfMaxCommand implements Command {
             HumanBeing maxHumanBeing = humanBeings.get(indexMax);
             if (humanBeing.compareTo(maxHumanBeing) > 0) {
                 applicationContext.getRepository().add(humanBeing);
-                applicationContext.getUserDao().save(humanBeing);
+                applicationContext.getHumanBeingDao().save(humanBeing);
                 return new Response().setEmptyResult();
             } else {
                 return new Response().setStringResult("объект не добавлен в коллекцию, так как он не максимальный");

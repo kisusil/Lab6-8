@@ -11,27 +11,13 @@ import java.util.List;
 public class UserDaoImpl implements UserDao{
     public void save(User user) {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        Transaction tx1 = session.beginTransaction();
+        Transaction transaction = session.beginTransaction();
         session.save(user);
-        tx1.commit();
+        transaction.commit();
         session.close();
     }
 
-    public void save(HumanBeing humanBeing) {
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        Transaction tx1 = session.beginTransaction();
-        session.save(humanBeing);
-        tx1.commit();
-        session.close();
-    }
 
-    public void update(HumanBeing humanBeing) {
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        Transaction tx1 = session.beginTransaction();
-        session.update(humanBeing);
-        tx1.commit();
-        session.close();
-    }
 
     public void update(User user) {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
@@ -65,13 +51,6 @@ public class UserDaoImpl implements UserDao{
         session.close();
     }
 
-    public void saveAll(List<HumanBeing> collection) {
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        Transaction tx1 = session.beginTransaction();
-        session.saveOrUpdate(collection);
-        tx1.commit();
-        session.close();
-    }
 
     @Override
     public User get(String login) {
