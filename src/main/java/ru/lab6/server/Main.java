@@ -9,6 +9,7 @@ import ru.lab6.server.controller.MyController;
 import ru.lab6.server.database.humanbeings.CollectionLoader;
 import ru.lab6.server.database.humanbeings.CollectionLoaderException;
 import ru.lab6.server.database.humanbeings.HumanBeingDaoImpl;
+import ru.lab6.server.database.users.JdbcUserDao;
 import ru.lab6.server.io.Console;
 import ru.lab6.server.io.IO;
 import ru.lab6.server.model.ApplicationContext;
@@ -66,7 +67,7 @@ public class Main {
         HumanBeingBuilder humanBeingBuilder = new MyHumanBeingBuilder(maxExistedId + 1);
 
 
-        ApplicationContext applicationContext = new ApplicationContext(humanBeingBuilder, repository, new UserDaoImpl(), new HumanBeingDaoImpl());
+        ApplicationContext applicationContext = new ApplicationContext(humanBeingBuilder, repository, new JdbcUserDao(), new HumanBeingDaoImpl());
         Controller controller = new MyController(applicationContext);
 
         Map <String, Command> commands = new HashMap<>();
