@@ -15,6 +15,7 @@ public class AddCommand implements Command {
         this.applicationContext = applicationContext;
     }
 
+
     @Override
     public Response execute (Parameters parameters) {
         if (!(parameters instanceof CreationParameters)) {
@@ -48,7 +49,7 @@ public class AddCommand implements Command {
                             .setUser(user)
                             .build();
             applicationContext.getRepository().add(humanBeing);
-            applicationContext.getUserDao().save(humanBeing);
+            applicationContext.getHumanBeingDao().save(humanBeing);
             return new Response().setEmptyResult();
         }
     }

@@ -32,7 +32,7 @@ public class SaveCommand implements Command {
         }
 
         try {
-            applicationContext.getUserDao().saveAll(applicationContext.getRepository().getAll());
+            applicationContext.getHumanBeingDao().saveAll(applicationContext.getRepository().getAll());
         } catch (Exception e) {
             return new Response().setErrorResponse(e.getMessage(),"");
         }

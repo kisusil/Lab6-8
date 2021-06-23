@@ -52,7 +52,7 @@ public class UpdateCommand implements Command {
         humanBeing.setName(updateParameters.name);
         humanBeing.setRealHero(updateParameters.realHero);
 
-        applicationContext.getUserDao().update(humanBeing);
+        applicationContext.getHumanBeingDao().update(humanBeing);
 
         return new Response().setEmptyResult();
     }
