@@ -22,7 +22,6 @@ import org.apache.logging.log4j.*;
 
 public class Server {
     private final ServerSocket serverSocket;
-    private Socket socket;
     private final int port;
     private static Logger logger = LogManager.getLogger(Server.class);
 
@@ -31,7 +30,7 @@ public class Server {
         serverSocket = createServerSocket();
     }
 
-    public Request receiveRequest() {
+    public Request receiveRequest(Socket socket) {
         try {
             ObjectInputStream inStream = new ObjectInputStream(socket.getInputStream());
             Request request = (Request) inStream.readObject();
@@ -43,7 +42,7 @@ public class Server {
         }
     }
 
-    public void sendResponse (Response response) {
+    public void sendResponse (Response response, Socket socket) {
         try {
             ObjectOutputStream outStream = new ObjectOutputStream(socket.getOutputStream());
             outStream.writeObject(response);
@@ -66,17 +65,18 @@ public class Server {
         }
     }
 
-    public void acceptNewClient() {
+    public Socket acceptNewClient() {
         try {
-            socket = serverSocket.accept();
+            Socket socket = serverSocket.accept();
             logger.info("Client connected.");
+            return socket;
         } catch (IOException e) {
             logger.error("Error while connecting client.");
             throw new RuntimeException(e);
         }
     }
 
-    public void closeConnection() {
+    public void closeConnection(Socket socket) {
         try {
             socket.close();
             logger.info("Connection stopped.");

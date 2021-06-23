@@ -18,7 +18,7 @@ public class JdbcUserDao implements UserDao {
     }
 
     @Override
-    public void save(User user) {
+    public synchronized void save(User user) {
         String query = String.format("INSERT INTO users(login, password) VALUES('%s', '%s')", user.getLogin(), user.getPassword());
         try {
             Statement statement = connection.createStatement();
@@ -49,7 +49,7 @@ public class JdbcUserDao implements UserDao {
     }
 
     @Override
-    public User get(String login) {
+    public synchronized User get(String login) {
         String query = "SELECT * FROM users WHERE login='" + login + "'";
         ResultSet resultSet;
         try {
