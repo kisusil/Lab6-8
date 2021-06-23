@@ -5,7 +5,9 @@ import ru.lab6.common.humanbeing.Coordinates;
 import ru.lab6.common.humanbeing.Mood;
 import ru.lab6.common.humanbeing.WeaponType;
 
-public class CreationParameters implements Parameters {
+import java.io.Serializable;
+
+public class CreationParameters implements Parameters, Serializable {
     public String name;
     public Coordinates coordinates;
     public Boolean realHero;
@@ -15,4 +17,6 @@ public class CreationParameters implements Parameters {
     public WeaponType weaponType;
     public Mood mood;
     public Car car;
+    public String login;
+    public String password;
 }

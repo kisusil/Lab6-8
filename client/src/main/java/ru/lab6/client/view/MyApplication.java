@@ -225,6 +225,10 @@ public class MyApplication implements Application {
                 String printAscending = controller.printAscending();
                 io.println(printAscending);
                 changeHistory("print_ascending");
+            } else if (line.contains("login")) {
+                doLogin(line);
+            } else if (line.contains("register")) {
+                doRegister(line);
             } else if (line.contains("count_by_mood")) {
                 doCountByMood(line);
             } else if (line.contains("filter_greater_than_mood")) {
@@ -277,6 +281,47 @@ public class MyApplication implements Application {
             }
         }
     }
+
+    private void doLogin(String line) {
+        String login;
+        String password;
+
+        String[] strings = line.split(" ");
+
+        if (strings.length<3) {
+            io.println("Вы забыли ввести login или password");
+            return;
+        }
+
+        login = strings[1];
+        password = strings[2];
+
+        String response = controller.login(login, password);
+        io.println(response);
+        changeHistory("login");
+
+    }
+
+    private void doRegister(String line) {
+        String login;
+        String password;
+
+        String[] strings = line.split(" ");
+
+        if (strings.length<3) {
+            io.println("Вы забыли ввести login или password");
+            return;
+        }
+
+        login = strings[1];
+        password = strings[2];
+
+        String response = controller.register(login, password);
+        io.println(response);
+        changeHistory("register");
+
+    }
+
 
     private void doHistory() {
         if (history.isEmpty()){

@@ -6,22 +6,33 @@ import ru.lab6.common.request.Request;
 import ru.lab6.common.response.Response;
 import ru.lab6.server.controller.Controller;
 import ru.lab6.server.controller.MyController;
+import ru.lab6.server.database.humanbeings.CollectionLoader;
+import ru.lab6.server.database.humanbeings.CollectionLoaderException;
+import ru.lab6.server.database.humanbeings.HumanBeingDaoImpl;
+import ru.lab6.server.database.users.JdbcUserDao;
 import ru.lab6.server.io.Console;
 import ru.lab6.server.io.IO;
 import ru.lab6.server.model.ApplicationContext;
-import ru.lab6.server.model.HumanBeingBuilder;
-import ru.lab6.server.model.MyHumanBeingBuilder;
-import ru.lab6.server.model.Repository;
+import ru.lab6.server.model.collection.HumanBeingBuilder;
+import ru.lab6.server.model.collection.MyHumanBeingBuilder;
+import ru.lab6.server.model.collection.Repository;
+import ru.lab6.server.database.users.UserDaoImpl;
 import ru.lab6.server.model.command.*;
 
+import java.net.Socket;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ForkJoinPool;
 
 import org.apache.logging.log4j.*;
 
 public class Main {
     private static final Logger logger = LogManager.getLogger(Main.class);
+    static final int numOfThreads = Runtime.getRuntime().availableProcessors();
     public static void main (String[] args){
         IO io = new Console(System.in, System.out);
         String collectionFileName = System.getenv("fileName");
@@ -32,8 +43,7 @@ public class Main {
             return;
         }
 
-        CollectionSaver collectionSaver = new CollectionSaver(collectionFileName);
-        CollectionLoader collectionLoader = new CollectionLoader(collectionFileName, io);
+        CollectionLoader collectionLoader = new CollectionLoader(io);
         Repository repository;
         try {
             repository = collectionLoader.load();
@@ -61,14 +71,14 @@ public class Main {
         HumanBeingBuilder humanBeingBuilder = new MyHumanBeingBuilder(maxExistedId + 1);
 
 
-        ApplicationContext applicationContext = new ApplicationContext(humanBeingBuilder, repository, collectionSaver);
+        ApplicationContext applicationContext = new ApplicationContext(humanBeingBuilder, repository, new JdbcUserDao(), new HumanBeingDaoImpl());
         Controller controller = new MyController(applicationContext);
 
         Map <String, Command> commands = new HashMap<>();
         commands.put("add", new AddCommand(applicationContext));
         commands.put("clear", new ClearCommand(applicationContext));
-        commands.put("execute_script", new ExecuteScriptCommand(controller));
-        commands.put("help", new HelpCommand());
+        commands.put("execute_script", new ExecuteScriptCommand(controller, applicationContext));
+        commands.put("help", new HelpCommand(applicationContext));
         commands.put("info", new InfoCommand(applicationContext));
         commands.put("remove_by_id", new RemoveByIdCommand(applicationContext));
         commands.put("remove_lower", new RemoveLowerCommand(applicationContext));
@@ -79,6 +89,8 @@ public class Main {
         commands.put("count_by_mood", new CountByMoodCommand(applicationContext));
         commands.put("filter_greater_than_mood", new FilterGreaterThanMoodCommand(applicationContext));
         commands.put("print_ascending", new PrintAscendingCommand(applicationContext));
+        commands.put("login", new LoginCommand(applicationContext));
+        commands.put("register", new RegisterCommand(applicationContext));
         logger.info("Комманды инициализированы.");
 
         applicationContext.setCommands(commands);
@@ -88,15 +100,26 @@ public class Main {
         Server server = new Server(Integer.parseInt(args[0]));
         logger.info("Сервер запущен.");
 
+        ForkJoinPool forkJoinPool = new ForkJoinPool(numOfThreads);
+        ExecutorService fixedThreadPool = Executors.newFixedThreadPool(numOfThreads);
+
         while (true) {
-            server.acceptNewClient();
-            Request request = server.receiveRequest();
-            Command command = parserRequest.parseCommand(request);
-            Parameters parameters = parserRequest.parseParameters(request);
-            Response response = command.execute(parameters);
-            logger.info(request.getCommandName());
-            server.sendResponse(response);
-            server.closeConnection();
+            Socket socket = server.acceptNewClient();
+            forkJoinPool.execute(() -> {
+                Request request = server.receiveRequest(socket);
+
+                fixedThreadPool.execute(() -> {
+                    Command command = parserRequest.parseCommand(request);
+                    Parameters parameters = request.getParameters();
+                    logger.info(request.getCommandName());
+                    Response response = command.execute(parameters);
+
+                    fixedThreadPool.execute(() -> {
+                        server.sendResponse(response, socket);
+                        server.closeConnection(socket);
+                    });
+                });
+            });
         }
     }
 }

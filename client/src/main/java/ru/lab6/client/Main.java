@@ -10,8 +10,7 @@ public class Main {
     public static void main(String[] args){
         IO io = new Console(System.in, System.out);
         Client client = new Client(Integer.parseInt(args[0]), io);
-        ParserResponse parserResponse = new ParserResponse();
-        Controller controller = new MyController(client, parserResponse);
+        Controller controller = new MyController(client);
         MyApplication app = new MyApplication(io, controller);
         app.start();
     }

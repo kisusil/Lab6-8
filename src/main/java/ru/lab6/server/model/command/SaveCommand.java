@@ -1,9 +1,9 @@
 package ru.lab6.server.model.command;
 
 import ru.lab6.common.parameters.EmptyParameters;
+import ru.lab6.common.parameters.LoginParameters;
 import ru.lab6.common.parameters.Parameters;
 import ru.lab6.common.response.Response;
-import ru.lab6.server.CollectionSaverException;
 import ru.lab6.server.model.ApplicationContext;
 
 public class SaveCommand implements Command {
@@ -20,12 +20,23 @@ public class SaveCommand implements Command {
             throw new RuntimeException("Что-то пошло не так");
         }
 
-        try {
-            applicationContext.getCollectionSaver().save(applicationContext.getRepository());
-        } catch (CollectionSaverException e) {
-            return new Response("error", e.getMessage());
+        EmptyParameters emptyParameters = (EmptyParameters) parameters;
+
+        LoginParameters loginParameters = new LoginParameters();
+        loginParameters.login = emptyParameters.login;
+        loginParameters.password = emptyParameters.password;
+        Response response = applicationContext.getCommands().get("login").execute(loginParameters);
+
+        if (!response.getStatus().equals("ok")) {
+            return response;
         }
 
-        return new Response("ok small", "Успешное сохранение в файл");
+        try {
+            applicationContext.getHumanBeingDao().saveAll(applicationContext.getRepository().getAll());
+        } catch (Exception e) {
+            return new Response().setErrorResponse(e.getMessage(),"");
+        }
+
+        return new Response().setEmptyResult();
     }
 }

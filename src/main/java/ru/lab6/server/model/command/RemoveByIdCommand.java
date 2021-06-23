@@ -1,12 +1,12 @@
 package ru.lab6.server.model.command;
 
+import ru.lab6.common.humanbeing.HumanBeing;
 import ru.lab6.common.parameters.IdParameters;
+import ru.lab6.common.parameters.LoginParameters;
 import ru.lab6.common.parameters.Parameters;
 import ru.lab6.common.response.Response;
 import ru.lab6.server.model.ApplicationContext;
-import ru.lab6.server.model.RepositoryException;
-
-import java.awt.image.RescaleOp;
+import ru.lab6.server.model.collection.RepositoryException;
 
 public class RemoveByIdCommand implements Command {
     private final ApplicationContext applicationContext;
@@ -23,12 +23,32 @@ public class RemoveByIdCommand implements Command {
         }
 
         IdParameters idParameters = (IdParameters) parameters;
+
+        LoginParameters loginParameters = new LoginParameters();
+        loginParameters.login = idParameters.login;
+        loginParameters.password = idParameters.password;
+        Response response = applicationContext.getCommands().get("login").execute(loginParameters);
+
+        if (!response.getStatus().equals("ok")) {
+            return response;
+        }
+
+        HumanBeing humanBeing = applicationContext.getRepository().get(idParameters.id);
+
+        if (humanBeing == null) {
+            return new Response().setErrorResponse("Человека с таким id не существует", "");
+        }
+
+        if (!humanBeing.getUser().getLogin().equals(loginParameters.login)) {
+            return new Response().setErrorResponse("Вы не можете изменять данный объект", "");
+        }
+
         try {
-            applicationContext.getRepository().delete(idParameters.id);
-            return new Response("ok small", "Объект успешно добавлен");
+            applicationContext.getRepository().delete(humanBeing.getId());
+            return new Response().setEmptyResult();
         }
         catch (RepositoryException e){
-            return new Response("error", "Человека с таким id не существует");
+            throw new RuntimeException("Что-то пошло не так (такой ошибки быть не может)");
         }
     }
 }

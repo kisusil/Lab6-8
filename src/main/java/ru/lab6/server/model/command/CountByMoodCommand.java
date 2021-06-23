@@ -1,5 +1,7 @@
 package ru.lab6.server.model.command;
 
+import ru.lab6.common.parameters.CreationParameters;
+import ru.lab6.common.parameters.LoginParameters;
 import ru.lab6.common.parameters.MoodParameters;
 import ru.lab6.common.parameters.Parameters;
 import ru.lab6.common.humanbeing.HumanBeing;
@@ -22,18 +24,29 @@ public class CountByMoodCommand implements Command {
     @Override
     public Response execute (Parameters parameters) {
         if (!(parameters instanceof MoodParameters)) {
-            throw new RuntimeException("Что-то пошло не так");
+            return new Response().setErrorResponse("ошибка параметров команды", "");
+        } else {
+
+            MoodParameters moodParameters = (MoodParameters) parameters;
+            List<HumanBeing> humanBeings = applicationContext.getRepository().getAll();
+
+            LoginParameters loginParameters = new LoginParameters();
+            loginParameters.login = moodParameters.login;
+            loginParameters.password = moodParameters.password;
+            Response response = applicationContext.getCommands().get("login").execute(loginParameters);
+
+            if (!response.getStatus().equals("ok")) {
+                return response;
+            }
+
+            long countByMood =
+                    humanBeings
+                            .stream()
+                            .filter(humanBeing -> moodParameters.mood == humanBeing.getMood())
+                            .count();
+
+            return new Response().setStringResult(Long.toString(countByMood));
         }
-
-        MoodParameters moodParameters = (MoodParameters) parameters;
-        List<HumanBeing> humanBeings = applicationContext.getRepository().getAll();
-
-        long countByMood =
-                humanBeings
-                    .stream()
-                    .filter(humanBeing -> moodParameters.mood == humanBeing.getMood())
-                    .count();
-        return new Response("ok small", "Коллечиство элементов коллекции с заданным Mood:" + countByMood);
     }
 
 }

@@ -1,6 +1,7 @@
 package ru.lab6.server.model.command;
 
 import ru.lab6.common.parameters.ExecuteScriptParameters;
+import ru.lab6.common.parameters.LoginParameters;
 import ru.lab6.common.parameters.Parameters;
 import ru.lab6.common.humanbeing.Car;
 import ru.lab6.common.humanbeing.Coordinates;
@@ -8,6 +9,7 @@ import ru.lab6.common.humanbeing.Mood;
 import ru.lab6.common.humanbeing.WeaponType;
 import ru.lab6.common.response.Response;
 import ru.lab6.server.controller.Controller;
+import ru.lab6.server.model.ApplicationContext;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -19,82 +21,88 @@ import java.util.Stack;
 public class ExecuteScriptCommand implements Command {
     private final Controller controller;
     private final Stack <String> stack;
+    private final ApplicationContext applicationContext;
 
-    public ExecuteScriptCommand(Controller controller) {
+    public ExecuteScriptCommand(Controller controller, ApplicationContext applicationContext) {
         this.controller = controller;
+        this.applicationContext = applicationContext;
         this.stack = new Stack<>();
+
     }
 
     @Override
     public Response execute(Parameters parameters) {
         if (!(parameters instanceof ExecuteScriptParameters)) {
-            throw new RuntimeException("Что-то пошло не так");
-        }
+            return new Response().setErrorResponse("ошибка параметров команды", "");
+        } else {
 
-        ExecuteScriptParameters executeScriptParameters = (ExecuteScriptParameters) parameters;
+            ExecuteScriptParameters executeScriptParameters = (ExecuteScriptParameters) parameters;
 
-        if (!stack.contains(executeScriptParameters.fileName)) {
-            stack.push(executeScriptParameters.fileName);
-        }
-        else {
-            return new Response("error", "Обнаружено зацикливание");
-        }
+            LoginParameters loginParameters = new LoginParameters();
+            loginParameters.login = executeScriptParameters.login;
+            loginParameters.password = executeScriptParameters.password;
+            Response response = applicationContext.getCommands().get("login").execute(loginParameters);
 
-        try (Scanner scanner = new Scanner(new InputStreamReader(new FileInputStream(executeScriptParameters.fileName), StandardCharsets.UTF_8))) {
-            StringBuilder result = new StringBuilder();
-            while (scanner.hasNext()) {
-                String line = scanner.nextLine();
-                if (line.equals("add_if_max")) {
-                   result.append(doAddIfMax(scanner)).append("\n");
-                } else if (line.equals("print_ascending")) {
-                    String printAscending = controller.printAscending();
-                    result.append(printAscending).append("\n");
-                } else if (line.contains("count_by_mood")) {
-                    result.append(doCountByMood(line)).append("\n");
-                } else if (line.contains("filter_greater_than_mood")) {
-                    result.append(doFilterGreaterThanMood(line)).append("\n");
-                } else if (line.equals("add")) {
-                    result.append(doAdd(scanner)).append("\n");
-                } else if (line.equals("clear")) {
-                    String clear = controller.clear();
-                    result.append(clear).append("\n");
-                } else if (line.equals("info")){
-                    String info = controller.info();
-                    result.append(info).append("\n");
-                } else if (line.equals("show")) {
-                    String show = controller.show();
-                    result.append(show).append("\n");
-                } else if (line.equals("help")) {
-                    String help = controller.help();
-                    result.append(help).append("\n");
-                } else if (line.contains("update")) {
-                    result.append(doUpdate(line, scanner)).append("\n");
-                } else if (line.contains("remove_by_id")) {
-                    result.append(doRemoveById(line)).append("\n");
-                } else if (line.contains("remove_lower")) {
-                    result.append(doRemoveLower(scanner)).append("\n");
-                } else if (line.contains("execute_script")){
-                    if (line.length()<16){
-                        throw new ExecuteScriptException("Вы забыли ввести fileName.");
-                    }
-                    String fileName = line.substring(15);
-                    String executeScript = controller.executeScript(fileName);
-                    result.append(executeScript).append("\n");
-                } else {
-                    throw new ExecuteScriptException("Такой команды не существует");
-                }
+            if (!response.getStatus().equals("ok")) {
+                return response;
             }
-            stack.pop();
-            return new Response("ok small", result.toString());
-        } catch (ExecuteScriptException e) {
-            stack.pop();
-            return new Response("error", "Скрипт содержит ошибки. Выполнение скрипта прервано:\n" + e.getMessage());
-        } catch (FileNotFoundException e) {
-            stack.pop();
-            return new Response("error", "Файл с таким именем не существует:\n" + e.getMessage());
-        } catch (Exception e) {
-            stack.pop();
-            return new Response("error", "Непредвиденная ошибка чтения из файла:\n" + e.getMessage());
+
+            if (!stack.contains(executeScriptParameters.fileName)) {
+                stack.push(executeScriptParameters.fileName);
+            } else {
+                return new Response().setErrorResponse("рекурсия", "");
+            }
+
+            try (Scanner scanner = new Scanner(new InputStreamReader(new FileInputStream(executeScriptParameters.fileName), StandardCharsets.UTF_8))) {
+                StringBuilder result = new StringBuilder();
+                while (scanner.hasNext()) {
+                    String line = scanner.nextLine();
+                    if (line.equals("add_if_max")) {
+                        result.append(doAddIfMax(scanner)).append("\n");
+                    } else if (line.equals("print_ascending")) {
+                        return controller.printAscending();
+                    } else if (line.contains("count_by_mood")) {
+                        result.append(doCountByMood(line)).append("\n");
+                    } else if (line.contains("filter_greater_than_mood")) {
+                        result.append(doFilterGreaterThanMood(line)).append("\n");
+                    } else if (line.equals("add")) {
+                        result.append(doAdd(scanner)).append("\n");
+                    } else if (line.equals("clear")) {
+                        return controller.clear();
+                    } else if (line.equals("info")) {
+                        return controller.info();
+                    } else if (line.equals("show")) {
+                        return controller.show();
+                    } else if (line.equals("help")) {
+                        return controller.help();
+                    } else if (line.contains("update")) {
+                        result.append(doUpdate(line, scanner)).append("\n");
+                    } else if (line.contains("remove_by_id")) {
+                        result.append(doRemoveById(line)).append("\n");
+                    } else if (line.contains("remove_lower")) {
+                        result.append(doRemoveLower(scanner)).append("\n");
+                    } else if (line.contains("execute_script")) {
+                        if (line.length() < 16) {
+                            throw new ExecuteScriptException("Вы забыли ввести fileName.");
+                        }
+                        String fileName = line.substring(15);
+                        return controller.executeScript(fileName);
+                    } else {
+                        throw new ExecuteScriptException("Такой команды не существует");
+                    }
+                }
+                stack.pop();
+                return new Response().setStringResult(result.toString());
+            } catch (ExecuteScriptException e) {
+                stack.pop();
+                return new Response().setErrorResponse("ошибка выполнения скрипта", "");
+            } catch (FileNotFoundException e) {
+                stack.pop();
+                return new Response().setErrorResponse("файл не найден", "");
+            } catch (Exception e) {
+                stack.pop();
+                return new Response().setErrorResponse("ошибка", "");
+            }
         }
     }
 
@@ -259,7 +267,7 @@ public class ExecuteScriptCommand implements Command {
         return nameCar;
     }
 
-    private String doAdd(Scanner scanner) throws ExecuteScriptException {
+    private Response doAdd(Scanner scanner) throws ExecuteScriptException {
         String name = readName(scanner);
 
         Boolean realHero = readRealHero(scanner);
@@ -286,7 +294,7 @@ public class ExecuteScriptCommand implements Command {
         return controller.add(name, coordinates, realHero, hasToothpick, impactSpeed, minutesOfWaiting, weaponType, mood, car);
     }
 
-    private String doUpdate(String line, Scanner scanner) throws ExecuteScriptException {
+    private Response doUpdate(String line, Scanner scanner) throws ExecuteScriptException {
         int id;
         if (line.length()<8){
             throw new ExecuteScriptException("Вы забыли ввести id");
@@ -323,7 +331,7 @@ public class ExecuteScriptCommand implements Command {
         return controller.update(id, name, x, y, realHero, hasToothpick, impactSpeed, minutesOfWaiting, weaponType, mood, nameCar);
     }
 
-    private String doRemoveById(String line) throws ExecuteScriptException {
+    private Response doRemoveById(String line) throws ExecuteScriptException {
         int id;
         if (line.length()<14){
             throw new ExecuteScriptException("Вы забыли ввести Id.");
@@ -340,7 +348,7 @@ public class ExecuteScriptCommand implements Command {
         return controller.removeById(id);
     }
 
-    private String doAddIfMax(Scanner scanner) throws ExecuteScriptException {
+    private Response doAddIfMax(Scanner scanner) throws ExecuteScriptException {
         String name = readName(scanner);
 
         Boolean realHero = readRealHero(scanner);
@@ -367,7 +375,7 @@ public class ExecuteScriptCommand implements Command {
         return controller.addIfMax(name, coordinates, realHero, hasToothpick, impactSpeed, minutesOfWaiting, weaponType, mood, car);
     }
 
-    private String doRemoveLower(Scanner scanner) throws ExecuteScriptException {
+    private Response doRemoveLower(Scanner scanner) throws ExecuteScriptException {
         String name = readName(scanner);
 
         Boolean realHero = readRealHero(scanner);
@@ -394,7 +402,7 @@ public class ExecuteScriptCommand implements Command {
         return controller.removeLower(name, coordinates, realHero, hasToothpick, impactSpeed, minutesOfWaiting, weaponType, mood, car);
     }
 
-    private String  doFilterGreaterThanMood(String line) throws ExecuteScriptException {
+    private Response  doFilterGreaterThanMood(String line) throws ExecuteScriptException {
         Mood mood;
         if (line.length()<25){
             throw new ExecuteScriptException("Вы забыли ввести Mood.");
@@ -411,7 +419,7 @@ public class ExecuteScriptCommand implements Command {
         return controller.filterGreaterThanMood(mood);
     }
 
-    private String doCountByMood(String line) throws ExecuteScriptException{
+    private Response doCountByMood(String line) throws ExecuteScriptException{
         Mood mood;
         if (line.length()<14){
             throw new ExecuteScriptException("Вы забыли ввести Mood.");

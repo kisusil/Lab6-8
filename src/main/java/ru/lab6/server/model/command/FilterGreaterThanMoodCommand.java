@@ -1,5 +1,6 @@
 package ru.lab6.server.model.command;
 
+import ru.lab6.common.parameters.LoginParameters;
 import ru.lab6.common.parameters.MoodParameters;
 import ru.lab6.common.parameters.Parameters;
 import ru.lab6.common.humanbeing.HumanBeing;
@@ -48,8 +49,17 @@ public class FilterGreaterThanMoodCommand implements Command {
         MoodParameters moodParameters = (MoodParameters) parameters;
         List<HumanBeing> humanBeings = applicationContext.getRepository().getAll();
 
+        LoginParameters loginParameters = new LoginParameters();
+        loginParameters.login = moodParameters.login;
+        loginParameters.password = moodParameters.password;
+        Response response = applicationContext.getCommands().get("login").execute(loginParameters);
+
+        if (!response.getStatus().equals("ok")) {
+            return response;
+        }
+
         if (humanBeings.isEmpty()) {
-            return new Response("error", "Коллекция пустая");
+            return new Response().setErrorResponse("пустая коллекция","");
         }
 
         List<HumanBeing> list =
@@ -59,8 +69,8 @@ public class FilterGreaterThanMoodCommand implements Command {
                         .collect(Collectors.toList());
 
         if (list.size()!=0) {
-            return new Response(list);
+            return new Response().setResultWithCollectionElements(list);
         }
-        return new Response("error", "Таких элементов нет");
+        return new Response().setErrorResponse("ошибка", "");
     }
 }
