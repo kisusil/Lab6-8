@@ -17,8 +17,6 @@ public class UserDaoImpl implements UserDao{
         session.close();
     }
 
-
-
     public void update(User user) {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         Transaction tx1 = session.beginTransaction();

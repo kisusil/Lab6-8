@@ -8,7 +8,7 @@ import ru.lab6.server.database.HibernateSessionFactoryUtil;
 import java.util.List;
 
 public class HumanBeingDaoImpl implements HumanBeingDao {
-    public void save(HumanBeing humanBeing) {
+    public synchronized void save(HumanBeing humanBeing) {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
         session.save(humanBeing);
@@ -16,7 +16,7 @@ public class HumanBeingDaoImpl implements HumanBeingDao {
         session.close();
     }
 
-    public void update(HumanBeing humanBeing) {
+    public synchronized void update(HumanBeing humanBeing) {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
         session.update(humanBeing);
@@ -24,7 +24,7 @@ public class HumanBeingDaoImpl implements HumanBeingDao {
         session.close();
     }
 
-    public void saveAll(List<HumanBeing> collection) {
+    public synchronized void saveAll(List<HumanBeing> collection) {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
         session.saveOrUpdate(collection);

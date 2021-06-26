@@ -9,6 +9,7 @@ import ru.lab6.server.controller.MyController;
 import ru.lab6.server.database.humanbeings.CollectionLoader;
 import ru.lab6.server.database.humanbeings.CollectionLoaderException;
 import ru.lab6.server.database.humanbeings.HumanBeingDaoImpl;
+import ru.lab6.server.database.users.JdbcUserDao;
 import ru.lab6.server.io.Console;
 import ru.lab6.server.io.IO;
 import ru.lab6.server.model.ApplicationContext;
@@ -18,9 +19,13 @@ import ru.lab6.server.model.collection.Repository;
 import ru.lab6.server.database.users.UserDaoImpl;
 import ru.lab6.server.model.command.*;
 
+import java.net.Socket;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ForkJoinPool;
 
 import org.apache.logging.log4j.*;
@@ -66,7 +71,7 @@ public class Main {
         HumanBeingBuilder humanBeingBuilder = new MyHumanBeingBuilder(maxExistedId + 1);
 
 
-        ApplicationContext applicationContext = new ApplicationContext(humanBeingBuilder, repository, new UserDaoImpl(), new HumanBeingDaoImpl());
+        ApplicationContext applicationContext = new ApplicationContext(humanBeingBuilder, repository, new JdbcUserDao(), new HumanBeingDaoImpl());
         Controller controller = new MyController(applicationContext);
 
         Map <String, Command> commands = new HashMap<>();
@@ -96,20 +101,25 @@ public class Main {
         logger.info("Сервер запущен.");
 
         ForkJoinPool forkJoinPool = new ForkJoinPool(numOfThreads);
+        ExecutorService fixedThreadPool = Executors.newFixedThreadPool(numOfThreads);
 
         while (true) {
-            server.acceptNewClient();
-            Request request = server.receiveRequest();
-            Command command = parserRequest.parseCommand(request);
-            Parameters parameters = request.getParameters();
-            //Task task = new Task(command, parameters);
-            //Response response = forkJoinPool.invoke(task);
-            //System.out.println(response);
-            //System.out.println(forkJoinPool.invoke(task));
-            Response response = command.execute(parameters);
-            logger.info(request.getCommandName());
-            server.sendResponse(response);
-            server.closeConnection();
+            Socket socket = server.acceptNewClient();
+            forkJoinPool.execute(() -> {
+                Request request = server.receiveRequest(socket);
+
+                fixedThreadPool.execute(() -> {
+                    Command command = parserRequest.parseCommand(request);
+                    Parameters parameters = request.getParameters();
+                    logger.info(request.getCommandName());
+                    Response response = command.execute(parameters);
+
+                    fixedThreadPool.execute(() -> {
+                        server.sendResponse(response, socket);
+                        server.closeConnection(socket);
+                    });
+                });
+            });
         }
     }
 }

@@ -19,12 +19,12 @@ public class HumanBeingRepository implements Repository {
         this.linkedHashSet = linkedHashSet;
     }
 
-    public void add(HumanBeing humanBeing) {
+    public synchronized void add(HumanBeing humanBeing) {
         linkedHashSet.add(humanBeing);
         collectionInfo.setSize(collectionInfo.getSize() + 1);
     }
 
-    public void delete(int id) throws RepositoryException {
+    public synchronized void delete(int id) throws RepositoryException {
         HumanBeing humanBeing = get(id);
 
         if (humanBeing != null) {
@@ -35,12 +35,12 @@ public class HumanBeingRepository implements Repository {
         }
     }
 
-    public void deleteAll() {
+    public synchronized void deleteAll() {
         linkedHashSet.clear();
         collectionInfo.setSize(0);
     }
 
-    public HumanBeing get(int id) {
+    public synchronized HumanBeing get(int id) {
         return linkedHashSet
                     .stream()
                     .filter(humanBeing -> humanBeing.getId() == id)
@@ -48,15 +48,13 @@ public class HumanBeingRepository implements Repository {
                     .orElse(null);
     }
 
-    public List<HumanBeing> getAll() {
+    public synchronized List<HumanBeing> getAll() {
         List<HumanBeing> humanBeingList = new ArrayList<>(linkedHashSet);
         Collections.sort(humanBeingList);
         return humanBeingList;
     }
 
-    public CollectionInfo getInfo() {
+    public synchronized CollectionInfo getInfo() {
         return collectionInfo;
     }
-
-
 }
