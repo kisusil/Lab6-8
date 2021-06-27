@@ -1,76 +1,42 @@
 package ru.lab6.server;
 
-import ru.lab6.common.humanbeing.HumanBeing;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ru.lab6.common.parameters.Parameters;
 import ru.lab6.common.request.Request;
 import ru.lab6.common.response.Response;
 import ru.lab6.server.controller.Controller;
 import ru.lab6.server.controller.MyController;
-import ru.lab6.server.database.humanbeings.CollectionLoader;
-import ru.lab6.server.database.humanbeings.CollectionLoaderException;
 import ru.lab6.server.database.humanbeings.HumanBeingDaoImpl;
 import ru.lab6.server.database.users.JdbcUserDao;
 import ru.lab6.server.io.Console;
 import ru.lab6.server.io.IO;
 import ru.lab6.server.model.ApplicationContext;
 import ru.lab6.server.model.collection.HumanBeingBuilder;
+import ru.lab6.server.model.collection.HumanBeingRepository;
 import ru.lab6.server.model.collection.MyHumanBeingBuilder;
 import ru.lab6.server.model.collection.Repository;
-import ru.lab6.server.database.users.UserDaoImpl;
 import ru.lab6.server.model.command.*;
 
 import java.net.Socket;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ForkJoinPool;
-
-import org.apache.logging.log4j.*;
 
 public class Main {
     private static final Logger logger = LogManager.getLogger(Main.class);
     static final int numOfThreads = Runtime.getRuntime().availableProcessors();
     public static void main (String[] args){
         IO io = new Console(System.in, System.out);
-        String collectionFileName = System.getenv("fileName");
-
-        if (collectionFileName == null) {
-            logger.fatal("Переменная окружения не задана");
-            io.println("Переменная окружения не задана");
-            return;
-        }
-
-        CollectionLoader collectionLoader = new CollectionLoader(io);
-        Repository repository;
-        try {
-            repository = collectionLoader.load();
-        } catch (CollectionLoaderException e) {
-            logger.fatal("CollectionLoaderException");
-            io.println(e.getMessage());
-
-            return;
-        }
 
         io.println("Здравствуйте");
         io.println("Программа запущена");
         io.println("");
 
-        List<HumanBeing> humanBeings = repository.getAll();
-        logger.info("Коллекция загружена.");
-
-        int maxExistedId =
-                humanBeings
-                .stream()
-                .mapToInt(HumanBeing::getId)
-                .max()
-                .orElse(0);
-
-        HumanBeingBuilder humanBeingBuilder = new MyHumanBeingBuilder(maxExistedId + 1);
-
-
+        Repository repository = new HumanBeingRepository();
+        HumanBeingBuilder humanBeingBuilder = new MyHumanBeingBuilder(1);
         ApplicationContext applicationContext = new ApplicationContext(humanBeingBuilder, repository, new JdbcUserDao(), new HumanBeingDaoImpl());
         Controller controller = new MyController(applicationContext);
 
