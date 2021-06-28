@@ -31,4 +31,13 @@ public class HumanBeingDaoImpl implements HumanBeingDao {
         transaction.commit();
         session.close();
     }
+
+    public synchronized List<HumanBeing> getAll () {
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+        List<HumanBeing> result = session.createQuery("from HumanBeing").getResultList();
+        transaction.commit();
+        session.close();
+        return result;
+    }
 }

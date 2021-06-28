@@ -12,13 +12,11 @@ import ru.lab6.server.database.users.JdbcUserDao;
 import ru.lab6.server.io.Console;
 import ru.lab6.server.io.IO;
 import ru.lab6.server.model.ApplicationContext;
-import ru.lab6.server.model.collection.HumanBeingBuilder;
-import ru.lab6.server.model.collection.HumanBeingRepository;
-import ru.lab6.server.model.collection.MyHumanBeingBuilder;
-import ru.lab6.server.model.collection.Repository;
+import ru.lab6.server.model.collection.*;
 import ru.lab6.server.model.command.*;
 
 import java.net.Socket;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -38,6 +36,7 @@ public class Main {
         Repository repository = new HumanBeingRepository();
         HumanBeingBuilder humanBeingBuilder = new MyHumanBeingBuilder(1);
         ApplicationContext applicationContext = new ApplicationContext(humanBeingBuilder, repository, new JdbcUserDao(), new HumanBeingDaoImpl());
+        repository.read(applicationContext.getHumanBeingDao().getAll());
         Controller controller = new MyController(applicationContext);
 
         Map <String, Command> commands = new HashMap<>();
