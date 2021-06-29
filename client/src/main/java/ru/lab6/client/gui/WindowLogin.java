@@ -1,4 +1,4 @@
-package ru.lab6.client.loginwindow;
+package ru.lab6.client.gui;
 
 import javafx.application.Application;
 import javafx.geometry.Pos;
@@ -16,8 +16,11 @@ import ru.lab6.client.view.Console;
 import ru.lab6.client.view.IO;
 import ru.lab6.common.response.Response;
 
-public class Window extends Application {
+import java.lang.reflect.Field;
+
+public class WindowLogin extends Application {
     private Controller controller;
+    private Stage stage;
 
 
     @Override
@@ -30,6 +33,8 @@ public class Window extends Application {
 
     @Override
     public void start(Stage stage) {
+        stage.setResizable(false);
+        this.stage = stage;
         stage.setTitle("Hello");
 
         HBox root = new HBox();
@@ -99,6 +104,7 @@ public class Window extends Application {
 
             if (response.getStatus().equalsIgnoreCase("ok")) {
                 // go to table window
+                callMainWindow(controller);
             } else {
                 error.setText(response.getErrorDescription());
             }
@@ -126,7 +132,8 @@ public class Window extends Application {
             Response response = controller.register(login.getText(), password.getText());
 
             if (response.getStatus().equalsIgnoreCase("ok")) {
-                 //go to table window
+                // go to table window
+                 callMainWindow(controller);
             } else {
                 error.setText(response.getErrorDescription());
             }
@@ -137,5 +144,11 @@ public class Window extends Application {
 
     public static void main(String[] args){
         launch(args);
+    }
+
+    public WindowTable callMainWindow(Controller controller){
+        WindowTable windowTable = new WindowTable(controller);
+        windowTable.show(stage);
+        return windowTable;
     }
 }

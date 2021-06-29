@@ -5,13 +5,19 @@ import ru.lab6.common.user.User;
 import java.sql.*;
 
 public class JdbcUserDao implements UserDao {
-    private final Connection connection;
+    private final PreparedStatement saveStatement, getStatement;
 
 
     public JdbcUserDao() {
         try {
             Class.forName("org.postgresql.Driver");
-            connection = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/lab7", "postgres", "111");
+            Connection connection = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/lab7", "postgres", "111");
+
+            String saveQuery = "INSERT INTO users(login, password) VALUES(?, ?)";
+            saveStatement = connection.prepareStatement(saveQuery);
+
+            String getQuery = "SELECT * From users WHERE login=?";
+            getStatement = connection.prepareStatement(getQuery);
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -19,10 +25,10 @@ public class JdbcUserDao implements UserDao {
 
     @Override
     public synchronized void save(User user) {
-        String query = String.format("INSERT INTO users(login, password) VALUES('%s', '%s')", user.getLogin(), user.getPassword());
         try {
-            Statement statement = connection.createStatement();
-            statement.execute(query);
+            saveStatement.setString(1, user.getLogin());
+            saveStatement.setString(2, user.getPassword());
+            saveStatement.execute();
         } catch (SQLException throwables) {
             throw new RuntimeException(throwables);
         }
@@ -50,11 +56,10 @@ public class JdbcUserDao implements UserDao {
 
     @Override
     public synchronized User get(String login) {
-        String query = "SELECT * FROM users WHERE login='" + login + "'";
         ResultSet resultSet;
         try {
-            Statement statement = connection.createStatement();
-            resultSet = statement.executeQuery(query);
+            getStatement.setString(1, login);
+            resultSet = getStatement.executeQuery();
 
             if (!resultSet.next()) {
                 return null;

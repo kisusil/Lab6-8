@@ -5,7 +5,7 @@ import ru.lab6.common.user.User;
 
 public interface HumanBeingBuilder {
     HumanBeing build();
-    HumanBeingBuilder generateId();
+    //HumanBeingBuilder generateId();
     HumanBeingBuilder setName(String name);
     HumanBeingBuilder setMood(Mood mood);
     HumanBeingBuilder setCar(Car car);

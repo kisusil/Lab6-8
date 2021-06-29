@@ -8,4 +8,6 @@ public interface HumanBeingDao {
     void save(HumanBeing humanBeing);
     void update(HumanBeing humanBeing);
     void saveAll(List<HumanBeing> collection);
+    HumanBeing get(String name);
+    List<HumanBeing> getAll();
 }
