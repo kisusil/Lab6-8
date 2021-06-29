@@ -6,8 +6,8 @@ import ru.lab6.common.user.User;
 import java.time.LocalDateTime;
 
 public class MyHumanBeingBuilder implements HumanBeingBuilder {
-    private int availableId;
-    private int id;
+    //private int availableId;
+    //private int id;
     private String name;
     private Coordinates coordinates;
     private Boolean realHero;
@@ -19,17 +19,13 @@ public class MyHumanBeingBuilder implements HumanBeingBuilder {
     private Car car;
     private User user;
 
-    public MyHumanBeingBuilder(int availableId) {
-        this.availableId = availableId;
-    }
-
     @Override
     public HumanBeing build() {
         LocalDateTime creationDate = LocalDateTime.now();
 
-        HumanBeing humanBeing = new HumanBeing (id, name, coordinates, creationDate, realHero, hasToothpick, impactSpeed, minutesOfWaiting, weaponType, mood, car, user);
+        HumanBeing humanBeing = new HumanBeing (name, coordinates, creationDate, realHero, hasToothpick, impactSpeed, minutesOfWaiting, weaponType, mood, car, user);
 
-        id = 0;
+        //id = 0;
         name = null;
         coordinates = null;
         realHero = null;
@@ -42,13 +38,14 @@ public class MyHumanBeingBuilder implements HumanBeingBuilder {
 
         return humanBeing;
     }
-
+    /*
     @Override
     public HumanBeingBuilder generateId() {
         id = availableId;
         availableId++;
         return this;
     }
+     */
 
     @Override
     public HumanBeingBuilder setName(String name) {

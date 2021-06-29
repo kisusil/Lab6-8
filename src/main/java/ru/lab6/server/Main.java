@@ -34,7 +34,7 @@ public class Main {
         io.println("");
 
         Repository repository = new HumanBeingRepository();
-        HumanBeingBuilder humanBeingBuilder = new MyHumanBeingBuilder(1);
+        HumanBeingBuilder humanBeingBuilder = new MyHumanBeingBuilder();
         ApplicationContext applicationContext = new ApplicationContext(humanBeingBuilder, repository, new JdbcUserDao(), new HumanBeingDaoImpl());
         repository.read(applicationContext.getHumanBeingDao().getAll());
         Controller controller = new MyController(applicationContext);

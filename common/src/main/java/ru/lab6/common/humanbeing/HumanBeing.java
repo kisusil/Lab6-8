@@ -40,8 +40,7 @@ public class HumanBeing implements Comparable<HumanBeing>, Serializable {
 
     protected HumanBeing() {}
 
-    public HumanBeing(int id, String name, Coordinates coordinates, LocalDateTime creationDate, Boolean realHero, boolean hasToothpick, float impactSpeed, Long minutesOfWaiting, WeaponType weaponType, Mood mood, Car car, User user) {
-        this.id = id;
+    public HumanBeing(String name, Coordinates coordinates, LocalDateTime creationDate, Boolean realHero, boolean hasToothpick, float impactSpeed, Long minutesOfWaiting, WeaponType weaponType, Mood mood, Car car, User user) {
         this.name = name;
         this.coordinates = coordinates;
         this.creationDate = creationDate;
