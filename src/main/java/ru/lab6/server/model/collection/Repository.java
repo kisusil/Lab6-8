@@ -10,5 +10,6 @@ public interface Repository {
     void deleteAll();
     HumanBeing get(int id);
     List<HumanBeing> getAll();
+    void read(List<HumanBeing> collection);
     CollectionInfo getInfo();
 }

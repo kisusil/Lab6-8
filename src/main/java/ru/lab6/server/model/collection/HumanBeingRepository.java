@@ -54,6 +54,11 @@ public class HumanBeingRepository implements Repository {
         return humanBeingList;
     }
 
+    @Override
+    public void read(List<HumanBeing> collection) {
+        this.linkedHashSet.addAll(collection);
+    }
+
     public synchronized CollectionInfo getInfo() {
         return collectionInfo;
     }

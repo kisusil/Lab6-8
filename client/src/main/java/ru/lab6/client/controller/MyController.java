@@ -24,7 +24,7 @@ public class MyController implements Controller {
     }
 
     @Override
-    public String register(String login, String password) {
+    public Response register(String login, String password) {
 
         LoginParameters parameters = new LoginParameters ();
 
@@ -34,7 +34,9 @@ public class MyController implements Controller {
         Socket socket = client.sendRequest(new Request("register", parameters, login, password));
 
         if (socket == null) {
-            return "Не удалось отправить запрос";
+            Response response = new Response();
+            response.setErrorResponse("error", "Server is unavailable");
+            return response;
         }
 
         Response response = client.receiveResponse(socket);
@@ -44,11 +46,11 @@ public class MyController implements Controller {
             this.password = password;
         }
 
-        return response.json();
+        return response;
     }
 
     @Override
-    public String login(String login, String password) {
+    public Response login(String login, String password) {
 
         LoginParameters parameters = new LoginParameters ();
 
@@ -58,7 +60,9 @@ public class MyController implements Controller {
         Socket socket = client.sendRequest(new Request("login", parameters, login, password));
 
         if (socket == null) {
-            return "Не удалось отправить запрос";
+            Response response = new Response();
+            response.setErrorResponse("error", "Server is unavailable");
+            return response;
         }
 
         Response response = client.receiveResponse(socket);
@@ -68,11 +72,11 @@ public class MyController implements Controller {
             this.password = password;
         }
 
-        return response.json();
+        return response;
     }
 
     @Override
-    public String add (String name, Coordinates coordinates, Boolean realHero, boolean hasToothpick, float impactSpeed, Long minutesOfWaiting, WeaponType weaponType, Mood mood, Car car) {
+    public Response add (String name, Coordinates coordinates, Boolean realHero, boolean hasToothpick, float impactSpeed, Long minutesOfWaiting, WeaponType weaponType, Mood mood, Car car) {
         CreationParameters parameters = new CreationParameters ();
 
         parameters.name = name;
@@ -90,16 +94,18 @@ public class MyController implements Controller {
         Socket socket = client.sendRequest(new Request("add", parameters, login, password));
 
         if (socket == null) {
-            return "Не удалось отправить запрос";
+            Response response = new Response();
+            response.setErrorResponse("error", "Server is unavailable");
+            return response;
         }
 
         Response response = client.receiveResponse(socket);
 
-        return response.json();
+        return response;
     }
 
     @Override
-    public String clear() {
+    public Response clear() {
         EmptyParameters parameters = new EmptyParameters();
 
         parameters.login = login;
@@ -108,16 +114,18 @@ public class MyController implements Controller {
         Socket socket = client.sendRequest(new Request("clear", parameters, login, password));
 
         if (socket == null) {
-            return "Не удалось отправить запрос";
+            Response response = new Response();
+            response.setErrorResponse("error", "Server is unavailable");
+            return response;
         }
 
         Response response = client.receiveResponse(socket);
 
-        return response.json();
+        return response;
     }
 
     @Override
-    public String executeScript(String fileName) {
+    public Response executeScript(String fileName) {
         ExecuteScriptParameters parameters = new ExecuteScriptParameters();
 
         parameters.fileName = fileName;
@@ -127,16 +135,18 @@ public class MyController implements Controller {
         Socket socket = client.sendRequest(new Request("execute_script", parameters, login, password));
 
         if (socket == null) {
-            return "Не удалось отправить запрос";
+            Response response = new Response();
+            response.setErrorResponse("error", "Server is unavailable");
+            return response;
         }
 
         Response response = client.receiveResponse(socket);
 
-        return response.json();
+        return response;
     }
 
     @Override
-    public String info() {
+    public Response info() {
         EmptyParameters parameters = new EmptyParameters();
 
         parameters.login = login;
@@ -145,16 +155,18 @@ public class MyController implements Controller {
         Socket socket = client.sendRequest(new Request("info", parameters, login, password));
 
         if (socket == null) {
-            return "Не удалось отправить запрос";
+            Response response = new Response();
+            response.setErrorResponse("error", "Server is unavailable");
+            return response;
         }
 
         Response response = client.receiveResponse(socket);
 
-        return response.json();
+        return response;
     }
 
     @Override
-    public String  removeById(int id) {
+    public Response  removeById(int id) {
         IdParameters parameters = new IdParameters();
 
         parameters.id = id;
@@ -164,17 +176,19 @@ public class MyController implements Controller {
         Socket socket = client.sendRequest(new Request("remove_by_id", parameters, login, password));
 
         if (socket == null) {
-            return "Не удалось отправить запрос";
+            Response response = new Response();
+            response.setErrorResponse("error", "Server is unavailable");
+            return response;
         }
 
 
         Response response = client.receiveResponse(socket);
 
-        return response.json();
+        return response;
     }
 
     @Override
-    public String removeLower(String name, Coordinates coordinates, Boolean realHero, boolean hasToothpick, float impactSpeed, Long minutesOfWaiting, WeaponType weaponType, Mood mood, Car car) {
+    public Response removeLower(String name, Coordinates coordinates, Boolean realHero, boolean hasToothpick, float impactSpeed, Long minutesOfWaiting, WeaponType weaponType, Mood mood, Car car) {
         CreationParameters parameters = new CreationParameters();
 
         parameters.name = name;
@@ -192,16 +206,18 @@ public class MyController implements Controller {
         Socket socket = client.sendRequest(new Request("remove_lower", parameters, login, password));
 
         if (socket == null) {
-            return "Не удалось отправить запрос";
+            Response response = new Response();
+            response.setErrorResponse("error", "Server is unavailable");
+            return response;
         }
 
         Response response = client.receiveResponse(socket);
 
-        return response.json();
+        return response;
     }
 
     @Override
-    public String save() {
+    public Response save() {
         EmptyParameters parameters = new EmptyParameters();
 
         parameters.login = login;
@@ -210,16 +226,18 @@ public class MyController implements Controller {
         Socket socket = client.sendRequest(new Request("save", parameters, login, password));
 
         if (socket == null) {
-            return "Не удалось отправить запрос";
+            Response response = new Response();
+            response.setErrorResponse("error", "Server is unavailable");
+            return response;
         }
 
         Response response = client.receiveResponse(socket);
 
-        return response.json();
+        return response;
     }
 
     @Override
-    public String show() {
+    public Response show() {
         EmptyParameters parameters = new EmptyParameters();
 
         parameters.login = login;
@@ -228,16 +246,18 @@ public class MyController implements Controller {
         Socket socket = client.sendRequest(new Request("show", parameters, login, password));
 
         if (socket == null) {
-            return "Не удалось отправить запрос";
+            Response response = new Response();
+            response.setErrorResponse("error", "Server is unavailable");
+            return response;
         }
 
         Response response = client.receiveResponse(socket);
 
-        return response.json();
+        return response;
     }
 
     @Override
-    public String update(int id, String name, Integer coordinateX, double coordinateY, Boolean realHero, boolean hasToothpick, float impactSpeed, Long minutesOfWaiting, WeaponType weaponType, Mood mood, String carName) {
+    public Response update(int id, String name, Integer coordinateX, double coordinateY, Boolean realHero, boolean hasToothpick, float impactSpeed, Long minutesOfWaiting, WeaponType weaponType, Mood mood, String carName) {
         UpdateParameters parameters = new UpdateParameters();
 
         parameters.id = id;
@@ -257,16 +277,18 @@ public class MyController implements Controller {
         Socket socket = client.sendRequest(new Request("update", parameters, login, password));
 
         if (socket == null) {
-            return "Не удалось отправить запрос";
+            Response response = new Response();
+            response.setErrorResponse("error", "Server is unavailable");
+            return response;
         }
 
         Response response = client.receiveResponse(socket);
 
-        return response.json();
+        return response;
     }
 
     @Override
-    public String addIfMax(String name, Coordinates coordinates, Boolean realHero, boolean hasToothpick, float impactSpeed, Long minutesOfWaiting, WeaponType weaponType, Mood mood, Car car) {
+    public Response addIfMax(String name, Coordinates coordinates, Boolean realHero, boolean hasToothpick, float impactSpeed, Long minutesOfWaiting, WeaponType weaponType, Mood mood, Car car) {
         CreationParameters parameters = new CreationParameters();
 
         parameters.name = name;
@@ -284,16 +306,18 @@ public class MyController implements Controller {
         Socket socket = client.sendRequest(new Request("add_if_max", parameters, login, password));
 
         if (socket == null) {
-            return "Не удалось отправить запрос";
+            Response response = new Response();
+            response.setErrorResponse("error", "Server is unavailable");
+            return response;
         }
 
         Response response = client.receiveResponse(socket);
 
-        return response.json();
+        return response;
     }
 
     @Override
-    public String countByMood(Mood mood) {
+    public Response countByMood(Mood mood) {
         MoodParameters parameters = new MoodParameters();
         parameters.mood = mood;
         parameters.login = login;
@@ -302,16 +326,18 @@ public class MyController implements Controller {
         Socket socket = client.sendRequest(new Request("count_by_mood", parameters, login, password));
 
         if (socket == null) {
-            return "Не удалось отправить запрос";
+            Response response = new Response();
+            response.setErrorResponse("error", "Server is unavailable");
+            return response;
         }
 
         Response response = client.receiveResponse(socket);
 
-        return response.json();
+        return response;
     }
 
     @Override
-    public String filterGreaterThanMood(Mood mood) {
+    public Response filterGreaterThanMood(Mood mood) {
         MoodParameters parameters = new MoodParameters();
         parameters.mood = mood;
         parameters.login = login;
@@ -320,16 +346,18 @@ public class MyController implements Controller {
         Socket socket = client.sendRequest(new Request("filter_greater_than_mood", parameters, login, password));
 
         if (socket == null) {
-            return "Не удалось отправить запрос";
+            Response response = new Response();
+            response.setErrorResponse("error", "Server is unavailable");
+            return response;
         }
 
         Response response = client.receiveResponse(socket);
 
-        return response.json();
+        return response;
     }
 
     @Override
-    public String printAscending() {
+    public Response printAscending() {
         EmptyParameters parameters = new EmptyParameters();
 
         parameters.login = login;
@@ -338,16 +366,18 @@ public class MyController implements Controller {
         Socket socket = client.sendRequest(new Request("print_ascending", parameters, login, password));
 
         if (socket == null) {
-            return "Не удалось отправить запрос";
+            Response response = new Response();
+            response.setErrorResponse("error", "Server is unavailable");
+            return response;
         }
 
         Response response = client.receiveResponse(socket);
 
-        return response.json();
+        return response;
     }
 
     @Override
-    public String help() {
+    public Response help() {
         EmptyParameters parameters = new EmptyParameters();
 
         parameters.login = login;
@@ -356,11 +386,13 @@ public class MyController implements Controller {
         Socket socket = client.sendRequest(new Request("help", parameters, login, password));
 
         if (socket == null) {
-            return "Не удалось отправить запрос";
+            Response response = new Response();
+            response.setErrorResponse("error", "Server is unavailable");
+            return response;
         }
 
         Response response = client.receiveResponse(socket);
 
-        return response.json();
+        return response;
     }
 }
