@@ -1,12 +1,15 @@
 package ru.lab6.client.gui;
 
-import javafx.geometry.Insets;
+import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import ru.lab6.client.controller.Controller;
@@ -16,37 +19,52 @@ import ru.lab6.client.repository.TableContent;
 import java.util.List;
 
 
-public class WindowTable{
+public class MainWindow {
     private Controller controller;
     private TableContent tableContent;
+    private Canvas canvas;
 
-    public WindowTable(Controller controller){
+    public MainWindow(Controller controller){
         this.controller = controller;
         this.tableContent = new TableContent(controller);
-        tableContent.updateState();
     }
 
     public void show(Stage stage) {
-        Pane createPane = new CreationPane(controller, tableContent).getPane();
+        Pane createPane = new CreationPane(controller, this).getPane();
         Pane tablePane = createTablePane();
 
-        GridPane root = new GridPane();
+        VBox canvasRoot = new VBox();
+        canvas = new Canvas();
+        canvas.setHeight(600);
+        canvas.setWidth(1000);
+        canvasRoot.setAlignment(Pos.CENTER);
+        VBox.setVgrow(canvas, Priority.ALWAYS);
+        canvasRoot.getChildren().add(canvas);
+
+        GridPane tableRoot = new GridPane();
         ColumnConstraints columnConstraints = new ColumnConstraints();
         columnConstraints.setPercentWidth(30.0);
-        root.getColumnConstraints().add(columnConstraints);
-        root.setGridLinesVisible(true);
-        root.addColumn(0, createPane);
+        tableRoot.getColumnConstraints().add(columnConstraints);
+        tableRoot.setGridLinesVisible(true);
+        tableRoot.addColumn(0, createPane);
 
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setContent(tablePane);
 
-        root.addColumn(1, scrollPane);
+        tableRoot.addColumn(1, scrollPane);
+
+        Tab tableTab = new Tab("Table");
+        tableTab.setContent(tableRoot);
+        Tab canvasTab = new Tab("Canvas");
+        canvasTab.setContent(canvasRoot);
+        TabPane tabPane = new TabPane(tableTab, canvasTab);
 
         stage.setTitle("Lab 8");
-        stage.setScene(new Scene(root, 1500, 600));
+        stage.setScene(new Scene(tabPane, 1500, 600));
         stage.setResizable(true);
         centerStage(stage);
         stage.show();
+        updateTable("");
     }
 
     private Pane createTablePane() {
@@ -92,5 +110,20 @@ public class WindowTable{
         Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
         stage.setX((primScreenBounds.getWidth() - stage.getWidth()) / 2);
         stage.setY((primScreenBounds.getHeight() - stage.getHeight()) / 2);
+    }
+
+    public void updateTable(String filter) {
+        tableContent.updateState();
+        tableContent.filter(filter);
+
+        ObservableList<HumanBeingWrapper> humanBeingWrappers = tableContent.getHumanBeings();
+
+        GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
+        graphicsContext.clearRect(0,0,1000,600);
+        graphicsContext.setFill(Color.BLUE);
+        graphicsContext.setLineWidth(2);
+        for (HumanBeingWrapper humanBeingWrapper : humanBeingWrappers) {
+            graphicsContext.fillOval(500 + humanBeingWrapper.getX(), 300 - humanBeingWrapper.getY(), 20, 20);
+        }
     }
 }

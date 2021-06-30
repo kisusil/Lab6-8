@@ -12,11 +12,7 @@ import javafx.stage.Stage;
 import ru.lab6.client.Client;
 import ru.lab6.client.controller.Controller;
 import ru.lab6.client.controller.MyController;
-import ru.lab6.client.view.Console;
-import ru.lab6.client.view.IO;
 import ru.lab6.common.response.Response;
-
-import java.lang.reflect.Field;
 
 public class WindowLogin extends Application {
     private static final String DEFAULT_IP = "127.0.0.1";
@@ -155,9 +151,9 @@ public class WindowLogin extends Application {
         launch(args);
     }
 
-    public WindowTable callMainWindow(Controller controller){
-        WindowTable windowTable = new WindowTable(controller);
-        windowTable.show(stage);
-        return windowTable;
+    public MainWindow callMainWindow(Controller controller){
+        MainWindow mainWindow = new MainWindow(controller);
+        mainWindow.show(stage);
+        return mainWindow;
     }
 }

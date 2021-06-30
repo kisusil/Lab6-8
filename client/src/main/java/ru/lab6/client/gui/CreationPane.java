@@ -32,14 +32,14 @@ public class CreationPane {
     private TextField y;
 
     private Controller controller;
-    private TableContent tableContent;
     private Label error;
     private TextField filter;
+    private MainWindow mainWindow;
 
 
-    public CreationPane(Controller controller, TableContent tableContent) {
+    public CreationPane(Controller controller, MainWindow mainWindow) {
         this.controller = controller;
-        this.tableContent = tableContent;
+        this.mainWindow = mainWindow;
         this.name = new TextField();
         this.realHero = new CheckBox();
         this.hasToothpick = new CheckBox();
@@ -261,10 +261,7 @@ public class CreationPane {
     private Button createFilterButton() {
         Button button = new Button("Filter");
         button.setPrefSize(100, 30);
-        button.setOnAction((event) -> {
-            tableContent.updateState();
-            tableContent.filter(filter.getText());
-        });
+        button.setOnAction((event) -> mainWindow.updateTable(filter.getText()));
 
         return button;
     }
@@ -322,7 +319,7 @@ public class CreationPane {
                     new Car(carNameValue));
 
             if (response.getStatus().equalsIgnoreCase("ok")) {
-                tableContent.updateState();
+                mainWindow.updateTable("");
             } else {
                 error.setText(response.getErrorDescription());
             }
