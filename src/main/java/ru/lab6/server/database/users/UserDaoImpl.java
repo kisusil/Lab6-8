@@ -53,12 +53,15 @@ public class UserDaoImpl implements UserDao{
     @Override
     public User get(String login) {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        Transaction tx1 = session.beginTransaction();
-        User user = session.createNamedQuery("Get_by_login", User.class)
+        List<User> users = session.createNamedQuery("Get_by_login", User.class)
                 .setParameter("login", login)
-                .getSingleResult();
-        tx1.commit();
+                .getResultList();
         session.close();
-        return user;
+
+        if (users.isEmpty()) {
+            return null;
+        }
+
+        return users.get(0);
     }
 }

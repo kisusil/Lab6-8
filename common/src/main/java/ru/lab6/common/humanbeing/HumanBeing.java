@@ -8,12 +8,12 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-
+@SequenceGenerator(name = "h_ids", sequenceName = "human_ids")
 @Entity
 @Table(name = "human_beings")
 public class HumanBeing implements Comparable<HumanBeing>, Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "h_ids")
     private int id; //Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     private String name; //Поле не может быть null, Строка не может быть пустой
 
@@ -31,11 +31,11 @@ public class HumanBeing implements Comparable<HumanBeing>, Serializable {
     private WeaponType weaponType; //Поле может быть null
     private Mood mood; //Поле может быть null
 
-    @OneToOne(mappedBy = "humanBeing", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Car car; //Поле может быть null
-    @OneToOne(mappedBy = "humanBeing", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Coordinates coordinates; //Поле не может быть null
-    @OneToOne(mappedBy = "humanBeing", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private User user;
 
     protected HumanBeing() {}

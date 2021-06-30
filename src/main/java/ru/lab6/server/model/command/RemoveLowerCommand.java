@@ -39,7 +39,6 @@ public class RemoveLowerCommand implements Command {
 
         HumanBeing newHumanBeing = applicationContext
                 .getHumanBeingBuilder()
-                .generateId()
                 .setName(creationParameters.name)
                 .setCar(creationParameters.car)
                 .setCoordinates(creationParameters.coordinates)

@@ -27,7 +27,7 @@ public class LoginCommand implements Command {
                 }
             }
 
-            return new Response().setErrorResponse("Не авторизован", "");
+            return new Response().setErrorResponse("Not authorized", "Not authorized");
         }
     }
 }

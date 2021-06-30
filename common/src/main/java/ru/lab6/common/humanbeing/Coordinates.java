@@ -4,12 +4,13 @@ import javax.persistence.*;
 import java.awt.*;
 import java.io.Serializable;
 
+@SequenceGenerator(name = "coor_ids", sequenceName = "coordinates_ids")
 @Entity
 @Table(name = "coordinates")
 public class Coordinates implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "coord_ids")
     private int id;
 
     @OneToOne(fetch = FetchType.LAZY)

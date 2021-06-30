@@ -9,6 +9,7 @@ import ru.lab6.server.controller.Controller;
 import ru.lab6.server.controller.MyController;
 import ru.lab6.server.database.humanbeings.HumanBeingDaoImpl;
 import ru.lab6.server.database.users.JdbcUserDao;
+import ru.lab6.server.database.users.UserDaoImpl;
 import ru.lab6.server.io.Console;
 import ru.lab6.server.io.IO;
 import ru.lab6.server.model.ApplicationContext;
@@ -35,7 +36,7 @@ public class Main {
 
         Repository repository = new HumanBeingRepository();
         HumanBeingBuilder humanBeingBuilder = new MyHumanBeingBuilder();
-        ApplicationContext applicationContext = new ApplicationContext(humanBeingBuilder, repository, new JdbcUserDao(), new HumanBeingDaoImpl());
+        ApplicationContext applicationContext = new ApplicationContext(humanBeingBuilder, repository, new UserDaoImpl(), new HumanBeingDaoImpl());
         repository.read(applicationContext.getHumanBeingDao().getAll());
         Controller controller = new MyController(applicationContext);
 

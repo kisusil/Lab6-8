@@ -18,7 +18,7 @@ dependencies {
 
 jar {
     manifest {
-        attributes "Main-Class": "ru.lab6.client.Main"
+        attributes "Main-Class": "ru.lab6.client.gui.WindowLogin"
     }
 
     from {

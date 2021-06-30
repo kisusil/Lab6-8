@@ -1,7 +1,5 @@
 package ru.lab6.client;
 
-import com.google.gson.Gson;
-import ru.lab6.client.view.IO;
 import ru.lab6.common.request.Request;
 import ru.lab6.common.response.Response;
 
@@ -11,28 +9,24 @@ import java.io.ObjectOutputStream;
 import java.net.ConnectException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.nio.ByteBuffer;
-import java.nio.channels.SocketChannel;
-import java.nio.charset.StandardCharsets;
 
 public class Client {
-    private final IO io;
     private final int port;
+    private final String ip;
 
-    public Client(int port, IO io){
-        this.io = io;
+    public Client(String ip, int port){
         this.port = port;
+        this.ip = ip;
     }
 
-    public Socket sendRequest(Request request){
+    public Socket sendRequest(Request request) {
         try {
             Socket socket = new Socket();
-            socket.connect(new InetSocketAddress("127.0.0.1", port));
+            socket.connect(new InetSocketAddress(ip, port));
             ObjectOutputStream outStream = new ObjectOutputStream(socket.getOutputStream());
             outStream.writeObject(request);
             return socket;
         } catch (ConnectException e) {
-            io.println("Сервер временно недоступен");
             return null;
         } catch (IOException e){
             //не забыть сделать правильно

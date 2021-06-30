@@ -1,6 +1,5 @@
 package ru.lab6.client.controller;
 
-import com.google.gson.Gson;
 import ru.lab6.client.Client;
 import ru.lab6.common.humanbeing.Car;
 import ru.lab6.common.humanbeing.Coordinates;
@@ -14,13 +13,11 @@ import java.net.Socket;
 
 public class MyController implements Controller {
     private final Client client;
-    private final Gson gson;
     private String login;
     private String password;
 
     public MyController(Client client) {
         this.client = client;
-        this.gson = new Gson();
     }
 
     @Override
@@ -99,9 +96,7 @@ public class MyController implements Controller {
             return response;
         }
 
-        Response response = client.receiveResponse(socket);
-
-        return response;
+        return client.receiveResponse(socket);
     }
 
     @Override
@@ -119,9 +114,7 @@ public class MyController implements Controller {
             return response;
         }
 
-        Response response = client.receiveResponse(socket);
-
-        return response;
+        return client.receiveResponse(socket);
     }
 
     @Override
@@ -140,9 +133,7 @@ public class MyController implements Controller {
             return response;
         }
 
-        Response response = client.receiveResponse(socket);
-
-        return response;
+        return client.receiveResponse(socket);
     }
 
     @Override
@@ -160,9 +151,7 @@ public class MyController implements Controller {
             return response;
         }
 
-        Response response = client.receiveResponse(socket);
-
-        return response;
+        return client.receiveResponse(socket);
     }
 
     @Override
@@ -182,9 +171,7 @@ public class MyController implements Controller {
         }
 
 
-        Response response = client.receiveResponse(socket);
-
-        return response;
+        return client.receiveResponse(socket);
     }
 
     @Override
@@ -211,9 +198,7 @@ public class MyController implements Controller {
             return response;
         }
 
-        Response response = client.receiveResponse(socket);
-
-        return response;
+        return client.receiveResponse(socket);
     }
 
     @Override
@@ -231,9 +216,7 @@ public class MyController implements Controller {
             return response;
         }
 
-        Response response = client.receiveResponse(socket);
-
-        return response;
+        return client.receiveResponse(socket);
     }
 
     @Override
@@ -251,9 +234,7 @@ public class MyController implements Controller {
             return response;
         }
 
-        Response response = client.receiveResponse(socket);
-
-        return response;
+        return client.receiveResponse(socket);
     }
 
     @Override
@@ -282,9 +263,7 @@ public class MyController implements Controller {
             return response;
         }
 
-        Response response = client.receiveResponse(socket);
-
-        return response;
+        return client.receiveResponse(socket);
     }
 
     @Override
@@ -311,9 +290,7 @@ public class MyController implements Controller {
             return response;
         }
 
-        Response response = client.receiveResponse(socket);
-
-        return response;
+        return client.receiveResponse(socket);
     }
 
     @Override
@@ -331,9 +308,7 @@ public class MyController implements Controller {
             return response;
         }
 
-        Response response = client.receiveResponse(socket);
-
-        return response;
+        return client.receiveResponse(socket);
     }
 
     @Override
@@ -351,9 +326,7 @@ public class MyController implements Controller {
             return response;
         }
 
-        Response response = client.receiveResponse(socket);
-
-        return response;
+        return client.receiveResponse(socket);
     }
 
     @Override
@@ -371,9 +344,7 @@ public class MyController implements Controller {
             return response;
         }
 
-        Response response = client.receiveResponse(socket);
-
-        return response;
+        return client.receiveResponse(socket);
     }
 
     @Override
@@ -391,8 +362,6 @@ public class MyController implements Controller {
             return response;
         }
 
-        Response response = client.receiveResponse(socket);
-
-        return response;
+        return client.receiveResponse(socket);
     }
 }

@@ -51,6 +51,7 @@ public class ShowCommand implements Command {
             result.append("carName ").append(humanBeing.getCar().getName()).append("\n");
             result.append("\n");
         });*/
+        System.out.println("Show size: " + humanBeings.size());
         return new Response().setResultWithCollectionElements(humanBeings);
     }
 }

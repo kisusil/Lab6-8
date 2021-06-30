@@ -3,13 +3,15 @@ package ru.lab6.common.user;
 import ru.lab6.common.humanbeing.HumanBeing;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
+@SequenceGenerator(name = "u_ids", sequenceName = "user_ids")
 @Entity
 @Table(name = "users")
 @NamedQuery(name = "Get_by_login", query = "SELECT u FROM User u WHERE u.login = :login")
-public class User {
+public class User implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "u_ids")
     private int id;
     private String login;
     private String password;
