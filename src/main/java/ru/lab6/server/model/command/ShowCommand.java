@@ -33,8 +33,8 @@ public class ShowCommand implements Command {
             return response;
         }
 
-        List<HumanBeing> humanBeings = applicationContext.getRepository().getAll();
-
+//        List<HumanBeing> humanBeings = applicationContext.getRepository().getAll();
+        List<HumanBeing> humanBeings = applicationContext.getHumanBeingDao().getAll();
         /*
         humanBeings.forEach(humanBeing -> {
             result.append("id ").append(humanBeing.getId()).append("\n");

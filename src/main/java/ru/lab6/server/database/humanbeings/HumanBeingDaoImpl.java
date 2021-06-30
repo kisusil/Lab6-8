@@ -12,9 +12,9 @@ public class HumanBeingDaoImpl implements HumanBeingDao {
     private Transaction transaction;
 
 
-    HumanBeingDaoImpl(){
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
+    public HumanBeingDaoImpl(){
+        session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        transaction = session.beginTransaction();
     }
 
     public synchronized void save(HumanBeing humanBeing) {
@@ -34,12 +34,15 @@ public class HumanBeingDaoImpl implements HumanBeingDao {
 
     @Override
     public synchronized HumanBeing get(String name) {
-
-        return null;
+        return getAll()
+                .stream()
+                .filter(humanBeing -> humanBeing.getName().equals(name))
+                .findAny()
+                .orElse(null);
     }
 
     public synchronized List<HumanBeing> getAll () {
-        List<HumanBeing> result = session.createQuery("from HumanBeing").getResultList();
+        List<HumanBeing> result = session.createQuery("from HumanBeing", HumanBeing.class).getResultList();
         transaction.commit();
         return result;
     }

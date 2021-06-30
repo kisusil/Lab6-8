@@ -47,8 +47,13 @@ public class AddCommand implements Command {
                             .setWeaponType(creationParameters.weaponType)
                             .setUser(user)
                             .build();
-            applicationContext.getRepository().add(humanBeing);
+
             applicationContext.getHumanBeingDao().save(humanBeing);
+
+            humanBeing = applicationContext.getHumanBeingDao().get(humanBeing.getName());
+
+            applicationContext.getRepository().add(humanBeing);
+
             return new Response().setEmptyResult();
         }
     }
